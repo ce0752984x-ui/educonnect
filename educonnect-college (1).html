@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ÉduConnect Collège — Espace numérique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --color-bg:#F4F6F9;
+    --color-surface:#FFFFFF;
+    --color-ink:#1D3557;
+    --color-ink-light:#2E5077;
+    --color-ink-soft:#E7ECF3;
+    --color-amber:#E08E45;
+    --color-amber-soft:#FBE9D6;
+    --color-success:#3F7A5C;
+    --color-success-bg:#E5F2EB;
+    --color-danger:#B5453F;
+    --color-danger-bg:#FBEAE8;
+    --color-text:#1F2937;
+    --color-muted:#6B7280;
+    --color-border:#DCE3EB;
+    --font-display:'Fraunces', serif;
+    --font-body:'Public Sans', system-ui, sans-serif;
+    --font-mono:'IBM Plex Mono', monospace;
+    --radius:10px;
+    --shadow:0 2px 10px rgba(29,53,87,0.07);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:var(--font-body);
+    color:var(--color-text);
+    background:var(--color-bg);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:var(--font-display);
+    font-weight:600;
+    margin:0 0 0.5rem 0;
+    color:var(--color-ink);
+    letter-spacing:-0.01em;
+  }
+  p{margin:0 0 0.75rem 0; line-height:1.55;}
+  a{color:var(--color-ink-light);}
+  .container{max-width:1080px; margin:0 auto; padding:0 1.5rem;}
+
+  button{font-family:inherit; cursor:pointer;}
+  :focus-visible{outline:3px solid var(--color-amber); outline-offset:2px;}
+
+  /* ---------- Boutons ---------- */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:0.5rem;
+    border:1px solid transparent; border-radius:8px;
+    padding:0.65rem 1.2rem; font-size:0.95rem; font-weight:600;
+    background:var(--color-ink); color:#fff; transition:transform .08s ease, background .15s ease;
+  }
+  .btn:hover{background:var(--color-ink-light);}
+  .btn:active{transform:scale(0.98);}
+  .btn-accent{background:var(--color-amber); color:#fff;}
+  .btn-accent:hover{background:#cc7a32;}
+  .btn-outline{background:transparent; color:var(--color-ink); border-color:var(--color-border);}
+  .btn-outline:hover{background:var(--color-ink-soft);}
+  .btn-danger{background:transparent; color:var(--color-danger); border-color:var(--color-danger-bg);}
+  .btn-danger:hover{background:var(--color-danger-bg);}
+  .btn-small{padding:0.4rem 0.8rem; font-size:0.82rem;}
+  .btn-block{width:100%;}
+  .btn[disabled]{opacity:0.5; cursor:not-allowed;}
+
+  /* ---------- Formulaires ---------- */
+  label{display:block; font-size:0.82rem; font-weight:600; color:var(--color-ink); margin-bottom:0.3rem;}
+  input, select, textarea{
+    width:100%; font-family:inherit; font-size:0.95rem; color:var(--color-text);
+    border:1px solid var(--color-border); border-radius:8px; padding:0.6rem 0.75rem;
+    background:#fff;
+  }
+  input:focus, select:focus, textarea:focus{border-color:var(--color-ink-light);}
+  textarea{resize:vertical; min-height:90px;}
+  .field{margin-bottom:1rem;}
+  .field-row{display:grid; grid-template-columns:repeat(2,1fr); gap:1rem;}
+  fieldset{border:1px solid var(--color-border); border-radius:var(--radius); padding:1.25rem; margin:0 0 1.25rem 0;}
+  legend{font-family:var(--font-display); font-weight:600; color:var(--color-ink); padding:0 0.4rem; font-size:1.05rem;}
+  .hint{font-size:0.8rem; color:var(--color-muted); margin-top:-0.4rem; margin-bottom:1rem;}
+
+  /* ---------- Sceau / logo ---------- */
+  .seal{display:block; flex-shrink:0;}
+
+  /* ---------- Connexion ---------- */
+  .login-page{min-height:100vh; display:grid; grid-template-columns:1.05fr 1fr;}
+  .login-visual{
+    background:linear-gradient(165deg, var(--color-ink) 0%, #122a45 100%);
+    color:#fff; display:flex; flex-direction:column; justify-content:space-between;
+    padding:3rem; position:relative; overflow:hidden;
+  }
+  .login-visual::before{
+    content:""; position:absolute; right:-120px; top:-120px; width:340px; height:340px;
+    border:1px solid rgba(255,255,255,0.08); border-radius:50%;
+  }
+  .login-visual::after{
+    content:""; position:absolute; right:-60px; top:-60px; width:340px; height:340px;
+    border:1px solid rgba(255,255,255,0.06); border-radius:50%;
+  }
+  .login-visual-top{display:flex; align-items:center; gap:0.9rem;}
+  .login-visual-top .school-name{font-family:var(--font-display); font-size:1.15rem; line-height:1.25;}
+  .login-visual-top .school-name small{display:block; font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.12em; color:var(--color-amber-soft); text-transform:uppercase;}
+  .login-tagline{font-family:var(--font-display); font-size:2.1rem; line-height:1.25; font-weight:500; max-width:22ch; position:relative; z-index:1;}
+  .login-tagline em{color:var(--color-amber); font-style:normal;}
+  .login-visual-bottom{position:relative; z-index:1;}
+
+  .login-form-panel{display:flex; align-items:center; justify-content:center; padding:2.5rem;}
+  .login-card{width:100%; max-width:420px;}
+  .login-card h1{font-size:1.6rem;}
+  .login-tabs{display:flex; gap:0.5rem; margin-bottom:1.5rem; border-bottom:1px solid var(--color-border);}
+  .login-tab{
+    background:none; border:none; padding:0.7rem 0.2rem; margin-right:1.2rem; font-weight:600;
+    color:var(--color-muted); border-bottom:2px solid transparent; font-size:0.95rem;
+  }
+  .login-tab.active{color:var(--color-ink); border-bottom-color:var(--color-amber);}
+  .error-banner{
+    background:var(--color-danger-bg); color:var(--color-danger); border-radius:8px;
+    padding:0.6rem 0.9rem; font-size:0.85rem; margin-bottom:1rem; font-weight:600;
+  }
+
+  /* ---------- Tampon de statut ---------- */
+  .stamp{
+    display:inline-flex; align-items:center; gap:0.5rem; font-family:var(--font-mono);
+    text-transform:uppercase; letter-spacing:0.1em; font-size:0.78rem; font-weight:500;
+    border:2px solid currentColor; border-radius:999px; padding:0.45rem 1rem;
+    transform:rotate(-1.5deg);
+  }
+  .stamp .dot{width:8px; height:8px; border-radius:50%; background:currentColor; display:inline-block;}
+  .stamp.open{color:var(--color-success);}
+  .stamp.closed{color:var(--color-danger);}
+  .stamp-on-dark{color:var(--color-amber-soft); border-color:var(--color-amber-soft);}
+
+  /* ---------- Entête application ---------- */
+  .topbar{background:var(--color-surface); border-bottom:1px solid var(--color-border); position:sticky; top:0; z-index:20;}
+  .topbar-inner{display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:0.85rem 0;}
+  .brand{display:flex; align-items:center; gap:0.7rem;}
+  .brand .school-name{font-family:var(--font-display); font-weight:600; font-size:1.05rem; line-height:1.2; color:var(--color-ink);}
+  .brand .school-name small{display:block; font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.14em; color:var(--color-amber); text-transform:uppercase; font-weight:600;}
+  .nav-desktop{display:flex; gap:0.25rem;}
+  .nav-desktop button{
+    background:none; border:none; padding:0.55rem 0.9rem; border-radius:8px; font-size:0.92rem;
+    font-weight:600; color:var(--color-muted);
+  }
+  .nav-desktop button:hover{background:var(--color-ink-soft); color:var(--color-ink);}
+  .nav-desktop button.active{color:var(--color-ink); background:var(--color-ink-soft);}
+  .topbar-right{display:flex; align-items:center; gap:0.75rem;}
+  .user-pill{
+    display:flex; align-items:center; gap:0.45rem; font-size:0.85rem; font-weight:600; color:var(--color-ink);
+    background:var(--color-ink-soft); padding:0.4rem 0.8rem; border-radius:999px;
+  }
+  .user-pill .role-tag{font-family:var(--font-mono); font-size:0.65rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--color-amber); background:rgba(224,142,69,0.15); padding:0.1rem 0.4rem; border-radius:4px;}
+  .hamburger{display:none; background:none; border:1px solid var(--color-border); border-radius:8px; padding:0.45rem 0.6rem; font-size:1.1rem; line-height:1;}
+  .mobile-nav{display:none; border-top:1px solid var(--color-border); padding:0.5rem 0;}
+  .mobile-nav.open{display:flex; flex-direction:column;}
+  .mobile-nav button{
+    text-align:left; background:none; border:none; padding:0.75rem 0; font-size:1rem; font-weight:600;
+    color:var(--color-muted); border-bottom:1px solid var(--color-border);
+  }
+  .mobile-nav button.active{color:var(--color-ink);}
+  .mobile-nav button:last-child{border-bottom:none;}
+
+  /* ---------- Mise en page générale ---------- */
+  main.container{padding-top:2rem; padding-bottom:3rem;}
+  .page-head{margin-bottom:1.5rem;}
+  .page-head .eyebrow{font-family:var(--font-mono); text-transform:uppercase; letter-spacing:0.14em; font-size:0.72rem; color:var(--color-amber); font-weight:600; margin-bottom:0.35rem; display:block;}
+
+  .card{background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius); padding:1.5rem; box-shadow:var(--shadow);}
+  .card + .card{margin-top:1.25rem;}
+  .grid-2{display:grid; grid-template-columns:2fr 1fr; gap:1.25rem; align-items:start;}
+
+  /* ---------- Actualités ---------- */
+  .news-item{padding:1.25rem 0; border-bottom:1px solid var(--color-border);}
+  .news-item:last-child{border-bottom:none;}
+  .news-meta{font-family:var(--font-mono); font-size:0.75rem; color:var(--color-muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.35rem;}
+  .news-content{white-space:pre-wrap; color:var(--color-text); line-height:1.6;}
+  .news-actions{margin-top:0.75rem; display:flex; gap:0.5rem;}
+  .news-preview{padding:1rem 0; border-bottom:1px solid var(--color-border);}
+  .news-preview:last-child{border-bottom:none;}
+  .news-preview p{color:var(--color-muted);}
+
+  /* ---------- Tableau / cartes inscriptions ---------- */
+  .reg-card{border:1px solid var(--color-border); border-radius:var(--radius); padding:1.1rem 1.25rem; margin-bottom:1rem; background:#fff;}
+  .reg-card-header{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:0.75rem;}
+  .reg-card-header h4{margin:0; font-size:1.05rem;}
+  .reg-ref{font-family:var(--font-mono); font-size:0.78rem; color:var(--color-muted);}
+  .reg-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:0.6rem 1.5rem; margin:0.9rem 0 0.9rem 0;}
+  .reg-grid dt{font-size:0.7rem; text-transform:uppercase; letter-spacing:0.07em; color:var(--color-muted); margin:0;}
+  .reg-grid dd{margin:0.1rem 0 0 0; font-family:var(--font-mono); font-size:0.88rem; word-break:break-word;}
+  .reg-controls{display:flex; gap:0.6rem; align-items:center; flex-wrap:wrap;}
+  .reg-controls select{width:auto;}
+  .status-pill{font-family:var(--font-mono); font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; padding:0.25rem 0.65rem; border-radius:999px; font-weight:600;}
+  .status-pill.pending{background:var(--color-amber-soft); color:#a35a14;}
+  .status-pill.accepted{background:var(--color-success-bg); color:var(--color-success);}
+  .status-pill.refused{background:var(--color-danger-bg); color:var(--color-danger);}
+
+  /* ---------- Onglets admin ---------- */
+  .admin-tabs{display:flex; gap:0.5rem; margin-bottom:1.5rem; flex-wrap:wrap; border-bottom:1px solid var(--color-border);}
+  .admin-tabs button{
+    background:none; border:none; padding:0.7rem 0.2rem; margin-right:1.4rem; font-weight:600;
+    color:var(--color-muted); border-bottom:2px solid transparent; font-size:0.95rem;
+  }
+  .admin-tabs button.active{color:var(--color-ink); border-bottom-color:var(--color-amber);}
+
+  .empty-state{text-align:center; padding:2.5rem 1rem; color:var(--color-muted);}
+  .empty-state .seal{margin:0 auto 1rem auto;}
+
+  /* ---------- Toast ---------- */
+  .toast{
+    position:fixed; bottom:1.25rem; left:50%; transform:translateX(-50%);
+    background:var(--color-ink); color:#fff; padding:0.7rem 1.3rem; border-radius:999px;
+    font-size:0.88rem; font-weight:600; box-shadow:0 6px 24px rgba(0,0,0,0.18); z-index:50;
+  }
+  .toast.error{background:var(--color-danger);}
+  .toast.success{background:var(--color-success);}
+
+  /* ---------- Confirmation inscription ---------- */
+  .confirm-box{text-align:center; padding:2rem 1rem;}
+  .confirm-ref{
+    display:inline-block; font-family:var(--font-mono); font-size:1.4rem; letter-spacing:0.08em;
+    border:2px dashed var(--color-amber); padding:0.6rem 1.4rem; border-radius:8px; margin:1rem 0; color:var(--color-ink);
+    transform:rotate(-1deg);
+  }
+
+  .toggle-row{display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;}
+  .switch{
+    position:relative; width:50px; height:28px; border-radius:999px; background:var(--color-border);
+    border:none; flex-shrink:0; transition:background .15s ease;
+  }
+  .switch::after{
+    content:""; position:absolute; top:3px; left:3px; width:22px; height:22px; border-radius:50%;
+    background:#fff; transition:transform .15s ease; box-shadow:0 1px 3px rgba(0,0,0,0.25);
+  }
+  .switch.on{background:var(--color-success);}
+  .switch.on::after{transform:translateX(22px);}
+
+  footer{border-top:1px solid var(--color-border); padding:1.5rem 0; color:var(--color-muted); font-size:0.82rem;}
+  footer .container{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem;}
+
+  .loading-screen{min-height:100vh; display:flex; align-items:center; justify-content:center; color:var(--color-muted); font-family:var(--font-mono); letter-spacing:0.1em; text-transform:uppercase; font-size:0.85rem;}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px){
+    .login-page{grid-template-columns:1fr;}
+    .login-visual{padding:2rem; min-height:240px;}
+    .login-tagline{font-size:1.5rem;}
+    .login-form-panel{padding:1.5rem;}
+    .nav-desktop{display:none;}
+    .hamburger{display:inline-flex; align-items:center;}
+    .mobile-nav{display:none;}
+    .mobile-nav.open{display:flex;}
+    .field-row{grid-template-columns:1fr;}
+    .grid-2{grid-template-columns:1fr;}
+    main.container{padding-top:1.25rem;}
+    .topbar-right .user-pill span.full-label{display:none;}
+  }
+  @media (max-width: 480px){
+    .container{padding:0 1rem;}
+    .login-visual-top .school-name{font-size:1rem;}
+    .card{padding:1.1rem;}
+    .reg-grid{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* ============================================================
+   ÉduConnect Collège — espace numérique des familles & de l'administration
+   Stockage : window.storage (persistant, partagé entre tous les visiteurs)
+   ============================================================ */
+
+const KEYS = {
+  config: 'educonnect-config',
+  status: 'educonnect-status',
+  news: 'educonnect-news',
+  registrations: 'educonnect-registrations'
+};
+
+const DEFAULTS = {
+  config: {
+    schoolName: 'Collège Jean Moulin',
+    anneeScolaire: '2026-2027',
+    adminPassword: 'admin2026'
+  },
+  status: {
+    open: true,
+    message: "Les inscriptions sont actuellement fermées. Le secrétariat communiquera la date de réouverture via la rubrique Actualités."
+  },
+  news: [
+    {
+      id: 'news-' + Date.now(),
+      title: "Bienvenue sur l'espace ÉduConnect du collège",
+      author: 'Administration',
+      date: new Date().toISOString(),
+      content: "Cet espace numérique vous permet de suivre les actualités de l'établissement et de réaliser les démarches d'inscription pour l'année scolaire à venir.\n\nVotre identifiant de connexion correspond simplement à votre nom et prénom : aucun mot de passe n'est nécessaire pour l'espace famille."
+    }
+  ],
+  registrations: []
+};
+
+let state = {
+  loaded: false,
+  view: 'login',          // 'login' | 'app'
+  page: 'accueil',         // 'accueil' | 'actualites' | 'inscriptions' | 'admin'
+  adminTab: 'inscriptions',// 'inscriptions' | 'actualites' | 'parametres'
+  loginTab: 'famille',     // 'famille' | 'admin'
+  loginError: '',
+  session: null,           // { role: 'famille' | 'admin', name }
+  mobileNavOpen: false,
+  editingNewsId: null,     // 'new' | id | null
+  inscriptionConfirmation: null,
+  toast: null,
+  config: structuredClone(DEFAULTS.config),
+  status: structuredClone(DEFAULTS.status),
+  news: structuredClone(DEFAULTS.news),
+  registrations: structuredClone(DEFAULTS.registrations)
+};
+
+/* ---------------- Stockage ---------------- */
+
+async function loadKey(key, shared, fallback){
+  try{
+    const res = await window.storage.get(key, shared);
+    if(!res) throw new Error('vide');
+    return JSON.parse(res.value);
+  }catch(e){
+    try{ await window.storage.set(key, JSON.stringify(fallback), shared); }catch(e2){ /* ignore */ }
+    return structuredClone(fallback);
+  }
+}
+
+async function saveKey(key, shared, value){
+  try{
+    const res = await window.storage.set(key, JSON.stringify(value), shared);
+    if(!res) throw new Error('échec');
+    return true;
+  }catch(e){
+    showToast("Erreur d'enregistrement. Vérifiez la connexion et réessayez.", 'error');
+    return false;
+  }
+}
+
+async function init(){
+  state.config = await loadKey(KEYS.config, true, DEFAULTS.config);
+  state.status = await loadKey(KEYS.status, true, DEFAULTS.status);
+  state.news = await loadKey(KEYS.news, true, DEFAULTS.news);
+  state.registrations = await loadKey(KEYS.registrations, true, DEFAULTS.registrations);
+
+  try{
+    const sess = await window.storage.get('educonnect-session', false);
+    if(sess && sess.value){
+      state.session = JSON.parse(sess.value);
+      state.view = 'app';
+    }
+  }catch(e){ /* pas de session enregistrée */ }
+
+  state.loaded = true;
+  render();
+}
+
+/* ---------------- Utilitaires ---------------- */
+
+function escapeHtml(str){
+  return String(str ?? '').replace(/[&<>"']/g, c => ({
+    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+  }[c]));
+}
+
+function formatDate(iso){
+  try{
+    return new Date(iso).toLocaleDateString('fr-FR', { day:'2-digit', month:'long', year:'numeric' });
+  }catch(e){ return ''; }
+}
+
+function getInitials(name){
+  const stop = ['collège','college','de','du','des','le','la','les','et'];
+  const words = (name || '').trim().split(/\s+/).filter(w => w && !stop.includes(w.toLowerCase()));
+  let letters = words.slice(0,2).map(w => w[0].toUpperCase()).join('');
+  if(letters.length < 2){
+    letters = (name || 'CE').replace(/\s+/g,'').slice(0,2).toUpperCase();
+  }
+  return letters || 'CE';
+}
+
+function generateRef(){
+  const year = (state.config.anneeScolaire || '2026-2027').split('-')[0];
+  const code = Math.random().toString(36).slice(2,6).toUpperCase();
+  return `INS-${year}-${code}`;
+}
+
+function showToast(msg, type){
+  state.toast = { msg, type: type || 'info' };
+  render();
+  setTimeout(() => { state.toast = null; render(); }, 3200);
+}
+
+/* ---------------- Rendu : sceau ---------------- */
+
+function renderSeal(size, onDark){
+  const initials = getInitials(state.config.schoolName);
+  const ring = onDark ? '#F3C892' : '#E08E45';
+  const bg = onDark ? '#FFFFFF' : '#1D3557';
+  const txt = onDark ? '#1D3557' : '#FFFFFF';
+  return `
+  <svg class="seal" width="${size}" height="${size}" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sceau de l'établissement">
+    <circle cx="32" cy="32" r="30" fill="${bg}"/>
+    <circle cx="32" cy="32" r="30" fill="none" stroke="${ring}" stroke-width="1.5" stroke-dasharray="2 4"/>
+    <circle cx="32" cy="32" r="24" fill="none" stroke="${ring}" stroke-width="1"/>
+    <text x="32" y="40" text-anchor="middle" font-family="Fraunces, serif" font-size="22" font-weight="700" fill="${txt}">${escapeHtml(initials)}</text>
+  </svg>`;
+}
+
+/* ---------------- Rendu : page de connexion ---------------- */
+
+function renderLogin(){
+  const cfg = state.config;
+  const statusOpen = state.status.open;
+
+  const familleForm = `
+    <form id="login-famille-form" novalidate>
+      <div class="field">
+        <label for="famille-nom">Nom et prénom de l'élève ou du responsable</label>
+        <input type="text" id="famille-nom" name="nom" placeholder="Ex. Camille Martin" required autocomplete="name">
+      </div>
+      <button type="submit" class="btn btn-accent btn-block">Accéder à mon espace</button>
+    </form>
+    <p class="hint" style="margin-top:1rem;">Aucun mot de passe n'est nécessaire pour l'espace famille : saisissez simplement votre nom pour continuer.</p>
+  `;
+
+  const adminForm = `
+    <form id="login-admin-form" novalidate>
+      <div class="field">
+        <label for="admin-nom">Nom de l'administrateur</label>
+        <input type="text" id="admin-nom" name="nom" placeholder="Ex. Secrétariat" required autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="admin-pass">Mot de passe administration</label>
+        <input type="password" id="admin-pass" name="motdepasse" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn btn-block">Se connecter à l'administration</button>
+    </form>
+  `;
+
+  return `
+  <div class="login-page">
+    <div class="login-visual">
+      <div class="login-visual-top">
+        ${renderSeal(48, true)}
+        <div class="school-name">
+          <small>ÉduConnect Collège</small>
+          ${escapeHtml(cfg.schoolName)}
+        </div>
+      </div>
+      <div class="login-tagline">
+        Actualités, vie scolaire et <em>inscriptions</em> pour l'année ${escapeHtml(cfg.anneeScolaire)}, réunies au même endroit.
+      </div>
+      <div class="login-visual-bottom">
+        <span class="stamp stamp-on-dark ${statusOpen ? 'open' : 'closed'}" style="color:${statusOpen ? '#9FD9BE' : '#F3B7B0'}; border-color:currentColor;">
+          <span class="dot"></span>
+          Inscriptions ${statusOpen ? 'ouvertes' : 'fermées'}
+        </span>
+      </div>
+    </div>
+    <div class="login-form-panel">
+      <div class="login-card">
+        <h1>Connexion</h1>
+        <p style="color:var(--color-muted); margin-bottom:1.5rem;">Choisissez votre espace pour continuer.</p>
+        <div class="login-tabs">
+          <button class="login-tab ${state.loginTab === 'famille' ? 'active' : ''}" data-login-tab="famille" type="button">Espace famille</button>
+          <button class="login-tab ${state.loginTab === 'admin' ? 'active' : ''}" data-login-tab="admin" type="button">Administration</button>
+        </div>
+        ${state.loginError ? `<div class="error-banner">${escapeHtml(state.loginError)}</div>` : ''}
+        ${state.loginTab === 'famille' ? familleForm : adminForm}
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ---------------- Rendu : entête application ---------------- */
+
+function renderHeader(){
+  const isAdmin = state.session && state.session.role === 'admin';
+  const pages = [
+    { id:'accueil', label:'Accueil' },
+    { id:'actualites', label:'Actualités' },
+    { id:'inscriptions', label:'Inscriptions' }
+  ];
+  if(isAdmin) pages.push({ id:'admin', label:'Administration' });
+
+  const navButtons = pages.map(p => `
+    <button data-page="${p.id}" class="${state.page === p.id ? 'active' : ''}">${p.label}</button>
+  `).join('');
+
+  return `
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        ${renderSeal(40, false)}
+        <div class="school-name">
+          <small>ÉduConnect Collège</small>
+          ${escapeHtml(state.config.schoolName)}
+        </div>
+      </div>
+      <nav class="nav-desktop">${navButtons}</nav>
+      <div class="topbar-right">
+        <span class="user-pill">
+          ${isAdmin ? `<span class="role-tag">Admin</span>` : ''}
+          <span class="full-label">${escapeHtml(state.session.name)}</span>
+        </span>
+        <button class="btn btn-outline btn-small" data-action="logout">Déconnexion</button>
+        <button class="hamburger" data-action="toggle-nav" aria-label="Ouvrir le menu">☰</button>
+      </div>
+    </div>
+    <div class="container mobile-nav ${state.mobileNavOpen ? 'open' : ''}">${navButtons}</div>
+  </header>`;
+}
+
+/* ---------------- Rendu : toast ---------------- */
+
+function renderToast(){
+  if(!state.toast) return '';
+  return `<div class="toast ${state.toast.type}">${escapeHtml(state.toast.msg)}</div>`;
+}
+
+/* ---------------- Rendu : accueil ---------------- */
+
+function renderAccueil(){
+  const isAdmin = state.session.role === 'admin';
+  const latestNews = [...state.news].sort((a,b) => new Date(b.date) - new Date(a.date)).slice(0,2);
+  const statusOpen = state.status.open;
+
+  const newsBlock = latestNews.length ? latestNews.map(n => `
+    <div class="news-preview">
+      <div class="news-meta">${formatDate(n.date)} · ${escapeHtml(n.author)}</div>
+      <h3 style="font-size:1.05rem;">${escapeHtml(n.title)}</h3>
+      <p>${escapeHtml(n.content).slice(0,180)}${n.content.length > 180 ? '…' : ''}</p>
+    </div>
+  `).join('') : `<p class="hint">Aucune actualité publiée pour le moment.</p>`;
+
+  return `
+  <div class="page-head">
+    <span class="eyebrow">Accueil</span>
+    <h1>Bonjour, ${escapeHtml(state.session.name)}</h1>
+    <p style="color:var(--color-muted);">Bienvenue sur l'espace numérique du ${escapeHtml(state.config.schoolName)}.</p>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h2>Dernières actualités</h2>
+      ${newsBlock}
+      <button class="btn btn-outline btn-small" style="margin-top:1rem;" data-page="actualites">Voir toutes les actualités</button>
+    </div>
+    <div class="card">
+      <h2>Inscriptions ${escapeHtml(state.config.anneeScolaire)}</h2>
+      <p>
+        <span class="stamp ${statusOpen ? 'open' : 'closed'}">
+          <span class="dot"></span>
+          ${statusOpen ? 'Ouvertes' : 'Fermées'}
+        </span>
+      </p>
+      <p style="color:var(--color-muted); font-size:0.9rem;">
+        ${statusOpen
+          ? "Les dossiers d'inscription peuvent être déposés directement en ligne."
+          : escapeHtml(state.status.message)}
+      </p>
+      <button class="btn btn-accent btn-block" data-page="inscriptions">
+        ${statusOpen ? "Faire une demande d'inscription" : "Voir les informations"}
+      </button>
+      ${isAdmin ? `<p class="hint" style="margin-top:0.75rem;">Vous pouvez ouvrir ou fermer les inscriptions depuis l'Administration.</p>` : ''}
+    </div>
+  </div>`;
+}
+
+/* ---------------- Rendu : actualités ---------------- */
+
+function renderActualites(){
+  const isAdmin = state.session.role === 'admin';
+  const sorted = [...state.news].sort((a,b) => new Date(b.date) - new Date(a.date));
+
+  let formBlock = '';
+  if(isAdmin && state.editingNewsId !== null){
+    const isNew = state.editingNewsId === 'new';
+    const item = isNew ? null : state.news.find(n => n.id === state.editingNewsId);
+    formBlock = `
+    <div class="card" style="margin-bottom:1.25rem;">
+      <h2>${isNew ? 'Publier une actualité' : "Modifier l'actualité"}</h2>
+      <form id="news-form" data-id="${isNew ? '' : escapeHtml(item.id)}">
+        <div class="field">
+          <label for="news-title">Titre</label>
+          <input type="text" id="news-title" name="title" required value="${isNew ? '' : escapeHtml(item.title)}">
+        </div>
+        <div class="field">
+          <label for="news-author">Auteur</label>
+          <input type="text" id="news-author" name="author" required value="${isNew ? escapeHtml(state.session.name) : escapeHtml(item.author)}">
+        </div>
+        <div class="field">
+          <label for="news-content">Contenu</label>
+          <textarea id="news-content" name="content" rows="5" required>${isNew ? '' : escapeHtml(item.content)}</textarea>
+        </div>
+        <div style="display:flex; gap:0.6rem;">
+          <button type="submit" class="btn btn-accent">${isNew ? 'Publier' : 'Enregistrer'}</button>
+          <button type="button" class="btn btn-outline" data-action="cancel-news">Annuler</button>
+        </div>
+      </form>
+    </div>`;
+  }
+
+  const list = sorted.length ? sorted.map(n => `
+    <div class="news-item">
+      <div class="news-meta">${formatDate(n.date)} · ${escapeHtml(n.author)}</div>
+      <h3>${escapeHtml(n.title)}</h3>
+      <div class="news-content">${escapeHtml(n.content)}</div>
+      ${isAdmin ? `
+      <div class="news-actions">
+        <button class="btn btn-outline btn-small" data-action="edit-news" data-id="${escapeHtml(n.id)}">Modifier</button>
+        <button class="btn btn-danger btn-small" data-action="delete-news" data-id="${escapeHtml(n.id)}">Supprimer</button>
+      </div>` : ''}
+    </div>
+  `).join('') : `
+    <div class="empty-state">
+      ${renderSeal(56, false)}
+      <p>Aucune actualité n'a encore été publiée.</p>
+    </div>`;
+
+  return `
+  <div class="page-head">
+    <span class="eyebrow">Vie scolaire</span>
+    <h1>Actualités du collège</h1>
+    ${isAdmin && state.editingNewsId === null ? `<button class="btn btn-accent" data-action="new-news" style="margin-top:0.5rem;">Publier une actualité</button>` : ''}
+  </div>
+  ${formBlock}
+  <div class="card">${list}</div>`;
+}
+
+/* ---------------- Rendu : inscriptions ---------------- */
+
+function renderInscriptions(){
+  const cfg = state.config;
+
+  if(!state.status.open){
+    return `
+    <div class="page-head">
+      <span class="eyebrow">Inscriptions ${escapeHtml(cfg.anneeScolaire)}</span>
+      <h1>Inscriptions actuellement fermées</h1>
+    </div>
+    <div class="card">
+      <span class="stamp closed"><span class="dot"></span>Fermées</span>
+      <p style="margin-top:1rem;">${escapeHtml(state.status.message)}</p>
+    </div>`;
+  }
+
+  if(state.inscriptionConfirmation){
+    return `
+    <div class="page-head">
+      <span class="eyebrow">Inscriptions ${escapeHtml(cfg.anneeScolaire)}</span>
+      <h1>Demande envoyée</h1>
+    </div>
+    <div class="card confirm-box">
+      ${renderSeal(56, false)}
+      <h2 style="margin-top:1rem;">Votre demande a bien été enregistrée</h2>
+      <p>Conservez ce numéro de dossier, il pourra vous être demandé par le secrétariat :</p>
+      <div class="confirm-ref">${escapeHtml(state.inscriptionConfirmation)}</div>
+      <p style="color:var(--color-muted);">L'équipe administrative étudiera votre demande et reviendra vers vous prochainement.</p>
+      <button class="btn btn-outline" data-action="new-inscription">Déposer une nouvelle demande</button>
+    </div>`;
+  }
+
+  return `
+  <div class="page-head">
+    <span class="eyebrow">Inscriptions ${escapeHtml(cfg.anneeScolaire)}</span>
+    <h1>Dossier d'inscription</h1>
+    <p style="color:var(--color-muted);">Merci de compléter l'ensemble des champs ci-dessous. Toutes les informations sont transmises au secrétariat du ${escapeHtml(cfg.schoolName)}.</p>
+  </div>
+  <div class="card">
+    <form id="inscription-form">
+      <fieldset>
+        <legend>Élève</legend>
+        <div class="field-row">
+          <div class="field">
+            <label for="eleveNom">Nom de l'élève</label>
+            <input type="text" id="eleveNom" name="eleveNom" required>
+          </div>
+          <div class="field">
+            <label for="elevePrenom">Prénom de l'élève</label>
+            <input type="text" id="elevePrenom" name="elevePrenom" required>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="eleveNaissance">Date de naissance</label>
+            <input type="date" id="eleveNaissance" name="eleveNaissance" required>
+          </div>
+          <div class="field">
+            <label for="classeActuelle">Classe actuelle</label>
+            <select id="classeActuelle" name="classeActuelle" required>
+              <option value="">Sélectionner…</option>
+              <option value="Nouvel élève (admission)">Nouvel élève (admission)</option>
+              <option value="6e">6e</option>
+              <option value="5e">5e</option>
+              <option value="4e">4e</option>
+              <option value="3e">3e</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="classeDemandee">Classe demandée pour ${escapeHtml(cfg.anneeScolaire)}</label>
+          <select id="classeDemandee" name="classeDemandee" required>
+            <option value="">Sélectionner…</option>
+            <option value="6e">6e</option>
+            <option value="5e">5e</option>
+            <option value="4e">4e</option>
+            <option value="3e">3e</option>
+          </select>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Responsable légal</legend>
+        <div class="field-row">
+          <div class="field">
+            <label for="respNom">Nom</label>
+            <input type="text" id="respNom" name="respNom" required>
+          </div>
+          <div class="field">
+            <label for="respPrenom">Prénom</label>
+            <input type="text" id="respPrenom" name="respPrenom" required>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="respLien">Lien avec l'élève</label>
+            <select id="respLien" name="respLien" required>
+              <option value="">Sélectionner…</option>
+              <option value="Père">Père</option>
+              <option value="Mère">Mère</option>
+              <option value="Tuteur / Tutrice légal(e)">Tuteur / Tutrice légal(e)</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="respTelephone">Téléphone</label>
+            <input type="tel" id="respTelephone" name="respTelephone" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="respEmail">Adresse e-mail</label>
+          <input type="email" id="respEmail" name="respEmail" required>
+        </div>
+        <div class="field">
+          <label for="respAdresse">Adresse postale</label>
+          <textarea id="respAdresse" name="respAdresse" rows="2" required></textarea>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Informations complémentaires</legend>
+        <div class="field-row">
+          <div class="field">
+            <label for="regime">Régime</label>
+            <select id="regime" name="regime" required>
+              <option value="">Sélectionner…</option>
+              <option value="Externe">Externe</option>
+              <option value="Demi-pensionnaire (cantine)">Demi-pensionnaire (cantine)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="transport">Transport scolaire</label>
+            <select id="transport" name="transport" required>
+              <option value="">Sélectionner…</option>
+              <option value="Oui">Oui</option>
+              <option value="Non">Non</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="notes">Remarques (allergies, PAI, informations utiles…)</label>
+          <textarea id="notes" name="notes" rows="3"></textarea>
+        </div>
+      </fieldset>
+
+      <button type="submit" class="btn btn-accent btn-block">Envoyer le dossier d'inscription</button>
+    </form>
+  </div>`;
+}
+
+/* ---------------- Rendu : administration ---------------- */
+
+function renderAdmin(){
+  const tabs = [
+    { id:'inscriptions', label:'Inscriptions reçues' },
+    { id:'actualites', label:'Actualités' },
+    { id:'parametres', label:'Paramètres' }
+  ];
+  const tabButtons = tabs.map(t => `
+    <button class="${state.adminTab === t.id ? 'active' : ''}" data-admin-tab="${t.id}">${t.label}</button>
+  `).join('');
+
+  let content = '';
+  if(state.adminTab === 'inscriptions') content = renderAdminInscriptions();
+  else if(state.adminTab === 'actualites') content = renderAdminActualites();
+  else content = renderAdminParametres();
+
+  return `
+  <div class="page-head">
+    <span class="eyebrow">Espace réservé</span>
+    <h1>Administration</h1>
+  </div>
+  <div class="admin-tabs">${tabButtons}</div>
+  ${content}`;
+}
+
+function renderAdminInscriptions(){
+  const statusOpen = state.status.open;
+  const total = state.registrations.length;
+  const pending = state.registrations.filter(r => r.status === 'En attente').length;
+
+  const sorted = [...state.registrations].sort((a,b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+
+  const cards = sorted.length ? sorted.map(r => `
+    <div class="reg-card">
+      <div class="reg-card-header">
+        <div>
+          <h4>${escapeHtml(r.elevePrenom)} ${escapeHtml(r.eleveNom)}</h4>
+          <div class="reg-ref">${escapeHtml(r.ref)} · déposé le ${formatDate(r.submittedAt)}</div>
+        </div>
+        <div class="reg-controls">
+          <span class="status-pill ${statusClass(r.status)}">${escapeHtml(r.status)}</span>
+          <select data-action="set-reg-status" data-id="${escapeHtml(r.id)}">
+            <option value="En attente" ${r.status === 'En attente' ? 'selected' : ''}>En attente</option>
+            <option value="Acceptée" ${r.status === 'Acceptée' ? 'selected' : ''}>Acceptée</option>
+            <option value="Refusée" ${r.status === 'Refusée' ? 'selected' : ''}>Refusée</option>
+          </select>
+          <button class="btn btn-danger btn-small" data-action="delete-registration" data-id="${escapeHtml(r.id)}">Supprimer</button>
+        </div>
+      </div>
+      <dl class="reg-grid">
+        <div><dt>Date de naissance</dt><dd>${formatDate(r.eleveNaissance)}</dd></div>
+        <div><dt>Classe actuelle</dt><dd>${escapeHtml(r.classeActuelle)}</dd></div>
+        <div><dt>Classe demandée</dt><dd>${escapeHtml(r.classeDemandee)}</dd></div>
+        <div><dt>Responsable</dt><dd>${escapeHtml(r.respPrenom)} ${escapeHtml(r.respNom)} (${escapeHtml(r.respLien)})</dd></div>
+        <div><dt>Téléphone</dt><dd>${escapeHtml(r.respTelephone)}</dd></div>
+        <div><dt>E-mail</dt><dd>${escapeHtml(r.respEmail)}</dd></div>
+        <div><dt>Adresse</dt><dd>${escapeHtml(r.respAdresse)}</dd></div>
+        <div><dt>Régime</dt><dd>${escapeHtml(r.regime)}</dd></div>
+        <div><dt>Transport scolaire</dt><dd>${escapeHtml(r.transport)}</dd></div>
+        ${r.notes ? `<div style="grid-column:1/-1;"><dt>Remarques</dt><dd style="font-family:var(--font-body); white-space:pre-wrap;">${escapeHtml(r.notes)}</dd></div>` : ''}
+      </dl>
+    </div>
+  `).join('') : `<p class="hint">Aucune demande d'inscription reçue pour le moment.</p>`;
+
+  return `
+  <div class="card" style="margin-bottom:1.25rem;">
+    <div class="toggle-row">
+      <div>
+        <h2 style="margin-bottom:0.25rem;">Statut des inscriptions</h2>
+        <p style="color:var(--color-muted); margin:0;">
+          ${statusOpen ? 'Les familles peuvent déposer un dossier en ligne.' : 'Le formulaire de dépôt est masqué pour les familles.'}
+        </p>
+      </div>
+      <button class="switch ${statusOpen ? 'on' : ''}" data-action="toggle-status" aria-pressed="${statusOpen}" aria-label="Activer ou désactiver les inscriptions"></button>
+    </div>
+    <form id="status-message-form" style="margin-top:1.25rem;">
+      <div class="field">
+        <label for="status-message">Message affiché aux familles lorsque les inscriptions sont fermées</label>
+        <textarea id="status-message" name="message" rows="2">${escapeHtml(state.status.message)}</textarea>
+      </div>
+      <button type="submit" class="btn btn-outline btn-small">Enregistrer le message</button>
+    </form>
+  </div>
+
+  <div class="card" style="margin-bottom:1.25rem;">
+    <h2>Synthèse</h2>
+    <p style="color:var(--color-muted);">${total} dossier${total === 1 ? '' : 's'} reçu${total === 1 ? '' : 's'}, dont ${pending} en attente de traitement.</p>
+  </div>
+
+  ${cards}`;
+}
+
+function statusClass(status){
+  if(status === 'Acceptée') return 'accepted';
+  if(status === 'Refusée') return 'refused';
+  return 'pending';
+}
+
+function renderAdminActualites(){
+  // Réutilise le rendu de la page actualités, qui détecte déjà le rôle admin
+  return renderActualites();
+}
+
+function renderAdminParametres(){
+  const cfg = state.config;
+  return `
+  <div class="card" style="margin-bottom:1.25rem;">
+    <h2>Informations de l'établissement</h2>
+    <form id="settings-form">
+      <div class="field-row">
+        <div class="field">
+          <label for="set-school-name">Nom de l'établissement</label>
+          <input type="text" id="set-school-name" name="schoolName" required value="${escapeHtml(cfg.schoolName)}">
+        </div>
+        <div class="field">
+          <label for="set-annee">Année scolaire visée par les inscriptions</label>
+          <input type="text" id="set-annee" name="anneeScolaire" required value="${escapeHtml(cfg.anneeScolaire)}" placeholder="Ex. 2026-2027">
+        </div>
+      </div>
+      <p class="hint">Le nom de l'établissement met automatiquement à jour le sceau affiché dans l'en-tête et sur la page de connexion.</p>
+      <h2 style="margin-top:1.5rem;">Mot de passe administration</h2>
+      <div class="field">
+        <label for="set-password">Nouveau mot de passe (laisser vide pour ne pas changer)</label>
+        <input type="password" id="set-password" name="adminPassword" autocomplete="new-password">
+      </div>
+      <button type="submit" class="btn btn-accent">Enregistrer les modifications</button>
+    </form>
+  </div>
+  <div class="card">
+    <h2>Réinitialisation</h2>
+    <p style="color:var(--color-muted);">Cette action efface toutes les actualités et tous les dossiers d'inscription enregistrés. Le nom de l'établissement et le mot de passe sont conservés.</p>
+    <button class="btn btn-danger" data-action="reset-data">Réinitialiser les actualités et inscriptions</button>
+  </div>`;
+}
+
+/* ---------------- Rendu principal ---------------- */
+
+function render(){
+  const app = document.getElementById('app');
+  if(!state.loaded){
+    app.innerHTML = `<div class="loading-screen">Chargement de l'espace…</div>`;
+    return;
+  }
+  if(state.view === 'login'){
+    app.innerHTML = renderLogin();
+    return;
+  }
+
+  let content = '';
+  if(state.page === 'accueil') content = renderAccueil();
+  else if(state.page === 'actualites') content = renderActualites();
+  else if(state.page === 'inscriptions') content = renderInscriptions();
+  else if(state.page === 'admin' && state.session.role === 'admin') content = renderAdmin();
+  else content = renderAccueil();
+
+  app.innerHTML = `
+    ${renderHeader()}
+    <main class="container">${content}</main>
+    <footer>
+      <div class="container">
+        <span>${escapeHtml(state.config.schoolName)} — Espace numérique ÉduConnect Collège</span>
+        <span>Année scolaire ${escapeHtml(state.config.anneeScolaire)}</span>
+      </div>
+    </footer>
+    ${renderToast()}
+  `;
+}
+
+/* ---------------- Actions ---------------- */
+
+async function loginFamille(nom){
+  state.session = { role:'famille', name: nom };
+  state.loginError = '';
+  state.view = 'app';
+  state.page = 'accueil';
+  await saveKey('educonnect-session', false, state.session);
+  render();
+}
+
+async function loginAdmin(nom, pass){
+  if(pass !== state.config.adminPassword){
+    state.loginError = 'Mot de passe incorrect. Veuillez réessayer.';
+    render();
+    return;
+  }
+  state.session = { role:'admin', name: nom || 'Administration' };
+  state.loginError = '';
+  state.view = 'app';
+  state.page = 'accueil';
+  await saveKey('educonnect-session', false, state.session);
+  render();
+}
+
+async function logout(){
+  state.session = null;
+  state.view = 'login';
+  state.page = 'accueil';
+  state.adminTab = 'inscriptions';
+  state.mobileNavOpen = false;
+  try{ await window.storage.delete('educonnect-session', false); }catch(e){ /* ignore */ }
+  render();
+}
+
+async function toggleStatus(){
+  state.status.open = !state.status.open;
+  await saveKey(KEYS.status, true, state.status);
+  showToast(state.status.open ? 'Inscriptions ouvertes.' : 'Inscriptions fermées.', 'success');
+}
+
+async function saveStatusMessage(message){
+  state.status.message = message;
+  await saveKey(KEYS.status, true, state.status);
+  showToast('Message mis à jour.', 'success');
+}
+
+async function submitNews(form, editId){
+  const data = new FormData(form);
+  const title = (data.get('title') || '').trim();
+  const author = (data.get('author') || '').trim();
+  const content = (data.get('content') || '').trim();
+  if(!title || !author || !content) return;
+
+  if(editId){
+    const item = state.news.find(n => n.id === editId);
+    if(item){ item.title = title; item.author = author; item.content = content; item.date = new Date().toISOString(); }
+  }else{
+    state.news.unshift({ id: 'news-' + Date.now(), title, author, content, date: new Date().toISOString() });
+  }
+  await saveKey(KEYS.news, true, state.news);
+  state.editingNewsId = null;
+  showToast(editId ? 'Actualité mise à jour.' : 'Actualité publiée.', 'success');
+}
+
+async function deleteNews(id){
+  if(!window.confirm('Supprimer définitivement cette actualité ?')) return;
+  state.news = state.news.filter(n => n.id !== id);
+  await saveKey(KEYS.news, true, state.news);
+  showToast('Actualité supprimée.', 'success');
+}
+
+async function submitInscription(form){
+  const data = new FormData(form);
+  const record = {
+    id: 'reg-' + Date.now(),
+    ref: generateRef(),
+    status: 'En attente',
+    submittedAt: new Date().toISOString()
+  };
+  for(const [key, value] of data.entries()){
+    record[key] = String(value).trim();
+  }
+  state.registrations.unshift(record);
+  await saveKey(KEYS.registrations, true, state.registrations);
+  state.inscriptionConfirmation = record.ref;
+  showToast('Dossier transmis avec succès.', 'success');
+}
+
+async function setRegistrationStatus(id, status){
+  const item = state.registrations.find(r => r.id === id);
+  if(!item) return;
+  item.status = status;
+  await saveKey(KEYS.registrations, true, state.registrations);
+  showToast('Statut du dossier mis à jour.', 'success');
+}
+
+async function deleteRegistration(id){
+  if(!window.confirm("Supprimer définitivement ce dossier d'inscription ?")) return;
+  state.registrations = state.registrations.filter(r => r.id !== id);
+  await saveKey(KEYS.registrations, true, state.registrations);
+  showToast('Dossier supprimé.', 'success');
+}
+
+async function saveSettings(form){
+  const data = new FormData(form);
+  const schoolName = (data.get('schoolName') || '').trim();
+  const anneeScolaire = (data.get('anneeScolaire') || '').trim();
+  const newPassword = (data.get('adminPassword') || '').trim();
+  if(schoolName) state.config.schoolName = schoolName;
+  if(anneeScolaire) state.config.anneeScolaire = anneeScolaire;
+  if(newPassword) state.config.adminPassword = newPassword;
+  await saveKey(KEYS.config, true, state.config);
+  showToast('Paramètres enregistrés.', 'success');
+}
+
+async function resetData(){
+  if(!window.confirm("Effacer toutes les actualités et tous les dossiers d'inscription ? Cette action est irréversible.")) return;
+  state.news = structuredClone(DEFAULTS.news);
+  state.registrations = [];
+  state.status = structuredClone(DEFAULTS.status);
+  await saveKey(KEYS.news, true, state.news);
+  await saveKey(KEYS.registrations, true, state.registrations);
+  await saveKey(KEYS.status, true, state.status);
+  showToast('Données réinitialisées.', 'success');
+}
+
+/* ---------------- Écouteurs d'évènements ---------------- */
+
+document.getElementById('app').addEventListener('click', (e) => {
+  const pageBtn = e.target.closest('[data-page]');
+  if(pageBtn){
+    state.page = pageBtn.dataset.page;
+    state.mobileNavOpen = false;
+    state.editingNewsId = null;
+    render();
+    return;
+  }
+
+  const adminTabBtn = e.target.closest('[data-admin-tab]');
+  if(adminTabBtn){
+    state.adminTab = adminTabBtn.dataset.adminTab;
+    state.editingNewsId = null;
+    render();
+    return;
+  }
+
+  const loginTabBtn = e.target.closest('[data-login-tab]');
+  if(loginTabBtn){
+    state.loginTab = loginTabBtn.dataset.loginTab;
+    state.loginError = '';
+    render();
+    return;
+  }
+
+  const actionBtn = e.target.closest('[data-action]');
+  if(!actionBtn) return;
+  const action = actionBtn.dataset.action;
+  const id = actionBtn.dataset.id;
+
+  switch(action){
+    case 'logout': logout(); break;
+    case 'toggle-nav':
+      state.mobileNavOpen = !state.mobileNavOpen;
+      render();
+      break;
+    case 'toggle-status': toggleStatus(); break;
+    case 'new-news':
+      state.editingNewsId = 'new';
+      render();
+      break;
+    case 'edit-news':
+      state.editingNewsId = id;
+      render();
+      break;
+    case 'cancel-news':
+      state.editingNewsId = null;
+      render();
+      break;
+    case 'delete-news': deleteNews(id); break;
+    case 'delete-registration': deleteRegistration(id); break;
+    case 'new-inscription':
+      state.inscriptionConfirmation = null;
+      render();
+      break;
+    case 'reset-data': resetData(); break;
+  }
+});
+
+document.getElementById('app').addEventListener('change', (e) => {
+  const select = e.target.closest('[data-action="set-reg-status"]');
+  if(select){
+    setRegistrationStatus(select.dataset.id, select.value);
+  }
+});
+
+document.getElementById('app').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const form = e.target;
+
+  if(form.id === 'login-famille-form'){
+    const nom = form.elements['nom'].value.trim();
+    if(!nom) return;
+    loginFamille(nom);
+    return;
+  }
+
+  if(form.id === 'login-admin-form'){
+    const nom = form.elements['nom'].value.trim();
+    const pass = form.elements['motdepasse'].value;
+    loginAdmin(nom, pass);
+    return;
+  }
+
+  if(form.id === 'news-form'){
+    const editId = form.dataset.id || null;
+    submitNews(form, editId);
+    return;
+  }
+
+  if(form.id === 'inscription-form'){
+    submitInscription(form);
+    return;
+  }
+
+  if(form.id === 'status-message-form'){
+    saveStatusMessage(form.elements['message'].value);
+    return;
+  }
+
+  if(form.id === 'settings-form'){
+    saveSettings(form);
+    return;
+  }
+});
+
+init();
+</script>
+</body>
+</html>
