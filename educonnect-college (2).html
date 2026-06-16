@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ÉduConnect Collège</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1D3557; --ink2:#2E5077; --soft:#E7ECF3; --bg:#F4F6F9; --surface:#fff;
+  --amber:#E08E45; --amber-bg:#FBE9D6; --green:#3F7A5C; --green-bg:#E5F2EB;
+  --red:#B5453F; --red-bg:#FBEAE8; --muted:#6B7280; --border:#DCE3EB;
+  --text:#1F2937; --radius:10px; --shadow:0 2px 12px rgba(29,53,87,.08);
+  --ff:'Public Sans',system-ui,sans-serif; --fd:'Fraunces',serif; --fm:'IBM Plex Mono',monospace;
+}
+*{box-sizing:border-box;} html,body{margin:0;padding:0;}
+body{font-family:var(--ff);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4{font-family:var(--fd);font-weight:600;margin:0 0 .5rem;color:var(--ink);letter-spacing:-.01em;}
+p{margin:0 0 .75rem;line-height:1.55;} a{color:var(--ink2);}
+button{font-family:inherit;cursor:pointer;}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px;}
+.container{max-width:1100px;margin:0 auto;padding:0 1.5rem;}
+
+/* Boutons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;border:1px solid transparent;
+border-radius:8px;padding:.65rem 1.2rem;font-size:.95rem;font-weight:600;background:var(--ink);color:#fff;
+transition:transform .08s,background .12s;}
+.btn:hover{background:var(--ink2);}  .btn:active{transform:scale(.98);}
+.btn-accent{background:var(--amber);} .btn-accent:hover{background:#cc7a32;}
+.btn-green{background:var(--green);} .btn-green:hover{background:#2d5a41;}
+.btn-outline{background:transparent;color:var(--ink);border-color:var(--border);}
+.btn-outline:hover{background:var(--soft);}
+.btn-danger{background:transparent;color:var(--red);border-color:var(--red-bg);}
+.btn-danger:hover{background:var(--red-bg);}
+.btn-sm{padding:.4rem .8rem;font-size:.82rem;}
+.btn-block{width:100%;} .btn[disabled]{opacity:.45;cursor:not-allowed;}
+
+/* Formulaires */
+label{display:block;font-size:.82rem;font-weight:600;color:var(--ink);margin-bottom:.3rem;}
+input,select,textarea{width:100%;font-family:inherit;font-size:.95rem;color:var(--text);
+border:1px solid var(--border);border-radius:8px;padding:.6rem .75rem;background:#fff;}
+input:focus,select:focus,textarea:focus{border-color:var(--ink2);outline:none;}
+textarea{resize:vertical;min-height:80px;}
+.field{margin-bottom:1rem;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.field-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;}
+fieldset{border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin:0 0 1.25rem;}
+legend{font-family:var(--fd);font-weight:600;color:var(--ink);padding:0 .4rem;font-size:1rem;}
+.hint{font-size:.79rem;color:var(--muted);margin-top:.25rem;}
+.required-star{color:var(--red);}
+
+/* Topbar */
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:30;}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.75rem 0;}
+.brand{display:flex;align-items:center;gap:.8rem;}
+.brand-logo{width:44px;height:44px;border-radius:8px;object-fit:cover;flex-shrink:0;}
+.brand-logo-svg{width:44px;height:44px;flex-shrink:0;}
+.brand-text .school{font-family:var(--fd);font-weight:600;font-size:1rem;color:var(--ink);line-height:1.2;}
+.brand-text .sub{font-family:var(--fm);font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:var(--amber);font-weight:600;}
+.nav-d{display:flex;gap:.2rem;}
+.nav-d button{background:none;border:none;padding:.5rem .85rem;border-radius:8px;font-size:.9rem;font-weight:600;color:var(--muted);}
+.nav-d button:hover{background:var(--soft);color:var(--ink);}
+.nav-d button.active{color:var(--ink);background:var(--soft);}
+.topbar-r{display:flex;align-items:center;gap:.6rem;}
+.user-pill{display:flex;align-items:center;gap:.4rem;font-size:.83rem;font-weight:600;color:var(--ink);background:var(--soft);padding:.35rem .75rem;border-radius:999px;}
+.role-tag{font-family:var(--fm);font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--amber);background:rgba(224,142,69,.15);padding:.1rem .4rem;border-radius:4px;}
+.hamburger{display:none;background:none;border:1px solid var(--border);border-radius:8px;padding:.4rem .55rem;font-size:1.1rem;line-height:1;}
+.mobile-nav{display:none;border-top:1px solid var(--border);padding:.5rem 0;}
+.mobile-nav.open{display:flex;flex-direction:column;}
+.mobile-nav button{text-align:left;background:none;border:none;padding:.7rem 0;font-size:.95rem;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);}
+.mobile-nav button.active{color:var(--ink);}
+.mobile-nav button:last-child{border:none;}
+
+/* Page head / layout */
+main.container{padding-top:1.75rem;padding-bottom:3rem;}
+.page-head{margin-bottom:1.5rem;}
+.eyebrow{display:block;font-family:var(--fm);text-transform:uppercase;letter-spacing:.14em;font-size:.7rem;color:var(--amber);font-weight:600;margin-bottom:.35rem;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);}
+.card+.card{margin-top:1.25rem;}
+.grid-2{display:grid;grid-template-columns:2fr 1fr;gap:1.25rem;align-items:start;}
+
+/* Statut */
+.stamp{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--fm);text-transform:uppercase;
+letter-spacing:.1em;font-size:.76rem;font-weight:500;border:2px solid currentColor;border-radius:999px;
+padding:.4rem .9rem;transform:rotate(-1.5deg);}
+.stamp .dot{width:7px;height:7px;border-radius:50%;background:currentColor;}
+.stamp.open{color:var(--green);} .stamp.closed{color:var(--red);}
+.status-pill{font-family:var(--fm);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;padding:.22rem .6rem;border-radius:999px;font-weight:600;white-space:nowrap;}
+.status-pill.pending{background:var(--amber-bg);color:#a35a14;}
+.status-pill.accepted{background:var(--green-bg);color:var(--green);}
+.status-pill.refused{background:var(--red-bg);color:var(--red);}
+.status-pill.waiting{background:var(--soft);color:var(--muted);}
+
+/* Login */
+.login-wrap{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;}
+.login-visual{background:linear-gradient(160deg,var(--ink) 0%,#122a45 100%);color:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:3rem;position:relative;overflow:hidden;}
+.login-visual::before{content:"";position:absolute;right:-80px;top:-80px;width:300px;height:300px;border:1px solid rgba(255,255,255,.07);border-radius:50%;}
+.login-visual::after{content:"";position:absolute;right:-30px;top:-30px;width:300px;height:300px;border:1px solid rgba(255,255,255,.05);border-radius:50%;}
+.lv-brand{display:flex;align-items:center;gap:.85rem;}
+.lv-school{font-family:var(--fd);font-size:1.1rem;line-height:1.25;}
+.lv-school small{display:block;font-family:var(--fm);font-size:.65rem;letter-spacing:.13em;color:rgba(251,233,214,.85);text-transform:uppercase;}
+.lv-tagline{font-family:var(--fd);font-size:2rem;line-height:1.25;font-weight:500;max-width:22ch;position:relative;z-index:1;}
+.lv-tagline em{color:var(--amber);font-style:normal;}
+.lv-bottom{position:relative;z-index:1;}
+
+.login-panel{display:flex;align-items:center;justify-content:center;padding:2.5rem;}
+.login-card{width:100%;max-width:440px;}
+.login-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;border-bottom:1px solid var(--border);}
+.ltab{background:none;border:none;padding:.7rem .2rem;margin-right:1.2rem;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;font-size:.95rem;}
+.ltab.active{color:var(--ink);border-bottom-color:var(--amber);}
+.error-box{background:var(--red-bg);color:var(--red);border-radius:8px;padding:.6rem .9rem;font-size:.84rem;margin-bottom:1rem;font-weight:600;}
+.success-box{background:var(--green-bg);color:var(--green);border-radius:8px;padding:.6rem .9rem;font-size:.84rem;margin-bottom:1rem;font-weight:600;}
+
+/* Stepper inscription */
+.stepper{display:flex;align-items:center;gap:0;margin-bottom:2rem;counter-reset:step;}
+.step-item{display:flex;align-items:center;flex:1;}
+.step-circle{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+font-family:var(--fm);font-size:.82rem;font-weight:600;flex-shrink:0;border:2px solid var(--border);color:var(--muted);background:#fff;}
+.step-item.done .step-circle{background:var(--green);color:#fff;border-color:var(--green);}
+.step-item.active .step-circle{background:var(--ink);color:#fff;border-color:var(--ink);}
+.step-line{flex:1;height:2px;background:var(--border);}
+.step-item.done .step-line{background:var(--green);}
+.step-label{font-size:.72rem;font-weight:600;color:var(--muted);text-align:center;margin-top:.35rem;}
+.step-item.active .step-label{color:var(--ink);}
+.step-item.done .step-label{color:var(--green);}
+.step-wrap{display:flex;flex-direction:column;align-items:center;}
+.step-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border);}
+
+/* Récapitulatif */
+.recap-section{background:var(--bg);border-radius:8px;padding:1rem 1.25rem;margin-bottom:1rem;}
+.recap-section h4{font-size:.9rem;color:var(--muted);margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.06em;font-family:var(--fm);}
+.recap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.5rem 1.5rem;}
+.recap-item dt{font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);}
+.recap-item dd{margin:.1rem 0 0;font-size:.9rem;word-break:break-word;}
+
+/* Dossiers admin */
+.reg-card{border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.25rem;margin-bottom:1rem;background:#fff;}
+.reg-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:.75rem;}
+.reg-ref{font-family:var(--fm);font-size:.76rem;color:var(--muted);}
+.reg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.5rem 1.5rem;margin:.9rem 0;}
+.reg-grid dt{font-size:.69rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:0;}
+.reg-grid dd{margin:.1rem 0 0;font-family:var(--fm);font-size:.85rem;word-break:break-word;}
+.reg-controls{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;}
+
+/* Comptes */
+.account-card{border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:.75rem;background:#fff;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.75rem;}
+.account-info h4{margin:0;font-size:.97rem;}
+.account-meta{font-family:var(--fm);font-size:.74rem;color:var(--muted);}
+.account-actions{display:flex;gap:.5rem;}
+
+/* Champs personnalisés */
+.custom-field-card{border:1px solid var(--border);border-radius:8px;padding:.9rem 1.1rem;margin-bottom:.6rem;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap;}
+.cf-info{flex:1;}
+.cf-info .cf-label{font-weight:600;font-size:.92rem;}
+.cf-info .cf-meta{font-size:.78rem;color:var(--muted);margin-top:.15rem;}
+.cf-actions{display:flex;gap:.4rem;}
+
+/* Filtres */
+.filter-bar{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin-bottom:1.1rem;}
+.filter-bar input{flex:1;min-width:150px;}
+.filter-bar select{width:auto;}
+
+/* Suivi */
+.suivi-wrap{background:var(--soft);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.5rem;}
+.suivi-row{display:flex;gap:.7rem;align-items:flex-end;flex-wrap:wrap;}
+.suivi-row .field{flex:1;min-width:170px;margin:0;}
+.suivi-result{margin-top:1rem;border-radius:var(--radius);padding:1.1rem 1.25rem;border:1px solid var(--border);background:#fff;}
+.suivi-result.nf{background:var(--red-bg);border-color:var(--red-bg);color:var(--red);}
+
+/* Actualités */
+.news-item{padding:1.25rem 0;border-bottom:1px solid var(--border);}
+.news-item:last-child{border-bottom:none;}
+.news-meta{font-family:var(--fm);font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem;}
+
+/* Toggle */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+.switch{position:relative;width:50px;height:28px;border-radius:999px;background:var(--border);border:none;flex-shrink:0;transition:background .15s;}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .15s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.switch.on{background:var(--green);}
+.switch.on::after{transform:translateX(22px);}
+
+/* Admin tabs */
+.atabs{display:flex;gap:.4rem;margin-bottom:1.5rem;flex-wrap:wrap;border-bottom:1px solid var(--border);}
+.atab{background:none;border:none;padding:.65rem .2rem;margin-right:1.2rem;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;font-size:.92rem;}
+.atab.active{color:var(--ink);border-bottom-color:var(--amber);}
+
+/* Toast */
+.toast{position:fixed;bottom:1.25rem;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:.65rem 1.2rem;border-radius:999px;font-size:.86rem;font-weight:600;box-shadow:0 6px 24px rgba(0,0,0,.18);z-index:100;}
+.toast.ok{background:var(--green);} .toast.err{background:var(--red);}
+
+/* Confirmation */
+.confirm-box{text-align:center;padding:2rem 1rem;}
+.confirm-ref{display:inline-block;font-family:var(--fm);font-size:1.3rem;letter-spacing:.08em;border:2px dashed var(--amber);padding:.6rem 1.4rem;border-radius:8px;margin:1rem 0;color:var(--ink);transform:rotate(-1deg);}
+
+/* Info alerte */
+.info-bar{background:var(--amber-bg);border-radius:8px;padding:.7rem 1rem;font-size:.86rem;margin-bottom:1.1rem;display:flex;gap:.6rem;align-items:flex-start;}
+.info-bar .icon{flex-shrink:0;font-size:1rem;}
+
+/* Empty */
+.empty{text-align:center;padding:2.5rem 1rem;color:var(--muted);}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:1.25rem 0;}
+footer .container{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-size:.8rem;color:var(--muted);}
+
+/* Checkbox custom */
+.check-group{display:flex;flex-direction:column;gap:.5rem;}
+.check-item{display:flex;align-items:flex-start;gap:.6rem;font-size:.9rem;}
+.check-item input[type=checkbox]{width:auto;margin-top:.15rem;flex-shrink:0;}
+.check-item label{margin:0;font-weight:400;cursor:pointer;}
+
+/* Document upload simulation */
+.doc-item{border:1px solid var(--border);border-radius:8px;padding:.85rem 1rem;margin-bottom:.6rem;display:flex;align-items:flex-start;gap:.8rem;background:#fff;}
+.doc-item .doc-icon{font-size:1.5rem;line-height:1;flex-shrink:0;}
+.doc-item .doc-body{flex:1;}
+.doc-item .doc-title{font-weight:600;font-size:.9rem;}
+.doc-item .doc-desc{font-size:.79rem;color:var(--muted);margin-top:.15rem;}
+.doc-item .doc-status{margin-top:.5rem;}
+.doc-item input[type=checkbox]{width:auto;}
+
+/* Loading */
+.loading{min-height:100vh;display:flex;align-items:center;justify-content:center;color:var(--muted);font-family:var(--fm);letter-spacing:.1em;text-transform:uppercase;font-size:.82rem;}
+
+@media(max-width:860px){
+  .login-wrap{grid-template-columns:1fr;}
+  .login-visual{padding:2rem;min-height:220px;}
+  .lv-tagline{font-size:1.45rem;}
+  .login-panel{padding:1.5rem;}
+  .nav-d{display:none;}
+  .hamburger{display:inline-flex;align-items:center;}
+  .mobile-nav{display:none;}
+  .mobile-nav.open{display:flex;}
+  .grid-2{grid-template-columns:1fr;}
+  main.container{padding-top:1.25rem;}
+  .field-row,.field-row3{grid-template-columns:1fr;}
+  .topbar-r .lbl{display:none;}
+}
+@media(max-width:480px){
+  .container{padding:0 1rem;}
+  .card{padding:1rem;}
+  .stepper{gap:0;}
+  .step-label{font-size:.62rem;}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+"use strict";
+
+/* ============================================================
+   STOCKAGE (localStorage — fonctionne sur GitHub Pages)
+============================================================ */
+const S = {
+  get(k, fb){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):fb; }catch(e){ return fb; } },
+  set(k, v){ try{ localStorage.setItem(k,JSON.stringify(v)); return true; }catch(e){ return false; } },
+  del(k){ try{ localStorage.removeItem(k); }catch(e){} }
+};
+
+const KEYS = { config:"ec-config", status:"ec-status", users:"ec-users", news:"ec-news", regs:"ec-regs", fields:"ec-fields", session:"ec-session" };
+
+/* Valeurs par défaut */
+const DEF = {
+  config:{ schoolName:"Collège Jean Moulin", ville:"Lyon", anneeScolaire:"2026-2027", contactEmail:"secretariat@college-jeanmoulin.fr", contactTel:"04 XX XX XX XX" },
+  status:{ open:true, message:"Les inscriptions sont actuellement fermées. Consultez la rubrique Actualités pour être informé de la réouverture." },
+  users:[{ id:"admin-1", email:"admin@college.fr", password:"admin2026", name:"Secrétariat", role:"admin", approved:true, createdAt:new Date().toISOString() }],
+  news:[{ id:"n-"+Date.now(), title:"Bienvenue sur l'espace ÉduConnect", author:"Administration", date:new Date().toISOString(), content:"Cet espace vous permet de vous inscrire et de suivre les actualités de notre établissement pour la rentrée à venir.\n\nLes inscriptions en 6e sont réservées aux élèves actuellement en classe de CM2." }],
+  regs:[],
+  fields:[
+    { id:"f-1", label:"Copie du livret scolaire (CE1 à CM2)", type:"document", required:true, description:"Pages de couverture et bulletins des deux dernières années" },
+    { id:"f-2", label:"Justificatif de domicile (- de 3 mois)", type:"document", required:true, description:"Facture EDF, eau, quittance de loyer..." },
+    { id:"f-3", label:"Certificat de radiation de l'école primaire", type:"document", required:true, description:"À demander à l'école primaire actuelle" },
+    { id:"f-4", label:"Photocopies du carnet de santé (vaccinations)", type:"document", required:false, description:"Pages vaccinations obligatoires" }
+  ]
+};
+
+/* ============================================================
+   STATE
+============================================================ */
+const st = {
+  loaded:false, view:"login", page:"accueil",
+  adminTab:"comptes",
+  loginMode:"connexion",   // connexion | inscription
+  loginError:"", loginSuccess:"",
+  session:null,
+  // inscription multi-étapes
+  step:1, iData:{},
+  // suivi
+  suiviRef:"", suiviResult:null,
+  // filtres admin
+  filterStatus:"tous", filterSearch:"",
+  // editing
+  editNewsId:null, editFieldId:null,
+  toast:null, mobileOpen:false,
+  // données
+  config:null, status:null, users:null, news:null, regs:null, fields:null
+};
+
+/* ============================================================
+   INIT
+============================================================ */
+function init(){
+  st.config  = S.get(KEYS.config,  DEF.config);
+  st.status  = S.get(KEYS.status,  DEF.status);
+  st.users   = S.get(KEYS.users,   DEF.users);
+  st.news    = S.get(KEYS.news,    DEF.news);
+  st.regs    = S.get(KEYS.regs,    DEF.regs);
+  st.fields  = S.get(KEYS.fields,  DEF.fields);
+  const sess = S.get(KEYS.session, null);
+  if(sess){ const u=st.users.find(x=>x.id===sess.id); if(u&&u.approved){ st.session=u; st.view="app"; } }
+  st.loaded=true; render();
+}
+
+/* ============================================================
+   UTILITAIRES
+============================================================ */
+function esc(s){ return String(s??"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function fdate(iso){ try{ return new Date(iso).toLocaleDateString("fr-FR",{day:"2-digit",month:"long",year:"numeric"}); }catch(e){ return ""; } }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function genRef(){ const y=(st.config.anneeScolaire||"2026").split("-")[0]; return "INS-"+y+"-"+Math.random().toString(36).slice(2,6).toUpperCase(); }
+function initials(name){ const stop=["college","de","du","des","le","la","les"]; const w=name.trim().split(/\s+/).filter(x=>!stop.includes(x.toLowerCase())); return (w.slice(0,2).map(x=>x[0].toUpperCase()).join("")||"CE"); }
+function showToast(msg,type){ st.toast={msg,type:type||"info"}; render(); setTimeout(()=>{st.toast=null;render();},3200); }
+function scPill(s){ if(s==="Acceptée")return "accepted"; if(s==="Refusée")return "refused"; if(s==="En attente")return "pending"; return "waiting"; }
+function saveAll(){ S.set(KEYS.config,st.config);S.set(KEYS.status,st.status);S.set(KEYS.users,st.users);S.set(KEYS.news,st.news);S.set(KEYS.regs,st.regs);S.set(KEYS.fields,st.fields); }
+
+/* ============================================================
+   SCEAU SVG
+============================================================ */
+function seal(size, dark){
+  const ini=initials(st.config.schoolName);
+  const bg=dark?"#fff":st.config.sealColor||"#1D3557";
+  const txt=dark?"#1D3557":"#fff";
+  const ring=dark?"#F3C892":"#E08E45";
+  return `<svg width="${size}" height="${size}" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="32" cy="32" r="30" fill="${bg}"/>
+    <circle cx="32" cy="32" r="30" fill="none" stroke="${ring}" stroke-width="1.5" stroke-dasharray="2 4"/>
+    <circle cx="32" cy="32" r="24" fill="none" stroke="${ring}" stroke-width="1"/>
+    <text x="32" y="40" text-anchor="middle" font-family="Fraunces,serif" font-size="22" font-weight="700" fill="${txt}">${esc(ini)}</text>
+  </svg>`;
+}
+
+/* ============================================================
+   LOGIN / REGISTER
+============================================================ */
+function renderLogin(){
+  const cfg=st.config;
+  const open=st.status.open;
+  const form = st.loginMode==="connexion" ? `
+    <form id="f-login" novalidate>
+      <div class="field"><label>Adresse e-mail <span class="required-star">*</span></label>
+        <input type="email" name="email" required placeholder="prenom.nom@email.com" autocomplete="email"></div>
+      <div class="field"><label>Mot de passe <span class="required-star">*</span></label>
+        <input type="password" name="pwd" required autocomplete="current-password"></div>
+      <button type="submit" class="btn btn-accent btn-block">Se connecter</button>
+      <p class="hint" style="margin-top:.75rem;text-align:center;">Première visite ? <button type="button" class="btn btn-outline btn-sm" data-lmode="inscription">Créer un compte</button></p>
+    </form>
+  ` : `
+    <form id="f-register" novalidate>
+      <div class="field-row">
+        <div class="field"><label>Prénom <span class="required-star">*</span></label>
+          <input type="text" name="prenom" required autocomplete="given-name"></div>
+        <div class="field"><label>Nom <span class="required-star">*</span></label>
+          <input type="text" name="nom" required autocomplete="family-name"></div>
+      </div>
+      <div class="field"><label>Adresse e-mail <span class="required-star">*</span></label>
+        <input type="email" name="email" required autocomplete="email"></div>
+      <div class="field"><label>Mot de passe <span class="required-star">*</span></label>
+        <input type="password" name="pwd" required minlength="6" placeholder="6 caractères minimum"></div>
+      <div class="field"><label>Confirmer le mot de passe <span class="required-star">*</span></label>
+        <input type="password" name="pwd2" required></div>
+      <div class="info-bar"><span class="icon">ℹ️</span><span>Votre compte doit être approuvé par le secrétariat avant de pouvoir vous connecter.</span></div>
+      <button type="submit" class="btn btn-accent btn-block">Créer mon compte</button>
+      <p class="hint" style="margin-top:.75rem;text-align:center;"><button type="button" class="btn btn-outline btn-sm" data-lmode="connexion">← Retour à la connexion</button></p>
+    </form>
+  `;
+  return `
+  <div class="login-wrap">
+    <div class="login-visual">
+      <div class="lv-brand">${seal(48,true)}<div class="lv-school"><small>ÉduConnect Collège</small>${esc(cfg.schoolName)}${cfg.ville?` — ${esc(cfg.ville)}`:"" }</div></div>
+      <div class="lv-tagline">Inscriptions en <em>6e</em> pour l'année ${esc(cfg.anneeScolaire)}, directement en ligne.</div>
+      <div class="lv-bottom"><span class="stamp ${open?"open":"closed"}" style="color:${open?"#9FD9BE":"#F3B7B0"};border-color:currentColor;"><span class="dot"></span>Inscriptions ${open?"ouvertes":"fermées"}</span></div>
+    </div>
+    <div class="login-panel">
+      <div class="login-card">
+        <h1 style="margin-bottom:.25rem;">${st.loginMode==="connexion"?"Connexion":"Créer un compte"}</h1>
+        <p style="color:var(--muted);margin-bottom:1.25rem;">${st.loginMode==="connexion"?"Accédez à votre espace famille ou administration.":"Inscrivez-vous pour déposer un dossier."}</p>
+        ${st.loginError?`<div class="error-box">${esc(st.loginError)}</div>`:""}
+        ${st.loginSuccess?`<div class="success-box">${esc(st.loginSuccess)}</div>`:""}
+        ${form}
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ============================================================
+   TOPBAR
+============================================================ */
+function renderTopbar(){
+  const isAdmin=st.session.role==="admin";
+  const pages=[
+    {id:"accueil",label:"Accueil"},
+    {id:"actualites",label:"Actualités"},
+    {id:"inscriptions",label:"Inscription"},
+    {id:"mon-dossier",label:"Mon dossier"}
+  ];
+  if(isAdmin) pages.push({id:"admin",label:"Administration"});
+  const navBtns=pages.map(p=>`<button data-page="${p.id}" class="${st.page===p.id?"active":""}">${p.label}</button>`).join("");
+  return `
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">${seal(42,false)}<div class="brand-text"><div class="sub">ÉduConnect Collège</div><div class="school">${esc(st.config.schoolName)}</div></div></div>
+      <nav class="nav-d">${navBtns}</nav>
+      <div class="topbar-r">
+        <span class="user-pill">${isAdmin?`<span class="role-tag">Admin</span>`:""}<span class="lbl">${esc(st.session.name)}</span></span>
+        <button class="btn btn-outline btn-sm" data-action="logout">Déconnexion</button>
+        <button class="hamburger" data-action="hambg" aria-label="Menu">☰</button>
+      </div>
+    </div>
+    <div class="container mobile-nav ${st.mobileOpen?"open":""}">${navBtns}</div>
+  </header>`;
+}
+
+/* ============================================================
+   ACCUEIL
+============================================================ */
+function renderAccueil(){
+  const open=st.status.open;
+  const latestNews=[...st.news].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,2);
+  const myRegs=st.regs.filter(r=>r.userId===st.session.id);
+  const newsHtml=latestNews.length?latestNews.map(n=>`
+    <div style="padding:1rem 0;border-bottom:1px solid var(--border);">
+      <div class="news-meta">${fdate(n.date)} · ${esc(n.author)}</div>
+      <h3 style="font-size:1rem;margin-bottom:.3rem;">${esc(n.title)}</h3>
+      <p style="color:var(--muted);font-size:.88rem;">${esc(n.content).slice(0,160)}${n.content.length>160?"…":""}</p>
+    </div>`).join(""):`<p class="hint">Aucune actualité pour le moment.</p>`;
+  const myDossiers=myRegs.length?`<ul style="margin:.5rem 0 0;padding:0 0 0 .1rem;list-style:none;">${myRegs.map(r=>`
+    <li style="display:flex;align-items:center;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--border);">
+      <div><strong>${esc(r.elevePrenom)} ${esc(r.eleveNom)}</strong> <span class="reg-ref">${esc(r.ref)}</span></div>
+      <span class="status-pill ${scPill(r.status)}">${esc(r.status)}</span>
+    </li>`).join("")}</ul>`:
+    `<p class="hint">Aucun dossier déposé pour le moment.</p><button class="btn btn-accent btn-sm" data-page="inscriptions">Déposer un dossier</button>`;
+  return `
+  <div class="page-head"><span class="eyebrow">Accueil</span><h1>Bonjour, ${esc(st.session.name)}</h1><p style="color:var(--muted);">Bienvenue sur l'espace numérique de préinscription en 6e.</p></div>
+  <div class="grid-2">
+    <div>
+      <div class="card"><h2>Dernières actualités</h2>${newsHtml}<button class="btn btn-outline btn-sm" style="margin-top:1rem;" data-page="actualites">Toutes les actualités</button></div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:1.25rem;">
+        <h2>Inscriptions ${esc(st.config.anneeScolaire)}</h2>
+        <p><span class="stamp ${open?"open":"closed"}"><span class="dot"></span>${open?"Ouvertes":"Fermées"}</span></p>
+        <p style="color:var(--muted);font-size:.88rem;">${open?"Les dossiers de préinscription en 6e peuvent être déposés en ligne.":esc(st.status.message)}</p>
+        ${open?`<button class="btn btn-accent btn-block" data-page="inscriptions">Déposer mon dossier</button>`:""}
+      </div>
+      <div class="card"><h2>Mes dossiers</h2>${myDossiers}</div>
+    </div>
+  </div>`;
+}
+
+/* ============================================================
+   ACTUALITÉS
+============================================================ */
+function renderActualites(){
+  const isAdmin=st.session.role==="admin";
+  const sorted=[...st.news].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  let formHtml="";
+  if(isAdmin&&st.editNewsId!==null){
+    const isNew=st.editNewsId==="new";
+    const item=isNew?null:st.news.find(n=>n.id===st.editNewsId);
+    formHtml=`
+    <div class="card" style="margin-bottom:1.25rem;">
+      <h2>${isNew?"Publier une actualité":"Modifier"}</h2>
+      <form id="f-news" data-eid="${isNew?"":esc(item.id)}">
+        <div class="field"><label>Titre *</label><input name="title" required value="${isNew?"":esc(item.title)}"></div>
+        <div class="field"><label>Auteur *</label><input name="author" required value="${isNew?esc(st.session.name):esc(item.author)}"></div>
+        <div class="field"><label>Contenu *</label><textarea name="content" rows="6">${isNew?"":esc(item.content)}</textarea></div>
+        <div style="display:flex;gap:.6rem;">
+          <button type="submit" class="btn btn-accent">${isNew?"Publier":"Enregistrer"}</button>
+          <button type="button" class="btn btn-outline" data-action="cancel-news">Annuler</button>
+        </div>
+      </form>
+    </div>`;
+  }
+  const list=sorted.length?sorted.map(n=>`
+    <div class="news-item">
+      <div class="news-meta">${fdate(n.date)} · ${esc(n.author)}</div>
+      <h3>${esc(n.title)}</h3>
+      <div style="white-space:pre-wrap;line-height:1.6;">${esc(n.content)}</div>
+      ${isAdmin&&st.editNewsId===null?`<div style="margin-top:.75rem;display:flex;gap:.5rem;">
+        <button class="btn btn-outline btn-sm" data-action="edit-news" data-id="${esc(n.id)}">Modifier</button>
+        <button class="btn btn-danger btn-sm" data-action="del-news" data-id="${esc(n.id)}">Supprimer</button>
+      </div>`:""}
+    </div>`).join(""):`<div class="empty"><p>Aucune actualité publiée.</p></div>`;
+  return `
+  <div class="page-head"><span class="eyebrow">Vie scolaire</span><h1>Actualités</h1>
+    ${isAdmin&&st.editNewsId===null?`<button class="btn btn-accent" data-action="new-news" style="margin-top:.5rem;">Publier une actualité</button>`:""}
+  </div>
+  ${formHtml}<div class="card">${list}</div>`;
+}
+
+/* ============================================================
+   MON DOSSIER (suivi famille)
+============================================================ */
+function renderMonDossier(){
+  const myRegs=st.regs.filter(r=>r.userId===st.session.id);
+  const items=myRegs.length?myRegs.map(r=>`
+    <div class="reg-card">
+      <div class="reg-head">
+        <div><h3>${esc(r.elevePrenom)} ${esc(r.eleveNom)}</h3>
+        <div class="reg-ref">${esc(r.ref)} · déposé le ${fdate(r.submittedAt)}</div></div>
+        <span class="status-pill ${scPill(r.status)}">${esc(r.status)}</span>
+      </div>
+      <dl class="reg-grid">
+        <div class="recap-item"><dt>Classe demandée</dt><dd>6e — ${esc(st.config.anneeScolaire)}</dd></div>
+        <div class="recap-item"><dt>École primaire</dt><dd>${esc(r.ecoleActuelle||"-")}</dd></div>
+        <div class="recap-item"><dt>Régime</dt><dd>${esc(r.regime||"-")}</dd></div>
+        <div class="recap-item"><dt>Responsable 1</dt><dd>${esc(r.resp1Prenom||"")} ${esc(r.resp1Nom||"")}</dd></div>
+        <div class="recap-item"><dt>Contact</dt><dd>${esc(r.resp1Email||"-")}</dd></div>
+      </dl>
+      ${r.adminNote?`<div class="info-bar"><span class="icon">💬</span><div><strong>Note du secrétariat :</strong> ${esc(r.adminNote)}</div></div>`:""}
+    </div>`).join("") : `
+    <div class="empty">
+      <p>Vous n'avez pas encore déposé de dossier.</p>
+      ${st.status.open?`<button class="btn btn-accent" data-page="inscriptions">Déposer mon dossier</button>`:""}
+    </div>`;
+
+  // Suivi par référence (visiteurs non connectés peuvent aussi l'utiliser via la page inscription)
+  let suiviHtml="";
+  if(st.suiviResult==="nf") suiviHtml=`<div class="suivi-result nf">Aucun dossier trouvé pour la référence <strong>${esc(st.suiviRef)}</strong>.</div>`;
+  else if(st.suiviResult&&st.suiviResult.ref){
+    const r=st.suiviResult;
+    suiviHtml=`<div class="suivi-result">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.75rem;">
+        <div><strong>${esc(r.elevePrenom)} ${esc(r.eleveNom)}</strong><div class="reg-ref">${esc(r.ref)} · ${fdate(r.submittedAt)}</div></div>
+        <span class="status-pill ${scPill(r.status)}">${esc(r.status)}</span>
+      </div>
+      ${r.adminNote?`<div class="info-bar"><span class="icon">💬</span><div><strong>Message :</strong> ${esc(r.adminNote)}</div></div>`:""}
+    </div>`;
+  }
+
+  return `
+  <div class="page-head"><span class="eyebrow">Espace famille</span><h1>Mes dossiers</h1></div>
+  ${items}
+  <div class="suivi-wrap" style="margin-top:1.5rem;">
+    <h3 style="margin-bottom:.5rem;">Suivi par référence</h3>
+    <p style="color:var(--muted);font-size:.88rem;margin-bottom:1rem;">Entrez un numéro de référence <span style="font-family:var(--fm);">INS-XXXX-XXXX</span> pour consulter le statut d'un dossier.</p>
+    <form id="f-suivi" novalidate>
+      <div class="suivi-row">
+        <div class="field"><label>Référence du dossier</label>
+          <input name="ref" placeholder="INS-2026-XXXX" value="${esc(st.suiviRef)}" style="font-family:var(--fm);text-transform:uppercase;"></div>
+        <button type="submit" class="btn btn-accent">Rechercher</button>
+        ${st.suiviResult?`<button type="button" class="btn btn-outline" data-action="clear-suivi">Effacer</button>`:""}
+      </div>
+    </form>
+    ${suiviHtml}
+  </div>`;
+}
+
+/* ============================================================
+   INSCRIPTION MULTI-ÉTAPES
+============================================================ */
+const STEPS=[
+  {n:1, label:"Élève"},
+  {n:2, label:"Parents"},
+  {n:3, label:"Compléments"},
+  {n:4, label:"Documents"},
+  {n:5, label:"Récapitulatif"}
+];
+
+function renderStepper(){
+  return `<div class="stepper">${STEPS.map((s,i)=>{
+    const done=st.step>s.n; const active=st.step===s.n;
+    return `<div class="step-item ${done?"done":""} ${active?"active":""}">
+      <div class="step-wrap">
+        <div class="step-circle">${done?"✓":s.n}</div>
+        <div class="step-label">${s.label}</div>
+      </div>
+      ${i<STEPS.length-1?`<div class="step-line"></div>`:""}
+    </div>`;
+  }).join("")}</div>`;
+}
+
+function renderInscriptions(){
+  if(!st.status.open){
+    return `
+    <div class="page-head"><span class="eyebrow">Inscriptions ${esc(st.config.anneeScolaire)}</span><h1>Inscriptions fermées</h1></div>
+    <div class="card"><span class="stamp closed"><span class="dot"></span>Fermées</span><p style="margin-top:1rem;">${esc(st.status.message)}</p></div>`;
+  }
+  if(st.iData.confirmed){
+    return `
+    <div class="page-head"><span class="eyebrow">Inscriptions</span><h1>Dossier transmis !</h1></div>
+    <div class="card confirm-box">
+      ${seal(56,false)}
+      <h2 style="margin-top:1rem;">Votre dossier a été enregistré</h2>
+      <p>Conservez ce numéro :</p>
+      <div class="confirm-ref">${esc(st.iData.confirmedRef||"")}</div>
+      <p style="color:var(--muted);">Le secrétariat va étudier votre demande et vous contactera par e-mail.</p>
+      <button class="btn btn-outline" data-action="new-insc">Déposer un autre dossier</button>
+    </div>`;
+  }
+  return `
+  <div class="page-head"><span class="eyebrow">Inscriptions en 6e — ${esc(st.config.anneeScolaire)}</span><h1>Dossier de préinscription</h1></div>
+  <div class="card">
+    ${renderStepper()}
+    ${[renderStep1,renderStep2,renderStep3,renderStep4,renderStep5][st.step-1]()}
+  </div>`;
+}
+
+/* --- Étape 1 : Élève --- */
+function v(name){ return esc(st.iData[name]||""); }
+function renderStep1(){
+  return `
+  <form id="f-step" data-step="1">
+    <fieldset>
+      <legend>Identité de l'élève</legend>
+      <div class="field-row">
+        <div class="field"><label>Nom de naissance *</label><input name="eleveNom" required value="${v("eleveNom")}"></div>
+        <div class="field"><label>Prénom *</label><input name="elevePrenom" required value="${v("elevePrenom")}"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Date de naissance *</label><input type="date" name="eleveNaissance" required value="${v("eleveNaissance")}"></div>
+        <div class="field"><label>Lieu de naissance *</label><input name="eleveLieuNaiss" required value="${v("eleveLieuNaiss")}"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Département de naissance *</label><input name="eleveDeptNaiss" required placeholder="Ex. 69" value="${v("eleveDeptNaiss")}"></div>
+        <div class="field"><label>Pays de naissance *</label><input name="elevePaysNaiss" required value="${v("elevePaysNaiss")||"France"}"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Nationalité *</label><input name="eleveNationalite" required value="${v("eleveNationalite")||"Française"}"></div>
+        <div class="field"><label>Sexe *</label>
+          <select name="eleveSexe" required>
+            <option value="">—</option>
+            <option value="F" ${st.iData.eleveSexe==="F"?"selected":""}>Fille</option>
+            <option value="M" ${st.iData.eleveSexe==="M"?"selected":""}>Garçon</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Scolarité actuelle</legend>
+      <div class="info-bar"><span class="icon">📚</span><span>Ces inscriptions sont réservées aux élèves actuellement en classe de <strong>CM2</strong>.</span></div>
+      <div class="field-row">
+        <div class="field"><label>Classe actuelle *</label>
+          <select name="classeActuelle" required>
+            <option value="">—</option>
+            <option value="CM2" ${st.iData.classeActuelle==="CM2"?"selected":""}>CM2</option>
+            <option value="CM1 (saut de classe)" ${st.iData.classeActuelle==="CM1 (saut de classe)"?"selected":""}>CM1 (saut de classe)</option>
+          </select>
+        </div>
+        <div class="field"><label>Classe demandée</label>
+          <input value="6e — ${esc(st.config.anneeScolaire)}" disabled style="background:var(--soft);color:var(--muted);">
+        </div>
+      </div>
+      <div class="field"><label>École primaire actuelle *</label><input name="ecoleActuelle" required placeholder="Nom et commune de l'école" value="${v("ecoleActuelle")}"></div>
+      <div class="field-row">
+        <div class="field"><label>Commune de l'école *</label><input name="ecoleCommune" required value="${v("ecoleCommune")}"></div>
+        <div class="field"><label>Département de l'école *</label><input name="ecoleDept" required placeholder="Ex. 69" value="${v("ecoleDept")}"></div>
+      </div>
+      <div class="field"><label>Enseignants / remarques pédagogiques</label>
+        <textarea name="remarquesPeda" rows="2" placeholder="PAP, PPRE, mention particulière de l'école...">${v("remarquesPeda")}</textarea>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Santé</legend>
+      <div class="field"><label>Allergie(s) connue(s)</label><input name="allergies" placeholder="Aucune" value="${v("allergies")}"></div>
+      <div class="field"><label>PAI en cours (Projet d'Accueil Individualisé)</label>
+        <select name="pai">
+          <option value="Non" ${(!st.iData.pai||st.iData.pai==="Non")?"selected":""}>Non</option>
+          <option value="Oui" ${st.iData.pai==="Oui"?"selected":""}>Oui</option>
+        </select>
+      </div>
+      <div class="field"><label>Remarques médicales</label><textarea name="sante" rows="2" placeholder="Traitement en cours, maladie chronique...">${v("sante")}</textarea></div>
+    </fieldset>
+    <div class="step-nav">
+      <span></span>
+      <button type="submit" class="btn btn-accent">Étape suivante →</button>
+    </div>
+  </form>`;
+}
+
+/* --- Étape 2 : Parents --- */
+function renderStep2(){
+  return `
+  <form id="f-step" data-step="2">
+    <fieldset>
+      <legend>Responsable légal 1</legend>
+      <div class="field-row">
+        <div class="field"><label>Nom *</label><input name="resp1Nom" required value="${v("resp1Nom")}"></div>
+        <div class="field"><label>Prénom *</label><input name="resp1Prenom" required value="${v("resp1Prenom")}"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Lien avec l'élève *</label>
+          <select name="resp1Lien" required>
+            <option value="">—</option>
+            <option value="Père" ${st.iData.resp1Lien==="Père"?"selected":""}>Père</option>
+            <option value="Mère" ${st.iData.resp1Lien==="Mère"?"selected":""}>Mère</option>
+            <option value="Tuteur légal" ${st.iData.resp1Lien==="Tuteur légal"?"selected":""}>Tuteur légal</option>
+            <option value="Autre" ${st.iData.resp1Lien==="Autre"?"selected":""}>Autre</option>
+          </select>
+        </div>
+        <div class="field"><label>Situation professionnelle</label>
+          <select name="resp1SitPro">
+            <option value="">—</option>
+            <option value="Salarié(e)" ${st.iData.resp1SitPro==="Salarié(e)"?"selected":""}>Salarié(e)</option>
+            <option value="Indépendant(e) / Chef d'entreprise" ${st.iData.resp1SitPro==="Indépendant(e) / Chef d'entreprise"?"selected":""}>Indépendant(e) / Chef d'entreprise</option>
+            <option value="Sans emploi" ${st.iData.resp1SitPro==="Sans emploi"?"selected":""}>Sans emploi</option>
+            <option value="Retraité(e)" ${st.iData.resp1SitPro==="Retraité(e)"?"selected":""}>Retraité(e)</option>
+            <option value="Autre" ${st.iData.resp1SitPro==="Autre"?"selected":""}>Autre</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>Profession *</label><input name="resp1Profession" required value="${v("resp1Profession")}"></div>
+      <div class="field"><label>Téléphone portable *</label><input type="tel" name="resp1Tel" required value="${v("resp1Tel")}"></div>
+      <div class="field"><label>Téléphone fixe / travail</label><input type="tel" name="resp1TelFixe" value="${v("resp1TelFixe")}"></div>
+      <div class="field"><label>Adresse e-mail *</label><input type="email" name="resp1Email" required value="${v("resp1Email")}"></div>
+      <div class="field"><label>Adresse postale *</label><textarea name="resp1Adresse" rows="2" required>${v("resp1Adresse")}</textarea></div>
+      <div class="field-row">
+        <div class="field"><label>Code postal *</label><input name="resp1CP" required value="${v("resp1CP")}"></div>
+        <div class="field"><label>Ville *</label><input name="resp1Ville" required value="${v("resp1Ville")}"></div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Responsable légal 2 (optionnel)</legend>
+      <div class="field-row">
+        <div class="field"><label>Nom</label><input name="resp2Nom" value="${v("resp2Nom")}"></div>
+        <div class="field"><label>Prénom</label><input name="resp2Prenom" value="${v("resp2Prenom")}"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Lien avec l'élève</label>
+          <select name="resp2Lien">
+            <option value="">—</option>
+            <option value="Père" ${st.iData.resp2Lien==="Père"?"selected":""}>Père</option>
+            <option value="Mère" ${st.iData.resp2Lien==="Mère"?"selected":""}>Mère</option>
+            <option value="Tuteur légal" ${st.iData.resp2Lien==="Tuteur légal"?"selected":""}>Tuteur légal</option>
+            <option value="Autre" ${st.iData.resp2Lien==="Autre"?"selected":""}>Autre</option>
+          </select>
+        </div>
+        <div class="field"><label>Téléphone</label><input type="tel" name="resp2Tel" value="${v("resp2Tel")}"></div>
+      </div>
+      <div class="field"><label>Adresse e-mail</label><input type="email" name="resp2Email" value="${v("resp2Email")}"></div>
+      <div class="field"><label>Adresse (si différente du responsable 1)</label><textarea name="resp2Adresse" rows="2">${v("resp2Adresse")}</textarea></div>
+      <div class="field-row">
+        <div class="field"><label>Code postal</label><input name="resp2CP" value="${v("resp2CP")}"></div>
+        <div class="field"><label>Ville</label><input name="resp2Ville" value="${v("resp2Ville")}"></div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Contact d'urgence</legend>
+      <div class="field-row">
+        <div class="field"><label>Nom et prénom *</label><input name="urgNom" required value="${v("urgNom")}"></div>
+        <div class="field"><label>Lien avec l'élève *</label><input name="urgLien" required placeholder="Ex. Grand-mère" value="${v("urgLien")}"></div>
+      </div>
+      <div class="field"><label>Téléphone *</label><input type="tel" name="urgTel" required value="${v("urgTel")}"></div>
+    </fieldset>
+    <fieldset>
+      <legend>Fratrie au collège</legend>
+      <div class="field"><label>Un frère ou une sœur est-il/elle inscrit(e) dans cet établissement ?</label>
+        <select name="fratrie">
+          <option value="Non" ${(!st.iData.fratrie||st.iData.fratrie==="Non")?"selected":""}>Non</option>
+          <option value="Oui" ${st.iData.fratrie==="Oui"?"selected":""}>Oui</option>
+        </select>
+      </div>
+      <div class="field"><label>Si oui, préciser (nom, prénom, classe)</label><input name="fratrieDetail" value="${v("fratrieDetail")}"></div>
+    </fieldset>
+    <div class="step-nav">
+      <button type="button" class="btn btn-outline" data-action="prev-step">← Retour</button>
+      <button type="submit" class="btn btn-accent">Étape suivante →</button>
+    </div>
+  </form>`;
+}
+
+/* --- Étape 3 : Compléments --- */
+function renderStep3(){
+  return `
+  <form id="f-step" data-step="3">
+    <fieldset>
+      <legend>Régime et restauration</legend>
+      <div class="field"><label>Régime souhaité *</label>
+        <select name="regime" required>
+          <option value="">—</option>
+          <option value="Externe" ${st.iData.regime==="Externe"?"selected":""}>Externe (rentre chez lui/elle le midi)</option>
+          <option value="Demi-pensionnaire" ${st.iData.regime==="Demi-pensionnaire"?"selected":""}>Demi-pensionnaire (cantine)</option>
+          <option value="Interne" ${st.iData.regime==="Interne"?"selected":""}>Interne (internat)</option>
+        </select>
+      </div>
+      <div class="field"><label>Régime alimentaire particulier</label>
+        <select name="regimeAlim">
+          <option value="Aucun" ${(!st.iData.regimeAlim||st.iData.regimeAlim==="Aucun")?"selected":""}>Aucun</option>
+          <option value="Sans porc" ${st.iData.regimeAlim==="Sans porc"?"selected":""}>Sans porc</option>
+          <option value="Végétarien" ${st.iData.regimeAlim==="Végétarien"?"selected":""}>Végétarien</option>
+          <option value="Autre" ${st.iData.regimeAlim==="Autre"?"selected":""}>Autre (préciser dans les remarques)</option>
+        </select>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Transport scolaire</legend>
+      <div class="field"><label>L'élève utilisera-t-il/elle le transport scolaire ? *</label>
+        <select name="transport" required>
+          <option value="">—</option>
+          <option value="Oui" ${st.iData.transport==="Oui"?"selected":""}>Oui</option>
+          <option value="Non" ${st.iData.transport==="Non"?"selected":""}>Non</option>
+        </select>
+      </div>
+      <div class="field"><label>Commune de résidence (pour calcul du ramassage)</label><input name="transportCommune" value="${v("transportCommune")}"></div>
+    </fieldset>
+    <fieldset>
+      <legend>Options et enseignements</legend>
+      <div class="field"><label>LV1 souhaitée *</label>
+        <select name="lv1" required>
+          <option value="">—</option>
+          <option value="Anglais" ${st.iData.lv1==="Anglais"?"selected":""}>Anglais</option>
+          <option value="Allemand" ${st.iData.lv1==="Allemand"?"selected":""}>Allemand</option>
+          <option value="Espagnol" ${st.iData.lv1==="Espagnol"?"selected":""}>Espagnol</option>
+        </select>
+      </div>
+      <div class="field"><label>Option souhaitée (si disponible)</label>
+        <select name="option">
+          <option value="Aucune" ${(!st.iData.option||st.iData.option==="Aucune")?"selected":""}>Aucune</option>
+          <option value="Latin" ${st.iData.option==="Latin"?"selected":""}>Latin</option>
+          <option value="Classe bilangue" ${st.iData.option==="Classe bilangue"?"selected":""}>Classe bilangue</option>
+          <option value="Classe sport-études" ${st.iData.option==="Classe sport-études"?"selected":""}>Classe sport-études</option>
+          <option value="Section européenne" ${st.iData.option==="Section européenne"?"selected":""}>Section européenne</option>
+        </select>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Autorisations parentales</legend>
+      <div class="check-group">
+        <div class="check-item">
+          <input type="checkbox" id="aut-photo" name="autPhoto" ${st.iData.autPhoto?"checked":""}>
+          <label for="aut-photo">J'autorise l'établissement à utiliser des photographies ou vidéos de mon enfant à des fins pédagogiques et de communication interne.</label>
+        </div>
+        <div class="check-item">
+          <input type="checkbox" id="aut-sortie" name="autSortie" ${st.iData.autSortie?"checked":""}>
+          <label for="aut-sortie">J'autorise mon enfant à participer aux sorties scolaires occasionnelles ne nécessitant pas de nuitée.</label>
+        </div>
+        <div class="check-item">
+          <input type="checkbox" id="aut-medic" name="autMedic" ${st.iData.autMedic?"checked":""}>
+          <label for="aut-medic">En cas d'urgence, j'autorise le personnel de l'établissement à prendre toute mesure conservatoire et à faire appel aux secours médicaux.</label>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Informations complémentaires</legend>
+      <div class="field"><label>Remarques générales</label><textarea name="remarques" rows="3" placeholder="Toute information utile pour le secrétariat...">${v("remarques")}</textarea></div>
+    </fieldset>
+    <div class="step-nav">
+      <button type="button" class="btn btn-outline" data-action="prev-step">← Retour</button>
+      <button type="submit" class="btn btn-accent">Étape suivante →</button>
+    </div>
+  </form>`;
+}
+
+/* --- Étape 4 : Documents --- */
+function renderStep4(){
+  const docs=st.fields.filter(f=>f.type==="document");
+  const others=st.fields.filter(f=>f.type!=="document");
+  const docsHtml=docs.length?docs.map(f=>`
+    <div class="doc-item">
+      <div class="doc-icon">📄</div>
+      <div class="doc-body">
+        <div class="doc-title">${esc(f.label)} ${f.required?`<span class="required-star">*</span>`:""}</div>
+        ${f.description?`<div class="doc-desc">${esc(f.description)}</div>`:""}
+        <div class="doc-status">
+          <label style="display:flex;align-items:center;gap:.5rem;font-weight:400;cursor:pointer;font-size:.9rem;">
+            <input type="checkbox" name="doc_${esc(f.id)}" ${st.iData["doc_"+f.id]?"checked":""} style="width:auto;">
+            Je confirme avoir ce document et m'engage à le remettre au secrétariat lors de l'entretien de validation.
+          </label>
+        </div>
+      </div>
+    </div>`).join(""):`<p class="hint">Aucun document requis.</p>`;
+
+  const othersHtml=others.length?others.map(f=>{
+    if(f.type==="text") return `<div class="field"><label>${esc(f.label)}${f.required?` <span class="required-star">*</span>`:""}</label>
+      ${f.description?`<p class="hint">${esc(f.description)}</p>`:""}
+      <input name="cf_${esc(f.id)}" ${f.required?"required":""} value="${esc(st.iData["cf_"+f.id]||"")}"></div>`;
+    return "";
+  }).join(""):"";
+
+  return `
+  <form id="f-step" data-step="4">
+    <div class="info-bar"><span class="icon">ℹ️</span><span>Les documents listés ci-dessous doivent être remis au secrétariat lors de votre convocation. Cochez ceux que vous avez prêts.</span></div>
+    <fieldset><legend>Documents à préparer</legend>${docsHtml}</fieldset>
+    ${othersHtml?`<fieldset><legend>Informations complémentaires</legend>${othersHtml}</fieldset>`:""}
+    <div class="step-nav">
+      <button type="button" class="btn btn-outline" data-action="prev-step">← Retour</button>
+      <button type="submit" class="btn btn-accent">Vérifier mon dossier →</button>
+    </div>
+  </form>`;
+}
+
+/* --- Étape 5 : Récapitulatif --- */
+function renderStep5(){
+  const d=st.iData;
+  const section=(title,items)=>`
+    <div class="recap-section">
+      <h4>${title}</h4>
+      <dl class="recap-grid">${items.map(([label,val])=>`<div class="recap-item"><dt>${label}</dt><dd>${esc(val||"—")}</dd></div>`).join("")}</dl>
+    </div>`;
+  return `
+  <div>
+    ${section("Élève",[
+      ["Nom",d.eleveNom],["Prénom",d.elevePrenom],["Naissance",d.eleveNaissance],["Lieu de naiss.",d.eleveLieuNaiss],
+      ["Sexe",d.eleveSexe],["Nationalité",d.eleveNationalite],["Classe actuelle",d.classeActuelle],["École",d.ecoleActuelle]
+    ])}
+    ${section("Responsable légal 1",[
+      ["Nom",d.resp1Nom],["Prénom",d.resp1Prenom],["Lien",d.resp1Lien],["Téléphone",d.resp1Tel],
+      ["E-mail",d.resp1Email],["Adresse",(d.resp1Adresse||"")+" "+(d.resp1CP||"")+" "+(d.resp1Ville||"")]
+    ])}
+    ${d.resp2Nom?section("Responsable légal 2",[
+      ["Nom",d.resp2Nom],["Prénom",d.resp2Prenom],["Lien",d.resp2Lien],["Téléphone",d.resp2Tel],["E-mail",d.resp2Email]
+    ]):""}
+    ${section("Scolarité & options",[
+      ["Régime",d.regime],["Transport",d.transport],["LV1",d.lv1],["Option",d.option],["Restauration",d.regimeAlim]
+    ])}
+    <div class="recap-section">
+      <h4>Documents</h4>
+      ${st.fields.filter(f=>f.type==="document").map(f=>`
+        <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem;">
+          <span style="color:${d["doc_"+f.id]?"var(--green)":"var(--red)"};">${d["doc_"+f.id]?"✓":"✗"}</span>
+          <span style="font-size:.88rem;">${esc(f.label)}</span>
+        </div>`).join("")}
+    </div>
+    <div class="check-group" style="margin:1rem 0;">
+      <div class="check-item">
+        <input type="checkbox" id="engagement" name="engagement">
+        <label for="engagement">J'atteste sur l'honneur de l'exactitude des informations saisies et m'engage à fournir les documents requis lors de ma convocation. <span class="required-star">*</span></label>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button type="button" class="btn btn-outline" data-action="prev-step">← Retour</button>
+      <button type="button" class="btn btn-green" data-action="submit-insc">✓ Envoyer mon dossier</button>
+    </div>
+  </div>`;
+}
+
+/* ============================================================
+   ADMINISTRATION
+============================================================ */
+function renderAdmin(){
+  const tabs=[
+    {id:"comptes",label:"Comptes"},
+    {id:"inscriptions",label:"Inscriptions"},
+    {id:"actualites",label:"Actualités"},
+    {id:"champs",label:"Champs / Documents"},
+    {id:"parametres",label:"Paramètres"}
+  ];
+  const tabHtml=tabs.map(t=>`<button class="atab ${st.adminTab===t.id?"active":""}" data-atab="${t.id}">${t.label}</button>`).join("");
+  let content="";
+  if(st.adminTab==="comptes") content=renderAdminComptes();
+  else if(st.adminTab==="inscriptions") content=renderAdminInsc();
+  else if(st.adminTab==="actualites") content=renderActualites();
+  else if(st.adminTab==="champs") content=renderAdminChamps();
+  else content=renderAdminParams();
+  return `
+  <div class="page-head"><span class="eyebrow">Espace réservé</span><h1>Administration</h1></div>
+  <div class="atabs">${tabHtml}</div>
+  ${content}`;
+}
+
+/* Comptes */
+function renderAdminComptes(){
+  const pending=st.users.filter(u=>!u.approved&&u.role!=="admin");
+  const all=st.users.filter(u=>u.role!=="admin"||u.id===st.session.id);
+  const pendingHtml=pending.length?pending.map(u=>`
+    <div class="account-card" style="border-color:var(--amber);">
+      <div class="account-info">
+        <h4>${esc(u.name)}</h4>
+        <div class="account-meta">${esc(u.email)} · inscrit le ${fdate(u.createdAt)}</div>
+      </div>
+      <div class="account-actions">
+        <button class="btn btn-green btn-sm" data-action="approve-user" data-id="${esc(u.id)}">✓ Approuver</button>
+        <button class="btn btn-danger btn-sm" data-action="reject-user" data-id="${esc(u.id)}">✗ Refuser</button>
+      </div>
+    </div>`).join(""):`<p class="hint">Aucune demande en attente.</p>`;
+
+  const allHtml=all.map(u=>`
+    <div class="account-card">
+      <div class="account-info">
+        <h4>${esc(u.name)} ${u.role==="admin"?`<span class="role-tag">Admin</span>`:""}</h4>
+        <div class="account-meta">${esc(u.email)} · <span class="status-pill ${u.approved?"accepted":"pending"}">${u.approved?"Actif":"En attente"}</span></div>
+      </div>
+      <div class="account-actions">
+        ${u.role!=="admin"?`<button class="btn btn-danger btn-sm" data-action="del-user" data-id="${esc(u.id)}">Supprimer</button>`:""}
+      </div>
+    </div>`).join("");
+
+  return `
+  <div class="card" style="margin-bottom:1.25rem;">
+    <h2>Demandes en attente <span style="background:var(--amber-bg);color:#a35a14;font-family:var(--fm);font-size:.75rem;padding:.15rem .5rem;border-radius:999px;margin-left:.5rem;">${pending.length}</span></h2>
+    ${pendingHtml}
+  </div>
+  <div class="card"><h2>Tous les comptes</h2>${allHtml}</div>`;
+}
+
+/* Inscriptions admin */
+function renderAdminInsc(){
+  let regs=[...st.regs].sort((a,b)=>new Date(b.submittedAt)-new Date(a.submittedAt));
+  if(st.filterStatus!=="tous") regs=regs.filter(r=>r.status===st.filterStatus);
+  if(st.filterSearch.trim()){ const q=st.filterSearch.toLowerCase(); regs=regs.filter(r=>(r.eleveNom||"").toLowerCase().includes(q)||(r.elevePrenom||"").toLowerCase().includes(q)||(r.ref||"").toLowerCase().includes(q)); }
+  const total=st.regs.length;
+  const pend=st.regs.filter(r=>r.status==="En attente").length;
+  const cards=regs.length?regs.map(r=>`
+    <div class="reg-card">
+      <div class="reg-head">
+        <div><h4>${esc(r.elevePrenom)} ${esc(r.eleveNom)}</h4>
+          <div class="reg-ref">${esc(r.ref)} · ${fdate(r.submittedAt)}</div></div>
+        <div class="reg-controls">
+          <span class="status-pill ${scPill(r.status)}">${esc(r.status)}</span>
+          <select data-action="set-status" data-id="${esc(r.id)}">
+            <option value="En attente" ${r.status==="En attente"?"selected":""}>En attente</option>
+            <option value="Acceptée" ${r.status==="Acceptée"?"selected":""}>Acceptée</option>
+            <option value="Refusée" ${r.status==="Refusée"?"selected":""}>Refusée</option>
+          </select>
+          <button class="btn btn-danger btn-sm" data-action="del-reg" data-id="${esc(r.id)}">Supprimer</button>
+        </div>
+      </div>
+      <dl class="reg-grid">
+        <div><dt>Naissance</dt><dd>${fdate(r.eleveNaissance)}</dd></div>
+        <div><dt>Sexe</dt><dd>${esc(r.eleveSexe||"-")}</dd></div>
+        <div><dt>École actuelle</dt><dd>${esc(r.ecoleActuelle||"-")}</dd></div>
+        <div><dt>Resp. 1</dt><dd>${esc(r.resp1Prenom||"")} ${esc(r.resp1Nom||"")}</dd></div>
+        <div><dt>Tél.</dt><dd>${esc(r.resp1Tel||"-")}</dd></div>
+        <div><dt>E-mail</dt><dd>${esc(r.resp1Email||"-")}</dd></div>
+        <div><dt>Régime</dt><dd>${esc(r.regime||"-")}</dd></div>
+        <div><dt>Transport</dt><dd>${esc(r.transport||"-")}</dd></div>
+        <div><dt>LV1</dt><dd>${esc(r.lv1||"-")}</dd></div>
+        <div><dt>Option</dt><dd>${esc(r.option||"-")}</dd></div>
+      </dl>
+      <div class="field" style="margin:0;">
+        <label>Note / message pour la famille</label>
+        <div style="display:flex;gap:.5rem;">
+          <input id="note-${esc(r.id)}" placeholder="Convocation le…, document manquant…" value="${esc(r.adminNote||"")}">
+          <button class="btn btn-outline btn-sm" data-action="save-note" data-id="${esc(r.id)}">Enregistrer</button>
+        </div>
+      </div>
+    </div>`).join(""):`<div class="empty"><p>Aucun dossier ne correspond.</p></div>`;
+
+  return `
+  <div class="card" style="margin-bottom:1.25rem;">
+    <div class="toggle-row">
+      <div><h2 style="margin-bottom:.2rem;">Statut des inscriptions</h2>
+        <p style="color:var(--muted);margin:0;font-size:.88rem;">${st.status.open?"Formulaire ouvert aux familles.":"Formulaire masqué."}</p></div>
+      <button class="switch ${st.status.open?"on":""}" data-action="toggle-status"></button>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:1.25rem;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.75rem;">
+      <h2 style="margin:0;">Dossiers reçus (${total})</h2>
+      <button class="btn btn-outline btn-sm" data-action="export-csv" ${total===0?"disabled":""}>⬇ Exporter CSV (LibreOffice)</button>
+    </div>
+    <p style="color:var(--muted);font-size:.85rem;margin-bottom:.9rem;">${pend} en attente · ${st.regs.filter(r=>r.status==="Acceptée").length} accepté(s) · ${st.regs.filter(r=>r.status==="Refusée").length} refusé(s)</p>
+    <div class="filter-bar">
+      <input placeholder="Rechercher nom, prénom, référence…" value="${esc(st.filterSearch)}" data-action="filter-q">
+      <select data-action="filter-s">
+        <option value="tous" ${st.filterStatus==="tous"?"selected":""}>Tous</option>
+        <option value="En attente" ${st.filterStatus==="En attente"?"selected":""}>En attente</option>
+        <option value="Acceptée" ${st.filterStatus==="Acceptée"?"selected":""}>Acceptées</option>
+        <option value="Refusée" ${st.filterStatus==="Refusée"?"selected":""}>Refusées</option>
+      </select>
+    </div>
+  </div>
+  ${cards}`;
+}
+
+/* Champs personnalisés */
+function renderAdminChamps(){
+  let formHtml="";
+  if(st.editFieldId!==null){
+    const isNew=st.editFieldId==="new";
+    const f=isNew?null:st.fields.find(x=>x.id===st.editFieldId);
+    formHtml=`
+    <div class="card" style="margin-bottom:1.25rem;">
+      <h2>${isNew?"Ajouter un champ / document":"Modifier"}</h2>
+      <form id="f-field" data-eid="${isNew?"":esc(f.id)}">
+        <div class="field-row">
+          <div class="field"><label>Intitulé *</label><input name="label" required value="${isNew?"":esc(f.label)}"></div>
+          <div class="field"><label>Type *</label>
+            <select name="type" required>
+              <option value="document" ${(!isNew&&f.type==="document")?"selected":""}>Document à apporter (case à cocher)</option>
+              <option value="text" ${(!isNew&&f.type==="text")?"selected":""}>Champ texte libre</option>
+            </select>
+          </div>
+        </div>
+        <div class="field"><label>Description / instruction</label><textarea name="description" rows="2">${isNew?"":esc(f.description||"")}</textarea></div>
+        <div class="field">
+          <label style="display:flex;align-items:center;gap:.5rem;font-weight:400;cursor:pointer;">
+            <input type="checkbox" name="required" style="width:auto;" ${(!isNew&&f.required)?"checked":""}> Ce champ est obligatoire
+          </label>
+        </div>
+        <div style="display:flex;gap:.6rem;">
+          <button type="submit" class="btn btn-accent">${isNew?"Ajouter":"Enregistrer"}</button>
+          <button type="button" class="btn btn-outline" data-action="cancel-field">Annuler</button>
+        </div>
+      </form>
+    </div>`;
+  }
+  const list=st.fields.length?st.fields.map(f=>`
+    <div class="custom-field-card">
+      <div class="cf-info">
+        <div class="cf-label">${esc(f.label)} ${f.required?`<span class="required-star">*</span>`:""}</div>
+        <div class="cf-meta">${f.type==="document"?"Document à apporter":"Champ texte"}${f.description?" · "+esc(f.description):""}</div>
+      </div>
+      <div class="cf-actions">
+        <button class="btn btn-outline btn-sm" data-action="edit-field" data-id="${esc(f.id)}">Modifier</button>
+        <button class="btn btn-danger btn-sm" data-action="del-field" data-id="${esc(f.id)}">Supprimer</button>
+      </div>
+    </div>`).join(""):`<div class="empty"><p>Aucun champ personnalisé.</p></div>`;
+  return `
+  <div class="page-head" style="margin-bottom:1rem;">
+    <h2>Documents et champs du formulaire</h2>
+    <p style="color:var(--muted);">Gérez ici les documents que les familles devront apporter ainsi que les champs supplémentaires du dossier.</p>
+    ${st.editFieldId===null?`<button class="btn btn-accent" data-action="new-field" style="margin-top:.5rem;">+ Ajouter un champ</button>`:""}
+  </div>
+  ${formHtml}
+  <div class="card">${list}</div>`;
+}
+
+/* Paramètres */
+function renderAdminParams(){
+  const cfg=st.config;
+  return `
+  <div class="card" style="margin-bottom:1.25rem;">
+    <h2>Établissement</h2>
+    <form id="f-settings">
+      <div class="field-row">
+        <div class="field"><label>Nom de l'établissement</label><input name="schoolName" required value="${esc(cfg.schoolName)}"></div>
+        <div class="field"><label>Ville</label><input name="ville" value="${esc(cfg.ville||"")}"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Année scolaire des inscriptions</label><input name="anneeScolaire" required value="${esc(cfg.anneeScolaire)}" placeholder="2026-2027"></div>
+        <div class="field"><label>E-mail contact secrétariat</label><input type="email" name="contactEmail" value="${esc(cfg.contactEmail||"")}"></div>
+      </div>
+      <div class="field"><label>Téléphone secrétariat</label><input name="contactTel" value="${esc(cfg.contactTel||"")}"></div>
+      <h2 style="margin-top:1.25rem;">Message inscriptions fermées</h2>
+      <div class="field"><textarea name="statusMsg" rows="2">${esc(st.status.message)}</textarea></div>
+      <h2 style="margin-top:1.25rem;">Changer le mot de passe admin</h2>
+      <div class="field-row">
+        <div class="field"><label>Nouveau mot de passe</label><input type="password" name="newPwd" placeholder="Laisser vide = inchangé"></div>
+        <div class="field"><label>Confirmer</label><input type="password" name="newPwd2"></div>
+      </div>
+      <button type="submit" class="btn btn-accent">Enregistrer</button>
+    </form>
+  </div>
+  <div class="card">
+    <h2>Zone de danger</h2>
+    <p style="color:var(--muted);">Réinitialise toutes les inscriptions et actualités. Les comptes et la configuration sont conservés.</p>
+    <button class="btn btn-danger" data-action="reset-data">Réinitialiser les données</button>
+  </div>`;
+}
+
+/* ============================================================
+   RENDER PRINCIPAL
+============================================================ */
+function render(){
+  const app=document.getElementById("app");
+  if(!st.loaded){ app.innerHTML=`<div class="loading">Chargement…</div>`; return; }
+  if(st.view==="login"){ app.innerHTML=renderLogin()+(st.toast?`<div class="toast ${st.toast.type}">${esc(st.toast.msg)}</div>`:""); return; }
+  let content="";
+  if(st.page==="accueil") content=renderAccueil();
+  else if(st.page==="actualites") content=renderActualites();
+  else if(st.page==="inscriptions") content=renderInscriptions();
+  else if(st.page==="mon-dossier") content=renderMonDossier();
+  else if(st.page==="admin"&&st.session.role==="admin") content=renderAdmin();
+  else content=renderAccueil();
+  app.innerHTML=`${renderTopbar()}<main class="container">${content}</main><footer><div class="container"><span>${esc(st.config.schoolName)}${st.config.ville?" — "+esc(st.config.ville):""}</span><span>Inscriptions ${esc(st.config.anneeScolaire)} · ${esc(st.config.contactTel||"")}</span></div></footer>${st.toast?`<div class="toast ${st.toast.type}">${esc(st.toast.msg)}</div>`:""}`;
+}
+
+/* ============================================================
+   ACTIONS
+============================================================ */
+function doLogin(email,pwd){
+  const u=st.users.find(x=>x.email.toLowerCase()===email.toLowerCase()&&x.password===pwd);
+  if(!u){ st.loginError="Identifiants incorrects."; render(); return; }
+  if(!u.approved){ st.loginError="Votre compte n'a pas encore été approuvé par le secrétariat."; render(); return; }
+  st.session=u; S.set(KEYS.session,{id:u.id}); st.loginError=""; st.view="app"; st.page="accueil"; render();
+}
+function doRegister(prenom,nom,email,pwd){
+  if(st.users.find(u=>u.email.toLowerCase()===email.toLowerCase())){ st.loginError="Cet e-mail est déjà utilisé."; render(); return; }
+  const u={ id:"u-"+uid(), email, password:pwd, name:prenom+" "+nom, role:"famille", approved:false, createdAt:new Date().toISOString() };
+  st.users.push(u); S.set(KEYS.users,st.users);
+  st.loginMode="connexion"; st.loginSuccess="Compte créé ! Vous pourrez vous connecter dès qu'il sera approuvé par le secrétariat."; st.loginError=""; render();
+}
+function doLogout(){ st.session=null; S.del(KEYS.session); st.view="login"; st.loginError=""; st.loginSuccess=""; render(); }
+
+function saveStep(stepNum,fd){
+  const d={}; fd.forEach((val,key)=>{ if(key==="engagement") return; if(key.startsWith("doc_")||key.startsWith("aut")||key.startsWith("cf_")) d[key]=(val==="on"||val==="checked"||val===true||val==="true"); else d[key]=val; });
+  // handle checkboxes that aren't checked (not present in fd)
+  if(stepNum===3){
+    if(!d.autPhoto) d.autPhoto=false;
+    if(!d.autSortie) d.autSortie=false;
+    if(!d.autMedic) d.autMedic=false;
+  }
+  if(stepNum===4){
+    st.fields.forEach(f=>{ if(!d["doc_"+f.id]) d["doc_"+f.id]=false; });
+  }
+  Object.assign(st.iData,d);
+}
+
+function submitInscription(){
+  const chk=document.getElementById("engagement");
+  if(!chk||!chk.checked){ showToast("Veuillez cocher la case d'engagement avant d'envoyer.","err"); return; }
+  const ref=genRef();
+  const rec={ id:"r-"+uid(), ref, userId:st.session.id, status:"En attente", submittedAt:new Date().toISOString(), adminNote:"", ...st.iData };
+  st.regs.push(rec); S.set(KEYS.regs,st.regs);
+  st.iData={ confirmed:true, confirmedRef:ref }; st.step=1; render();
+}
+
+function exportCSV(){
+  if(!st.regs.length) return;
+  const cols=["ref","status","submittedAt","eleveNom","elevePrenom","eleveNaissance","eleveLieuNaiss","eleveSexe","eleveNationalite","classeActuelle","ecoleActuelle","ecoleCommune","pai","allergies","sante","resp1Nom","resp1Prenom","resp1Lien","resp1Profession","resp1Tel","resp1TelFixe","resp1Email","resp1Adresse","resp1CP","resp1Ville","resp2Nom","resp2Prenom","resp2Lien","resp2Tel","resp2Email","urgNom","urgLien","urgTel","fratrie","fratrieDetail","regime","regimeAlim","transport","lv1","option","autPhoto","autSortie","autMedic","remarques"];
+  const heads=["Référence","Statut","Date dépôt","Nom","Prénom","Date naiss.","Lieu naiss.","Sexe","Nationalité","Classe actuelle","École actuelle","Commune école","PAI","Allergies","Santé","Nom resp.1","Prénom resp.1","Lien resp.1","Profession resp.1","Tél. resp.1","Tél. fixe resp.1","Email resp.1","Adresse resp.1","CP resp.1","Ville resp.1","Nom resp.2","Prénom resp.2","Lien resp.2","Tél. resp.2","Email resp.2","Urgence - nom","Urgence - lien","Urgence - tél","Fratrie","Détail fratrie","Régime","Restauration","Transport","LV1","Option","Photo","Sorties","Urgence méd.","Remarques"];
+  // Ajouter les documents personnalisés
+  const docCols=st.fields.map(f=>"doc_"+f.id);
+  const docHeads=st.fields.map(f=>f.label);
+  const allCols=[...cols,...docCols];
+  const allHeads=[...heads,...docHeads];
+  const e=v=>{const s=String(v??""); return '"'+s.replace(/"/g,'""')+'"';};
+  const rows=[allHeads.map(e).join(";")];
+  st.regs.forEach(r=>{
+    rows.push(allCols.map(c=>{
+      if(c==="submittedAt") return e(fdate(r[c]));
+      if(c==="eleveNaissance") return e(fdate(r[c]));
+      return e(r[c]);
+    }).join(";"));
+  });
+  const bom="\uFEFF";
+  const blob=new Blob([bom+rows.join("\r\n")],{type:"text/csv;charset=utf-8;"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a"); a.href=url;
+  const yr=(st.config.anneeScolaire||"").replace("-","_");
+  a.download="inscriptions_6e_"+yr+"_"+new Date().toISOString().slice(0,10)+".csv";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+  showToast("Fichier CSV exporté.","ok");
+}
+
+/* ============================================================
+   ÉVÉNEMENTS
+============================================================ */
+const app=document.getElementById("app");
+
+app.addEventListener("click",e=>{
+  // Page nav
+  const pg=e.target.closest("[data-page]");
+  if(pg){ st.page=pg.dataset.page; st.mobileOpen=false; st.editNewsId=null; render(); return; }
+  // Admin tab
+  const at=e.target.closest("[data-atab]");
+  if(at){ st.adminTab=at.dataset.atab; st.editNewsId=null; st.editFieldId=null; render(); return; }
+  // Login mode
+  const lm=e.target.closest("[data-lmode]");
+  if(lm){ st.loginMode=lm.dataset.lmode; st.loginError=""; st.loginSuccess=""; render(); return; }
+  // Actions
+  const btn=e.target.closest("[data-action]");
+  if(!btn) return;
+  const act=btn.dataset.action, id=btn.dataset.id;
+  switch(act){
+    case "logout": doLogout(); break;
+    case "hambg": st.mobileOpen=!st.mobileOpen; render(); break;
+    case "toggle-status": st.status.open=!st.status.open; S.set(KEYS.status,st.status); render(); break;
+    case "prev-step": if(st.step>1) st.step--; render(); break;
+    case "submit-insc": submitInscription(); break;
+    case "new-insc": st.iData={}; st.step=1; render(); break;
+    case "export-csv": exportCSV(); break;
+    case "clear-suivi": st.suiviRef=""; st.suiviResult=null; render(); break;
+    case "new-news": st.editNewsId="new"; render(); break;
+    case "cancel-news": st.editNewsId=null; render(); break;
+    case "edit-news": st.editNewsId=id; render(); break;
+    case "del-news":
+      if(confirm("Supprimer cette actualité ?")){
+        st.news=st.news.filter(n=>n.id!==id); S.set(KEYS.news,st.news); showToast("Supprimée.","ok");
+      } break;
+    case "new-field": st.editFieldId="new"; render(); break;
+    case "cancel-field": st.editFieldId=null; render(); break;
+    case "edit-field": st.editFieldId=id; render(); break;
+    case "del-field":
+      if(confirm("Supprimer ce champ ?")){
+        st.fields=st.fields.filter(f=>f.id!==id); S.set(KEYS.fields,st.fields); showToast("Champ supprimé.","ok");
+      } break;
+    case "approve-user":{
+      const u=st.users.find(x=>x.id===id); if(u){ u.approved=true; S.set(KEYS.users,st.users); showToast("Compte approuvé.","ok"); }
+    } break;
+    case "reject-user":
+      if(confirm("Supprimer ce compte ?")){
+        st.users=st.users.filter(u=>u.id!==id); S.set(KEYS.users,st.users); showToast("Compte supprimé.","ok");
+      } break;
+    case "del-user":
+      if(confirm("Supprimer ce compte et ses données ?")){
+        st.users=st.users.filter(u=>u.id!==id); st.regs=st.regs.filter(r=>r.userId!==id);
+        S.set(KEYS.users,st.users); S.set(KEYS.regs,st.regs); showToast("Supprimé.","ok");
+      } break;
+    case "del-reg":
+      if(confirm("Supprimer ce dossier ?")){
+        st.regs=st.regs.filter(r=>r.id!==id); S.set(KEYS.regs,st.regs); showToast("Supprimé.","ok");
+      } break;
+    case "save-note":{
+      const input=document.getElementById("note-"+id);
+      if(input){ const r=st.regs.find(x=>x.id===id); if(r){ r.adminNote=input.value; S.set(KEYS.regs,st.regs); showToast("Note enregistrée.","ok"); } }
+    } break;
+    case "reset-data":
+      if(confirm("Effacer tous les dossiers et actualités ?")){
+        st.regs=[]; st.news=structuredClone(DEF.news); S.set(KEYS.regs,st.regs); S.set(KEYS.news,st.news); showToast("Données réinitialisées.","ok");
+      } break;
+  }
+  render();
+});
+
+app.addEventListener("change",e=>{
+  const ss=e.target.closest("[data-action='set-status']");
+  if(ss){ const r=st.regs.find(x=>x.id===ss.dataset.id); if(r){ r.status=ss.value; S.set(KEYS.regs,st.regs); showToast("Statut mis à jour.","ok"); render(); } return; }
+  const fs=e.target.closest("[data-action='filter-s']");
+  if(fs){ st.filterStatus=fs.value; render(); }
+});
+
+app.addEventListener("input",e=>{
+  const fq=e.target.closest("[data-action='filter-q']");
+  if(fq){ st.filterSearch=fq.value; render(); }
+});
+
+app.addEventListener("submit",e=>{
+  e.preventDefault();
+  const f=e.target;
+  if(f.id==="f-login"){
+    doLogin(f.elements.email.value.trim(), f.elements.pwd.value);
+    return;
+  }
+  if(f.id==="f-register"){
+    const pwd=f.elements.pwd.value, pwd2=f.elements.pwd2.value;
+    if(pwd!==pwd2){ st.loginError="Les mots de passe ne correspondent pas."; render(); return; }
+    if(pwd.length<6){ st.loginError="Le mot de passe doit faire au moins 6 caractères."; render(); return; }
+    doRegister(f.elements.prenom.value.trim(), f.elements.nom.value.trim(), f.elements.email.value.trim(), pwd);
+    return;
+  }
+  if(f.id==="f-step"){
+    const step=parseInt(f.dataset.step);
+    saveStep(step, new FormData(f));
+    st.step=step+1; render();
+    return;
+  }
+  if(f.id==="f-suivi"){
+    const ref=f.elements.ref.value.trim().toUpperCase();
+    st.suiviRef=ref;
+    if(!ref){ st.suiviResult=null; render(); return; }
+    const found=st.regs.find(r=>(r.ref||"").toUpperCase()===ref);
+    st.suiviResult=found||"nf"; render();
+    return;
+  }
+  if(f.id==="f-news"){
+    const eid=f.dataset.eid;
+    const title=f.elements.title.value.trim(), author=f.elements.author.value.trim(), content=f.elements.content.value.trim();
+    if(!title||!author||!content) return;
+    if(eid){ const n=st.news.find(x=>x.id===eid); if(n){n.title=title;n.author=author;n.content=content;n.date=new Date().toISOString();} }
+    else st.news.unshift({id:"n-"+uid(),title,author,content,date:new Date().toISOString()});
+    S.set(KEYS.news,st.news); st.editNewsId=null; showToast("Actualité enregistrée.","ok");
+    return;
+  }
+  if(f.id==="f-field"){
+    const eid=f.dataset.eid;
+    const label=f.elements.label.value.trim(), type=f.elements.type.value, desc=f.elements.description.value.trim(), req=f.elements.required.checked;
+    if(!label) return;
+    if(eid){ const cf=st.fields.find(x=>x.id===eid); if(cf){cf.label=label;cf.type=type;cf.description=desc;cf.required=req;} }
+    else st.fields.push({id:"f-"+uid(),label,type,description:desc,required:req});
+    S.set(KEYS.fields,st.fields); st.editFieldId=null; showToast("Champ enregistré.","ok");
+    return;
+  }
+  if(f.id==="f-settings"){
+    const el=f.elements;
+    st.config.schoolName=el.schoolName.value.trim()||st.config.schoolName;
+    st.config.ville=el.ville.value.trim();
+    st.config.anneeScolaire=el.anneeScolaire.value.trim()||st.config.anneeScolaire;
+    st.config.contactEmail=el.contactEmail.value.trim();
+    st.config.contactTel=el.contactTel.value.trim();
+    st.status.message=el.statusMsg.value.trim()||st.status.message;
+    const np=el.newPwd.value, np2=el.newPwd2.value;
+    if(np){ if(np!==np2){ showToast("Les mots de passe ne correspondent pas.","err"); return; }
+      const admin=st.users.find(u=>u.role==="admin"); if(admin) admin.password=np; }
+    S.set(KEYS.config,st.config); S.set(KEYS.status,st.status); S.set(KEYS.users,st.users);
+    showToast("Paramètres enregistrés.","ok");
+    return;
+  }
+});
+
+init();
+</script>
+</body>
+</html>
