@@ -3,1198 +3,1502 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ÉduConnect Collège — Espace numérique</title>
+<title>ÉduConnect — Inscriptions 6e</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --color-bg:#F4F6F9;
-    --color-surface:#FFFFFF;
-    --color-ink:#1D3557;
-    --color-ink-light:#2E5077;
-    --color-ink-soft:#E7ECF3;
-    --color-amber:#E08E45;
-    --color-amber-soft:#FBE9D6;
-    --color-success:#3F7A5C;
-    --color-success-bg:#E5F2EB;
-    --color-danger:#B5453F;
-    --color-danger-bg:#FBEAE8;
-    --color-text:#1F2937;
-    --color-muted:#6B7280;
-    --color-border:#DCE3EB;
-    --font-display:'Fraunces', serif;
-    --font-body:'Public Sans', system-ui, sans-serif;
-    --font-mono:'IBM Plex Mono', monospace;
-    --radius:10px;
-    --shadow:0 2px 10px rgba(29,53,87,0.07);
-  }
-
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  body{
-    font-family:var(--font-body);
-    color:var(--color-text);
-    background:var(--color-bg);
-    -webkit-font-smoothing:antialiased;
-  }
-  h1,h2,h3,h4{
-    font-family:var(--font-display);
-    font-weight:600;
-    margin:0 0 0.5rem 0;
-    color:var(--color-ink);
-    letter-spacing:-0.01em;
-  }
-  p{margin:0 0 0.75rem 0; line-height:1.55;}
-  a{color:var(--color-ink-light);}
-  .container{max-width:1080px; margin:0 auto; padding:0 1.5rem;}
-
-  button{font-family:inherit; cursor:pointer;}
-  :focus-visible{outline:3px solid var(--color-amber); outline-offset:2px;}
-
-  /* ---------- Boutons ---------- */
-  .btn{
-    display:inline-flex; align-items:center; justify-content:center; gap:0.5rem;
-    border:1px solid transparent; border-radius:8px;
-    padding:0.65rem 1.2rem; font-size:0.95rem; font-weight:600;
-    background:var(--color-ink); color:#fff; transition:transform .08s ease, background .15s ease;
-  }
-  .btn:hover{background:var(--color-ink-light);}
-  .btn:active{transform:scale(0.98);}
-  .btn-accent{background:var(--color-amber); color:#fff;}
-  .btn-accent:hover{background:#cc7a32;}
-  .btn-outline{background:transparent; color:var(--color-ink); border-color:var(--color-border);}
-  .btn-outline:hover{background:var(--color-ink-soft);}
-  .btn-danger{background:transparent; color:var(--color-danger); border-color:var(--color-danger-bg);}
-  .btn-danger:hover{background:var(--color-danger-bg);}
-  .btn-small{padding:0.4rem 0.8rem; font-size:0.82rem;}
-  .btn-block{width:100%;}
-  .btn[disabled]{opacity:0.5; cursor:not-allowed;}
-
-  /* ---------- Formulaires ---------- */
-  label{display:block; font-size:0.82rem; font-weight:600; color:var(--color-ink); margin-bottom:0.3rem;}
-  input, select, textarea{
-    width:100%; font-family:inherit; font-size:0.95rem; color:var(--color-text);
-    border:1px solid var(--color-border); border-radius:8px; padding:0.6rem 0.75rem;
-    background:#fff;
-  }
-  input:focus, select:focus, textarea:focus{border-color:var(--color-ink-light);}
-  textarea{resize:vertical; min-height:90px;}
-  .field{margin-bottom:1rem;}
-  .field-row{display:grid; grid-template-columns:repeat(2,1fr); gap:1rem;}
-  fieldset{border:1px solid var(--color-border); border-radius:var(--radius); padding:1.25rem; margin:0 0 1.25rem 0;}
-  legend{font-family:var(--font-display); font-weight:600; color:var(--color-ink); padding:0 0.4rem; font-size:1.05rem;}
-  .hint{font-size:0.8rem; color:var(--color-muted); margin-top:-0.4rem; margin-bottom:1rem;}
-
-  /* ---------- Sceau / logo ---------- */
-  .seal{display:block; flex-shrink:0;}
-
-  /* ---------- Connexion ---------- */
-  .login-page{min-height:100vh; display:grid; grid-template-columns:1.05fr 1fr;}
-  .login-visual{
-    background:linear-gradient(165deg, var(--color-ink) 0%, #122a45 100%);
-    color:#fff; display:flex; flex-direction:column; justify-content:space-between;
-    padding:3rem; position:relative; overflow:hidden;
-  }
-  .login-visual::before{
-    content:""; position:absolute; right:-120px; top:-120px; width:340px; height:340px;
-    border:1px solid rgba(255,255,255,0.08); border-radius:50%;
-  }
-  .login-visual::after{
-    content:""; position:absolute; right:-60px; top:-60px; width:340px; height:340px;
-    border:1px solid rgba(255,255,255,0.06); border-radius:50%;
-  }
-  .login-visual-top{display:flex; align-items:center; gap:0.9rem;}
-  .login-visual-top .school-name{font-family:var(--font-display); font-size:1.15rem; line-height:1.25;}
-  .login-visual-top .school-name small{display:block; font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.12em; color:var(--color-amber-soft); text-transform:uppercase;}
-  .login-tagline{font-family:var(--font-display); font-size:2.1rem; line-height:1.25; font-weight:500; max-width:22ch; position:relative; z-index:1;}
-  .login-tagline em{color:var(--color-amber); font-style:normal;}
-  .login-visual-bottom{position:relative; z-index:1;}
-
-  .login-form-panel{display:flex; align-items:center; justify-content:center; padding:2.5rem;}
-  .login-card{width:100%; max-width:420px;}
-  .login-card h1{font-size:1.6rem;}
-  .login-tabs{display:flex; gap:0.5rem; margin-bottom:1.5rem; border-bottom:1px solid var(--color-border);}
-  .login-tab{
-    background:none; border:none; padding:0.7rem 0.2rem; margin-right:1.2rem; font-weight:600;
-    color:var(--color-muted); border-bottom:2px solid transparent; font-size:0.95rem;
-  }
-  .login-tab.active{color:var(--color-ink); border-bottom-color:var(--color-amber);}
-  .error-banner{
-    background:var(--color-danger-bg); color:var(--color-danger); border-radius:8px;
-    padding:0.6rem 0.9rem; font-size:0.85rem; margin-bottom:1rem; font-weight:600;
-  }
-
-  /* ---------- Tampon de statut ---------- */
-  .stamp{
-    display:inline-flex; align-items:center; gap:0.5rem; font-family:var(--font-mono);
-    text-transform:uppercase; letter-spacing:0.1em; font-size:0.78rem; font-weight:500;
-    border:2px solid currentColor; border-radius:999px; padding:0.45rem 1rem;
-    transform:rotate(-1.5deg);
-  }
-  .stamp .dot{width:8px; height:8px; border-radius:50%; background:currentColor; display:inline-block;}
-  .stamp.open{color:var(--color-success);}
-  .stamp.closed{color:var(--color-danger);}
-  .stamp-on-dark{color:var(--color-amber-soft); border-color:var(--color-amber-soft);}
-
-  /* ---------- Entête application ---------- */
-  .topbar{background:var(--color-surface); border-bottom:1px solid var(--color-border); position:sticky; top:0; z-index:20;}
-  .topbar-inner{display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:0.85rem 0;}
-  .brand{display:flex; align-items:center; gap:0.7rem;}
-  .brand .school-name{font-family:var(--font-display); font-weight:600; font-size:1.05rem; line-height:1.2; color:var(--color-ink);}
-  .brand .school-name small{display:block; font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.14em; color:var(--color-amber); text-transform:uppercase; font-weight:600;}
-  .nav-desktop{display:flex; gap:0.25rem;}
-  .nav-desktop button{
-    background:none; border:none; padding:0.55rem 0.9rem; border-radius:8px; font-size:0.92rem;
-    font-weight:600; color:var(--color-muted);
-  }
-  .nav-desktop button:hover{background:var(--color-ink-soft); color:var(--color-ink);}
-  .nav-desktop button.active{color:var(--color-ink); background:var(--color-ink-soft);}
-  .topbar-right{display:flex; align-items:center; gap:0.75rem;}
-  .user-pill{
-    display:flex; align-items:center; gap:0.45rem; font-size:0.85rem; font-weight:600; color:var(--color-ink);
-    background:var(--color-ink-soft); padding:0.4rem 0.8rem; border-radius:999px;
-  }
-  .user-pill .role-tag{font-family:var(--font-mono); font-size:0.65rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--color-amber); background:rgba(224,142,69,0.15); padding:0.1rem 0.4rem; border-radius:4px;}
-  .hamburger{display:none; background:none; border:1px solid var(--color-border); border-radius:8px; padding:0.45rem 0.6rem; font-size:1.1rem; line-height:1;}
-  .mobile-nav{display:none; border-top:1px solid var(--color-border); padding:0.5rem 0;}
-  .mobile-nav.open{display:flex; flex-direction:column;}
-  .mobile-nav button{
-    text-align:left; background:none; border:none; padding:0.75rem 0; font-size:1rem; font-weight:600;
-    color:var(--color-muted); border-bottom:1px solid var(--color-border);
-  }
-  .mobile-nav button.active{color:var(--color-ink);}
-  .mobile-nav button:last-child{border-bottom:none;}
-
-  /* ---------- Mise en page générale ---------- */
-  main.container{padding-top:2rem; padding-bottom:3rem;}
-  .page-head{margin-bottom:1.5rem;}
-  .page-head .eyebrow{font-family:var(--font-mono); text-transform:uppercase; letter-spacing:0.14em; font-size:0.72rem; color:var(--color-amber); font-weight:600; margin-bottom:0.35rem; display:block;}
-
-  .card{background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius); padding:1.5rem; box-shadow:var(--shadow);}
-  .card + .card{margin-top:1.25rem;}
-  .grid-2{display:grid; grid-template-columns:2fr 1fr; gap:1.25rem; align-items:start;}
-
-  /* ---------- Actualités ---------- */
-  .news-item{padding:1.25rem 0; border-bottom:1px solid var(--color-border);}
-  .news-item:last-child{border-bottom:none;}
-  .news-meta{font-family:var(--font-mono); font-size:0.75rem; color:var(--color-muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:0.35rem;}
-  .news-content{white-space:pre-wrap; color:var(--color-text); line-height:1.6;}
-  .news-actions{margin-top:0.75rem; display:flex; gap:0.5rem;}
-  .news-preview{padding:1rem 0; border-bottom:1px solid var(--color-border);}
-  .news-preview:last-child{border-bottom:none;}
-  .news-preview p{color:var(--color-muted);}
-
-  /* ---------- Tableau / cartes inscriptions ---------- */
-  .reg-card{border:1px solid var(--color-border); border-radius:var(--radius); padding:1.1rem 1.25rem; margin-bottom:1rem; background:#fff;}
-  .reg-card-header{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-start; gap:0.75rem;}
-  .reg-card-header h4{margin:0; font-size:1.05rem;}
-  .reg-ref{font-family:var(--font-mono); font-size:0.78rem; color:var(--color-muted);}
-  .reg-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:0.6rem 1.5rem; margin:0.9rem 0 0.9rem 0;}
-  .reg-grid dt{font-size:0.7rem; text-transform:uppercase; letter-spacing:0.07em; color:var(--color-muted); margin:0;}
-  .reg-grid dd{margin:0.1rem 0 0 0; font-family:var(--font-mono); font-size:0.88rem; word-break:break-word;}
-  .reg-controls{display:flex; gap:0.6rem; align-items:center; flex-wrap:wrap;}
-  .reg-controls select{width:auto;}
-  .status-pill{font-family:var(--font-mono); font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; padding:0.25rem 0.65rem; border-radius:999px; font-weight:600;}
-  .status-pill.pending{background:var(--color-amber-soft); color:#a35a14;}
-  .status-pill.accepted{background:var(--color-success-bg); color:var(--color-success);}
-  .status-pill.refused{background:var(--color-danger-bg); color:var(--color-danger);}
-
-  /* ---------- Onglets admin ---------- */
-  .admin-tabs{display:flex; gap:0.5rem; margin-bottom:1.5rem; flex-wrap:wrap; border-bottom:1px solid var(--color-border);}
-  .admin-tabs button{
-    background:none; border:none; padding:0.7rem 0.2rem; margin-right:1.4rem; font-weight:600;
-    color:var(--color-muted); border-bottom:2px solid transparent; font-size:0.95rem;
-  }
-  .admin-tabs button.active{color:var(--color-ink); border-bottom-color:var(--color-amber);}
-
-  .empty-state{text-align:center; padding:2.5rem 1rem; color:var(--color-muted);}
-  .empty-state .seal{margin:0 auto 1rem auto;}
-
-  /* ---------- Toast ---------- */
-  .toast{
-    position:fixed; bottom:1.25rem; left:50%; transform:translateX(-50%);
-    background:var(--color-ink); color:#fff; padding:0.7rem 1.3rem; border-radius:999px;
-    font-size:0.88rem; font-weight:600; box-shadow:0 6px 24px rgba(0,0,0,0.18); z-index:50;
-  }
-  .toast.error{background:var(--color-danger);}
-  .toast.success{background:var(--color-success);}
-
-  /* ---------- Confirmation inscription ---------- */
-  .confirm-box{text-align:center; padding:2rem 1rem;}
-  .confirm-ref{
-    display:inline-block; font-family:var(--font-mono); font-size:1.4rem; letter-spacing:0.08em;
-    border:2px dashed var(--color-amber); padding:0.6rem 1.4rem; border-radius:8px; margin:1rem 0; color:var(--color-ink);
-    transform:rotate(-1deg);
-  }
-
-  .toggle-row{display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;}
-  .switch{
-    position:relative; width:50px; height:28px; border-radius:999px; background:var(--color-border);
-    border:none; flex-shrink:0; transition:background .15s ease;
-  }
-  .switch::after{
-    content:""; position:absolute; top:3px; left:3px; width:22px; height:22px; border-radius:50%;
-    background:#fff; transition:transform .15s ease; box-shadow:0 1px 3px rgba(0,0,0,0.25);
-  }
-  .switch.on{background:var(--color-success);}
-  .switch.on::after{transform:translateX(22px);}
-
-  footer{border-top:1px solid var(--color-border); padding:1.5rem 0; color:var(--color-muted); font-size:0.82rem;}
-  footer .container{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem;}
-
-  .loading-screen{min-height:100vh; display:flex; align-items:center; justify-content:center; color:var(--color-muted); font-family:var(--font-mono); letter-spacing:0.1em; text-transform:uppercase; font-size:0.85rem;}
-
-  /* ---------- Responsive ---------- */
-  @media (max-width: 860px){
-    .login-page{grid-template-columns:1fr;}
-    .login-visual{padding:2rem; min-height:240px;}
-    .login-tagline{font-size:1.5rem;}
-    .login-form-panel{padding:1.5rem;}
-    .nav-desktop{display:none;}
-    .hamburger{display:inline-flex; align-items:center;}
-    .mobile-nav{display:none;}
-    .mobile-nav.open{display:flex;}
-    .field-row{grid-template-columns:1fr;}
-    .grid-2{grid-template-columns:1fr;}
-    main.container{padding-top:1.25rem;}
-    .topbar-right .user-pill span.full-label{display:none;}
-  }
-  @media (max-width: 480px){
-    .container{padding:0 1rem;}
-    .login-visual-top .school-name{font-size:1rem;}
-    .card{padding:1.1rem;}
-    .reg-grid{grid-template-columns:1fr 1fr;}
-  }
+:root{
+  --ink:#1D3557;--ink-l:#2E5077;--ink-soft:#E7ECF3;
+  --amber:#E08E45;--amber-soft:#FBE9D6;
+  --ok:#3F7A5C;--ok-bg:#E5F2EB;
+  --err:#B5453F;--err-bg:#FBEAE8;
+  --bg:#F4F6F9;--surface:#fff;
+  --border:#DCE3EB;--muted:#6B7280;--text:#1F2937;
+  --r:10px;--sh:0 2px 10px rgba(29,53,87,.07);
+  --fd:'Fraunces',serif;--fb:'Public Sans',system-ui,sans-serif;--fm:'IBM Plex Mono',monospace;
+}
+*{box-sizing:border-box;} html,body{margin:0;padding:0;}
+body{font-family:var(--fb);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4{font-family:var(--fd);font-weight:600;margin:0 0 .5rem;color:var(--ink);letter-spacing:-.01em;}
+p{margin:0 0 .75rem;line-height:1.55;} a{color:var(--ink-l);}
+.container{max-width:1080px;margin:0 auto;padding:0 1.5rem;}
+button{font-family:inherit;cursor:pointer;}
+:focus-visible{outline:3px solid var(--amber);outline-offset:2px;}
+/* Boutons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;border:1px solid transparent;border-radius:8px;padding:.65rem 1.2rem;font-size:.95rem;font-weight:600;background:var(--ink);color:#fff;transition:transform .08s,background .15s;}
+.btn:hover{background:var(--ink-l);} .btn:active{transform:scale(.98);}
+.btn-accent{background:var(--amber);} .btn-accent:hover{background:#cc7a32;}
+.btn-outline{background:transparent;color:var(--ink);border-color:var(--border);} .btn-outline:hover{background:var(--ink-soft);}
+.btn-ok{background:var(--ok);} .btn-ok:hover{background:#2f5c44;}
+.btn-danger{background:transparent;color:var(--err);border-color:var(--err-bg);} .btn-danger:hover{background:var(--err-bg);}
+.btn-sm{padding:.4rem .8rem;font-size:.82rem;} .btn-block{width:100%;}
+.btn[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+/* Formulaires */
+label{display:block;font-size:.82rem;font-weight:600;color:var(--ink);margin-bottom:.3rem;}
+input,select,textarea{width:100%;font-family:inherit;font-size:.95rem;color:var(--text);border:1px solid var(--border);border-radius:8px;padding:.6rem .75rem;background:#fff;}
+input:focus,select:focus,textarea:focus{border-color:var(--ink-l);outline:none;}
+textarea{resize:vertical;min-height:80px;}
+.field{margin-bottom:1rem;} .field-row{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;}
+.field-row-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+fieldset{border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;margin:0 0 1.25rem;}
+legend{font-family:var(--fd);font-weight:600;color:var(--ink);padding:0 .4rem;font-size:1.05rem;}
+.hint{font-size:.8rem;color:var(--muted);margin-top:.2rem;}
+.required-star{color:var(--amber);margin-left:2px;}
+/* Sceau SVG */
+.seal{display:block;flex-shrink:0;}
+/* Statut pills */
+.pill{font-family:var(--fm);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;padding:.25rem .65rem;border-radius:999px;font-weight:600;display:inline-block;}
+.pill.pending{background:var(--amber-soft);color:#a35a14;}
+.pill.accepted{background:var(--ok-bg);color:var(--ok);}
+.pill.refused{background:var(--err-bg);color:var(--err);}
+.pill.approved{background:var(--ok-bg);color:var(--ok);}
+.pill.rejected{background:var(--err-bg);color:var(--err);}
+/* Stamp */
+.stamp{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--fm);text-transform:uppercase;letter-spacing:.1em;font-size:.78rem;font-weight:500;border:2px solid currentColor;border-radius:999px;padding:.45rem 1rem;transform:rotate(-1.5deg);}
+.stamp .dot{width:8px;height:8px;border-radius:50%;background:currentColor;}
+.stamp.open{color:var(--ok);} .stamp.closed{color:var(--err);}
+/* Login */
+.login-page{min-height:100vh;display:grid;grid-template-columns:1.05fr 1fr;}
+.login-left{background:linear-gradient(165deg,var(--ink) 0%,#122a45 100%);color:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:3rem;position:relative;overflow:hidden;}
+.login-left::before{content:"";position:absolute;right:-100px;top:-100px;width:320px;height:320px;border:1px solid rgba(255,255,255,.08);border-radius:50%;}
+.login-left::after{content:"";position:absolute;right:-40px;top:-40px;width:320px;height:320px;border:1px solid rgba(255,255,255,.05);border-radius:50%;}
+.login-left-top{display:flex;align-items:center;gap:.9rem;}
+.login-left-top .sname{font-family:var(--fd);font-size:1.1rem;line-height:1.25;}
+.login-left-top .sname small{display:block;font-family:var(--fm);font-size:.68rem;letter-spacing:.12em;color:#f3c892;text-transform:uppercase;}
+.login-tagline{font-family:var(--fd);font-size:2rem;line-height:1.25;font-weight:500;max-width:22ch;position:relative;z-index:1;}
+.login-tagline em{color:var(--amber);font-style:normal;}
+.login-right{display:flex;align-items:center;justify-content:center;padding:2.5rem;}
+.login-card{width:100%;max-width:440px;}
+.login-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;border-bottom:1px solid var(--border);}
+.login-tab{background:none;border:none;padding:.7rem .2rem;margin-right:1.2rem;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;font-size:.92rem;}
+.login-tab.active{color:var(--ink);border-bottom-color:var(--amber);}
+.error-box{background:var(--err-bg);color:var(--err);border-radius:8px;padding:.6rem .9rem;font-size:.85rem;margin-bottom:1rem;font-weight:600;}
+.success-box{background:var(--ok-bg);color:var(--ok);border-radius:8px;padding:.6rem .9rem;font-size:.85rem;margin-bottom:1rem;font-weight:600;}
+/* Topbar */
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:20;}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.85rem 0;}
+.brand{display:flex;align-items:center;gap:.7rem;}
+.brand .sname{font-family:var(--fd);font-weight:600;font-size:1rem;line-height:1.2;color:var(--ink);}
+.brand .sname small{display:block;font-family:var(--fm);font-size:.63rem;letter-spacing:.14em;color:var(--amber);text-transform:uppercase;}
+.nav-d{display:flex;gap:.2rem;}
+.nav-d button{background:none;border:none;padding:.55rem .9rem;border-radius:8px;font-size:.9rem;font-weight:600;color:var(--muted);}
+.nav-d button:hover{background:var(--ink-soft);color:var(--ink);}
+.nav-d button.active{color:var(--ink);background:var(--ink-soft);}
+.topbar-r{display:flex;align-items:center;gap:.75rem;}
+.user-pill{display:flex;align-items:center;gap:.45rem;font-size:.85rem;font-weight:600;color:var(--ink);background:var(--ink-soft);padding:.4rem .8rem;border-radius:999px;}
+.role-tag{font-family:var(--fm);font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:var(--amber);background:rgba(224,142,69,.15);padding:.1rem .4rem;border-radius:4px;}
+.hamburger{display:none;background:none;border:1px solid var(--border);border-radius:8px;padding:.45rem .6rem;font-size:1.1rem;line-height:1;}
+.mob-nav{display:none;border-top:1px solid var(--border);padding:.5rem 0;}
+.mob-nav.open{display:flex;flex-direction:column;}
+.mob-nav button{text-align:left;background:none;border:none;padding:.75rem 0;font-size:1rem;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);}
+.mob-nav button.active{color:var(--ink);} .mob-nav button:last-child{border:none;}
+/* Layout */
+main.container{padding-top:2rem;padding-bottom:3rem;}
+.page-head{margin-bottom:1.5rem;}
+.page-head .eyebrow{font-family:var(--fm);text-transform:uppercase;letter-spacing:.14em;font-size:.72rem;color:var(--amber);font-weight:600;margin-bottom:.35rem;display:block;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;box-shadow:var(--sh);}
+.card+.card{margin-top:1.25rem;}
+.grid-2{display:grid;grid-template-columns:2fr 1fr;gap:1.25rem;align-items:start;}
+/* Stepper */
+.stepper{display:flex;align-items:center;gap:0;margin-bottom:2rem;overflow-x:auto;padding-bottom:.5rem;}
+.step-item{display:flex;align-items:center;gap:0;flex-shrink:0;}
+.step-circle{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:.8rem;font-weight:600;border:2px solid var(--border);background:#fff;color:var(--muted);flex-shrink:0;}
+.step-circle.done{background:var(--ok);border-color:var(--ok);color:#fff;}
+.step-circle.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+.step-label{font-size:.75rem;font-weight:600;color:var(--muted);margin-left:.4rem;white-space:nowrap;}
+.step-label.active{color:var(--ink);}
+.step-line{flex:1;height:2px;background:var(--border);min-width:20px;max-width:50px;}
+.step-line.done{background:var(--ok);}
+/* Inscription recap */
+.recap-section{margin-bottom:1.25rem;}
+.recap-section h4{font-size:.9rem;font-family:var(--fm);text-transform:uppercase;letter-spacing:.08em;color:var(--amber);margin-bottom:.6rem;}
+.recap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.4rem 1.5rem;}
+.recap-grid dt{font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:0;}
+.recap-grid dd{margin:.1rem 0 .75rem;font-family:var(--fm);font-size:.85rem;word-break:break-word;}
+/* Actualités */
+.news-item{padding:1.25rem 0;border-bottom:1px solid var(--border);}
+.news-item:last-child{border-bottom:none;}
+.news-meta{font-family:var(--fm);font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem;}
+.news-content{white-space:pre-wrap;color:var(--text);line-height:1.6;}
+.news-actions{margin-top:.75rem;display:flex;gap:.5rem;}
+/* Admin tabs */
+.admin-tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap;border-bottom:1px solid var(--border);}
+.admin-tabs button{background:none;border:none;padding:.7rem .2rem;margin-right:1.2rem;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;font-size:.92rem;}
+.admin-tabs button.active{color:var(--ink);border-bottom-color:var(--amber);}
+/* Comptes */
+.account-card{border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:.75rem;background:#fff;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;}
+.account-info h4{margin:0 0 .2rem;font-size:1rem;}
+.account-info .email{font-family:var(--fm);font-size:.78rem;color:var(--muted);}
+.account-actions{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;}
+/* Dossiers */
+.reg-card{border:1px solid var(--border);border-radius:var(--r);padding:1.1rem 1.25rem;margin-bottom:1rem;background:#fff;}
+.reg-card-header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:.75rem;}
+.reg-ref{font-family:var(--fm);font-size:.78rem;color:var(--muted);}
+.reg-controls{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;}
+.reg-controls select{width:auto;}
+/* Champs personnalisés */
+.custom-field-card{border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:.75rem;background:#fff;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;}
+.cf-info .cf-type{font-family:var(--fm);font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
+/* Filtres */
+.filter-bar{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;margin-bottom:1.25rem;}
+.filter-bar input{flex:1;min-width:160px;}
+.filter-bar select{width:auto;}
+/* Suivi */
+.suivi-box{background:var(--ink-soft);border-radius:var(--r);padding:1.5rem;margin-bottom:1.5rem;}
+.suivi-row{display:flex;gap:.75rem;align-items:flex-end;flex-wrap:wrap;}
+.suivi-row .field{flex:1;min-width:180px;margin:0;}
+.suivi-result{margin-top:1rem;border-radius:var(--r);padding:1.1rem 1.25rem;border:1px solid var(--border);background:#fff;}
+.suivi-result.not-found{background:var(--err-bg);border-color:transparent;color:var(--err);}
+/* Confirmation */
+.confirm-box{text-align:center;padding:2rem 1rem;}
+.confirm-ref{display:inline-block;font-family:var(--fm);font-size:1.4rem;letter-spacing:.08em;border:2px dashed var(--amber);padding:.6rem 1.4rem;border-radius:8px;margin:1rem 0;color:var(--ink);transform:rotate(-1deg);}
+/* Toggle */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+.switch{position:relative;width:50px;height:28px;border-radius:999px;background:var(--border);border:none;flex-shrink:0;transition:background .15s;}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .15s;box-shadow:0 1px 3px rgba(0,0,0,.25);}
+.switch.on{background:var(--ok);} .switch.on::after{transform:translateX(22px);}
+/* Toast */
+.toast{position:fixed;bottom:1.25rem;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:.7rem 1.3rem;border-radius:999px;font-size:.88rem;font-weight:600;box-shadow:0 6px 24px rgba(0,0,0,.18);z-index:50;}
+.toast.error{background:var(--err);} .toast.success{background:var(--ok);}
+/* Empty */
+.empty-state{text-align:center;padding:2.5rem 1rem;color:var(--muted);}
+/* Upload area */
+.upload-area{border:2px dashed var(--border);border-radius:var(--r);padding:1.5rem;text-align:center;background:var(--bg);cursor:pointer;transition:border-color .15s;}
+.upload-area:hover{border-color:var(--amber);}
+.upload-area input[type=file]{display:none;}
+.upload-area label{cursor:pointer;font-weight:600;color:var(--ink-l);}
+.file-list{margin-top:.75rem;}
+.file-item{display:flex;align-items:center;justify-content:space-between;padding:.4rem .75rem;background:var(--ink-soft);border-radius:6px;font-size:.85rem;margin-top:.4rem;font-family:var(--fm);}
+.file-item button{background:none;border:none;color:var(--err);font-size:1rem;padding:0 .2rem;line-height:1;}
+/* Badge compte */
+.badge-pending{background:var(--amber-soft);color:#a35a14;border-radius:999px;font-family:var(--fm);font-size:.7rem;padding:.15rem .55rem;font-weight:600;}
+/* Footer */
+footer{border-top:1px solid var(--border);padding:1.5rem 0;color:var(--muted);font-size:.82rem;}
+footer .container{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;}
+/* Responsive */
+@media(max-width:860px){
+  .login-page{grid-template-columns:1fr;}
+  .login-left{padding:2rem;min-height:220px;}
+  .login-tagline{font-size:1.5rem;}
+  .login-right{padding:1.5rem;}
+  .nav-d{display:none;} .hamburger{display:inline-flex;align-items:center;}
+  .field-row,.field-row-3{grid-template-columns:1fr;}
+  .grid-2{grid-template-columns:1fr;}
+  main.container{padding-top:1.25rem;}
+  .stepper{gap:0;}
+  .step-label{display:none;}
+}
+@media(max-width:480px){
+  .container{padding:0 1rem;} .card{padding:1.1rem;}
+  .topbar-r .user-pill .full-name{display:none;}
+}
 </style>
 </head>
 <body>
 <div id="app"></div>
-
 <script>
-/* ============================================================
-   ÉduConnect Collège — espace numérique des familles & de l'administration
-   Stockage : window.storage (persistant, partagé entre tous les visiteurs)
-   ============================================================ */
+// ================================================================
+// ÉduConnect Collège v2 — localStorage (GitHub Pages compatible)
+// ================================================================
 
-const KEYS = {
-  config: 'educonnect-config',
-  status: 'educonnect-status',
-  news: 'educonnect-news',
-  registrations: 'educonnect-registrations'
+// ---------- Storage ----------
+const DB = {
+  get(key, fallback) {
+    try {
+      const v = localStorage.getItem('edu2_' + key);
+      return v !== null ? JSON.parse(v) : (fallback !== undefined ? fallback : null);
+    } catch(e) { return fallback !== undefined ? fallback : null; }
+  },
+  set(key, value) {
+    try { localStorage.setItem('edu2_' + key, JSON.stringify(value)); return true; }
+    catch(e) { return false; }
+  },
+  del(key) { try { localStorage.removeItem('edu2_' + key); } catch(e) {} }
 };
 
-const DEFAULTS = {
-  config: {
-    schoolName: 'Collège Jean Moulin',
-    anneeScolaire: '2026-2027',
-    adminPassword: 'admin2026'
-  },
-  status: {
-    open: true,
-    message: "Les inscriptions sont actuellement fermées. Le secrétariat communiquera la date de réouverture via la rubrique Actualités."
-  },
-  news: [
-    {
-      id: 'news-' + Date.now(),
-      title: "Bienvenue sur l'espace ÉduConnect du collège",
-      author: 'Administration',
-      date: new Date().toISOString(),
-      content: "Cet espace numérique vous permet de suivre les actualités de l'établissement et de réaliser les démarches d'inscription pour l'année scolaire à venir.\n\nVotre identifiant de connexion correspond simplement à votre nom et prénom : aucun mot de passe n'est nécessaire pour l'espace famille."
-    }
-  ],
-  registrations: []
+// ---------- Defaults ----------
+const DEFS = {
+  config: { schoolName: 'Collège Jean Moulin', anneeScolaire: '2026-2027', adminPassword: 'admin2026', city: 'Paris' },
+  status: { open: true, message: "Les inscriptions seront bientôt ouvertes. Consultez la rubrique Actualités pour plus d'informations." },
+  news: [{ id:'n1', title:"Ouverture des inscriptions en ligne pour la rentrée 2026-2027", author:'Administration', date:new Date().toISOString(), content:"Bienvenue sur l'espace numérique du collège. Les familles dont l'enfant est actuellement en CM2 peuvent dès maintenant créer leur compte et déposer un dossier d'inscription pour la classe de 6e.\n\nVotre dossier sera examiné par notre équipe et vous serez informé de la décision par votre espace en ligne." }],
+  registrations: [],
+  accounts: [],
+  customFields: []
 };
 
-let state = {
-  loaded: false,
-  view: 'login',          // 'login' | 'app'
-  page: 'accueil',         // 'accueil' | 'actualites' | 'inscriptions' | 'admin'
-  adminTab: 'inscriptions',// 'inscriptions' | 'actualites' | 'parametres'
-  loginTab: 'famille',     // 'famille' | 'admin'
+// ---------- State ----------
+let S = {
+  page: 'login',
+  appPage: 'accueil',
+  adminTab: 'comptes',
+  loginTab: 'famille',
   loginError: '',
-  session: null,           // { role: 'famille' | 'admin', name }
-  mobileNavOpen: false,
-  editingNewsId: null,     // 'new' | id | null
-  inscriptionConfirmation: null,
+  signupError: '',
+  signupDone: false,
+  session: null,
+  mobNav: false,
   toast: null,
-  config: structuredClone(DEFAULTS.config),
-  status: structuredClone(DEFAULTS.status),
-  news: structuredClone(DEFAULTS.news),
-  registrations: structuredClone(DEFAULTS.registrations)
+  inscStep: 1,
+  inscData: {},
+  inscFiles: {},
+  inscConfirm: null,
+  suiviRef: '',
+  suiviResult: null,
+  filterSt: 'tous',
+  filterQ: '',
+  editNewsId: null,
+  editFieldId: null,
+  newFieldDraft: null,
+  config: structuredClone(DEFS.config),
+  status: structuredClone(DEFS.status),
+  news: structuredClone(DEFS.news),
+  registrations: structuredClone(DEFS.registrations),
+  accounts: structuredClone(DEFS.accounts),
+  customFields: structuredClone(DEFS.customFields)
 };
 
-/* ---------------- Stockage ---------------- */
-
-async function loadKey(key, shared, fallback){
-  try{
-    const res = await window.storage.get(key, shared);
-    if(!res) throw new Error('vide');
-    return JSON.parse(res.value);
-  }catch(e){
-    try{ await window.storage.set(key, JSON.stringify(fallback), shared); }catch(e2){ /* ignore */ }
-    return structuredClone(fallback);
-  }
-}
-
-async function saveKey(key, shared, value){
-  try{
-    const res = await window.storage.set(key, JSON.stringify(value), shared);
-    if(!res) throw new Error('échec');
-    return true;
-  }catch(e){
-    showToast("Erreur d'enregistrement. Vérifiez la connexion et réessayez.", 'error');
-    return false;
-  }
-}
-
-async function init(){
-  state.config = await loadKey(KEYS.config, true, DEFAULTS.config);
-  state.status = await loadKey(KEYS.status, true, DEFAULTS.status);
-  state.news = await loadKey(KEYS.news, true, DEFAULTS.news);
-  state.registrations = await loadKey(KEYS.registrations, true, DEFAULTS.registrations);
-
-  try{
-    const sess = await window.storage.get('educonnect-session', false);
-    if(sess && sess.value){
-      state.session = JSON.parse(sess.value);
-      state.view = 'app';
-    }
-  }catch(e){ /* pas de session enregistrée */ }
-
-  state.loaded = true;
+function init() {
+  S.config = DB.get('config', DEFS.config);
+  S.status = DB.get('status', DEFS.status);
+  S.news = DB.get('news', DEFS.news);
+  S.registrations = DB.get('registrations', DEFS.registrations);
+  S.accounts = DB.get('accounts', DEFS.accounts);
+  S.customFields = DB.get('customFields', DEFS.customFields);
+  const sess = DB.get('session', null);
+  if(sess) { S.session = sess; S.page = 'app'; }
   render();
 }
 
-/* ---------------- Utilitaires ---------------- */
-
-function escapeHtml(str){
-  return String(str ?? '').replace(/[&<>"']/g, c => ({
-    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
-  }[c]));
+// ---------- Utilities ----------
+function esc(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
-
-function formatDate(iso){
-  try{
-    return new Date(iso).toLocaleDateString('fr-FR', { day:'2-digit', month:'long', year:'numeric' });
-  }catch(e){ return ''; }
+function fd(iso) {
+  if(!iso) return '';
+  try { return new Date(iso).toLocaleDateString('fr-FR', {day:'2-digit',month:'long',year:'numeric'}); } catch(e){ return ''; }
 }
-
-function getInitials(name){
-  const stop = ['collège','college','de','du','des','le','la','les','et'];
-  const words = (name || '').trim().split(/\s+/).filter(w => w && !stop.includes(w.toLowerCase()));
-  let letters = words.slice(0,2).map(w => w[0].toUpperCase()).join('');
-  if(letters.length < 2){
-    letters = (name || 'CE').replace(/\s+/g,'').slice(0,2).toUpperCase();
-  }
-  return letters || 'CE';
+function genId(p){ return p+'-'+Date.now()+'-'+Math.random().toString(36).slice(2,5); }
+function genRef(){ const y=(S.config.anneeScolaire||'2026-2027').split('-')[0]; return 'INS-'+y+'-'+Math.random().toString(36).slice(2,6).toUpperCase(); }
+function initials(name){
+  const stop=['college','collège','de','du','des','le','la','les','et'];
+  const ws=(name||'').trim().split(/\s+/).filter(w=>w&&!stop.includes(w.toLowerCase()));
+  let s=ws.slice(0,2).map(w=>w[0].toUpperCase()).join('');
+  return s||'CE';
 }
+function toast(msg, type){ S.toast={msg,type:type||'info'}; render(); setTimeout(()=>{S.toast=null;render();},3000); }
+function stClass(st){ if(st==='Acceptée'||st==='approved')return'accepted'; if(st==='Refusée'||st==='rejected')return'refused'; return'pending'; }
+function stLabel(st){ if(st==='approved')return'Approuvé'; if(st==='rejected')return'Refusé'; return'En attente'; }
+function save(key){ DB.set(key, S[key]); }
+function hashPw(pw){ let h=0; for(let i=0;i<pw.length;i++){h=((h<<5)-h)+pw.charCodeAt(i);h|=0;} return 'h'+Math.abs(h).toString(16); }
 
-function generateRef(){
-  const year = (state.config.anneeScolaire || '2026-2027').split('-')[0];
-  const code = Math.random().toString(36).slice(2,6).toUpperCase();
-  return `INS-${year}-${code}`;
-}
-
-function showToast(msg, type){
-  state.toast = { msg, type: type || 'info' };
-  render();
-  setTimeout(() => { state.toast = null; render(); }, 3200);
-}
-
-/* ---------------- Rendu : sceau ---------------- */
-
-function renderSeal(size, onDark){
-  const initials = getInitials(state.config.schoolName);
-  const ring = onDark ? '#F3C892' : '#E08E45';
-  const bg = onDark ? '#FFFFFF' : '#1D3557';
-  const txt = onDark ? '#1D3557' : '#FFFFFF';
-  return `
-  <svg class="seal" width="${size}" height="${size}" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sceau de l'établissement">
+// ---------- Seal SVG ----------
+function seal(size, dark){
+  const in2=initials(S.config.schoolName);
+  const ring=dark?'#F3C892':'#E08E45';
+  const bg=dark?'#fff':'#1D3557';
+  const txt=dark?'#1D3557':'#fff';
+  return `<svg class="seal" width="${size}" height="${size}" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
     <circle cx="32" cy="32" r="30" fill="${bg}"/>
     <circle cx="32" cy="32" r="30" fill="none" stroke="${ring}" stroke-width="1.5" stroke-dasharray="2 4"/>
     <circle cx="32" cy="32" r="24" fill="none" stroke="${ring}" stroke-width="1"/>
-    <text x="32" y="40" text-anchor="middle" font-family="Fraunces, serif" font-size="22" font-weight="700" fill="${txt}">${escapeHtml(initials)}</text>
+    <text x="32" y="40" text-anchor="middle" font-family="Fraunces,serif" font-size="22" font-weight="700" fill="${txt}">${esc(in2)}</text>
   </svg>`;
 }
 
-/* ---------------- Rendu : page de connexion ---------------- */
-
+// ==========================================================
+// RENDER LOGIN
+// ==========================================================
 function renderLogin(){
-  const cfg = state.config;
-  const statusOpen = state.status.open;
-
+  const open = S.status.open;
   const familleForm = `
-    <form id="login-famille-form" novalidate>
-      <div class="field">
-        <label for="famille-nom">Nom et prénom de l'élève ou du responsable</label>
-        <input type="text" id="famille-nom" name="nom" placeholder="Ex. Camille Martin" required autocomplete="name">
-      </div>
-      <button type="submit" class="btn btn-accent btn-block">Accéder à mon espace</button>
-    </form>
-    <p class="hint" style="margin-top:1rem;">Aucun mot de passe n'est nécessaire pour l'espace famille : saisissez simplement votre nom pour continuer.</p>
-  `;
-
+    <form id="f-login-famille" novalidate>
+      <div class="field"><label>Adresse e-mail</label><input type="email" name="email" required placeholder="prenom.nom@email.fr" autocomplete="email"></div>
+      <div class="field"><label>Mot de passe</label><input type="password" name="password" required autocomplete="current-password"></div>
+      <button type="submit" class="btn btn-accent btn-block">Se connecter</button>
+      <p style="text-align:center;margin-top:1rem;font-size:.88rem;color:var(--muted);">Pas encore de compte ? <button type="button" class="btn-link" data-action="goto-signup" style="background:none;border:none;color:var(--ink-l);font-weight:600;cursor:pointer;font-size:.88rem;">Créer un compte famille</button></p>
+    </form>`;
   const adminForm = `
-    <form id="login-admin-form" novalidate>
-      <div class="field">
-        <label for="admin-nom">Nom de l'administrateur</label>
-        <input type="text" id="admin-nom" name="nom" placeholder="Ex. Secrétariat" required autocomplete="name">
-      </div>
-      <div class="field">
-        <label for="admin-pass">Mot de passe administration</label>
-        <input type="password" id="admin-pass" name="motdepasse" required autocomplete="current-password">
-      </div>
-      <button type="submit" class="btn btn-block">Se connecter à l'administration</button>
-    </form>
-  `;
-
+    <form id="f-login-admin" novalidate>
+      <div class="field"><label>Identifiant</label><input type="text" name="nom" required placeholder="Administration" autocomplete="username"></div>
+      <div class="field"><label>Mot de passe</label><input type="password" name="password" required autocomplete="current-password"></div>
+      <button type="submit" class="btn btn-block">Accès administration</button>
+    </form>`;
   return `
   <div class="login-page">
-    <div class="login-visual">
-      <div class="login-visual-top">
-        ${renderSeal(48, true)}
-        <div class="school-name">
-          <small>ÉduConnect Collège</small>
-          ${escapeHtml(cfg.schoolName)}
-        </div>
+    <div class="login-left">
+      <div class="login-left-top">
+        ${seal(48,true)}
+        <div class="sname"><small>ÉduConnect Collège</small>${esc(S.config.schoolName)}</div>
       </div>
-      <div class="login-tagline">
-        Actualités, vie scolaire et <em>inscriptions</em> pour l'année ${escapeHtml(cfg.anneeScolaire)}, réunies au même endroit.
-      </div>
-      <div class="login-visual-bottom">
-        <span class="stamp stamp-on-dark ${statusOpen ? 'open' : 'closed'}" style="color:${statusOpen ? '#9FD9BE' : '#F3B7B0'}; border-color:currentColor;">
-          <span class="dot"></span>
-          Inscriptions ${statusOpen ? 'ouvertes' : 'fermées'}
+      <div class="login-tagline">Inscriptions en ligne pour <em>la 6e</em> — année ${esc(S.config.anneeScolaire)}</div>
+      <div>
+        <span class="stamp ${open?'open':'closed'}" style="color:${open?'#9FD9BE':'#F3B7B0'};border-color:currentColor;">
+          <span class="dot"></span>Inscriptions ${open?'ouvertes':'fermées'}
         </span>
       </div>
     </div>
-    <div class="login-form-panel">
+    <div class="login-right">
       <div class="login-card">
         <h1>Connexion</h1>
-        <p style="color:var(--color-muted); margin-bottom:1.5rem;">Choisissez votre espace pour continuer.</p>
+        <p style="color:var(--muted);margin-bottom:1.25rem;">Choisissez votre espace pour continuer.</p>
         <div class="login-tabs">
-          <button class="login-tab ${state.loginTab === 'famille' ? 'active' : ''}" data-login-tab="famille" type="button">Espace famille</button>
-          <button class="login-tab ${state.loginTab === 'admin' ? 'active' : ''}" data-login-tab="admin" type="button">Administration</button>
+          <button class="login-tab ${S.loginTab==='famille'?'active':''}" data-login-tab="famille" type="button">Espace famille</button>
+          <button class="login-tab ${S.loginTab==='admin'?'active':''}" data-login-tab="admin" type="button">Administration</button>
         </div>
-        ${state.loginError ? `<div class="error-banner">${escapeHtml(state.loginError)}</div>` : ''}
-        ${state.loginTab === 'famille' ? familleForm : adminForm}
+        ${S.loginError?`<div class="error-box">${esc(S.loginError)}</div>`:''}
+        ${S.loginTab==='famille'?familleForm:adminForm}
       </div>
     </div>
   </div>`;
 }
 
-/* ---------------- Rendu : entête application ---------------- */
+// ==========================================================
+// RENDER SIGNUP
+// ==========================================================
+function renderSignup(){
+  return `
+  <div class="login-page">
+    <div class="login-left">
+      <div class="login-left-top">
+        ${seal(48,true)}
+        <div class="sname"><small>ÉduConnect Collège</small>${esc(S.config.schoolName)}</div>
+      </div>
+      <div class="login-tagline">Créez votre <em>compte famille</em> pour accéder aux inscriptions en ligne.</div>
+      <p style="color:rgba(255,255,255,.65);font-size:.9rem;position:relative;z-index:1;">Votre compte doit être approuvé par l'administration avant que vous puissiez vous connecter.</p>
+    </div>
+    <div class="login-right">
+      <div class="login-card">
+        <h1>Créer un compte famille</h1>
+        ${S.signupDone?`
+          <div class="success-box" style="margin-bottom:1rem;">✔ Votre compte a été créé avec succès. L'administration va examiner votre demande. Vous pourrez vous connecter une fois votre compte approuvé.</div>
+          <button class="btn btn-outline btn-block" data-action="goto-login">Retour à la connexion</button>
+        `:`
+          ${S.signupError?`<div class="error-box">${esc(S.signupError)}</div>`:''}
+          <form id="f-signup" novalidate>
+            <div class="field-row">
+              <div class="field"><label>Nom <span class="required-star">*</span></label><input type="text" name="nom" required autocomplete="family-name"></div>
+              <div class="field"><label>Prénom <span class="required-star">*</span></label><input type="text" name="prenom" required autocomplete="given-name"></div>
+            </div>
+            <div class="field"><label>Adresse e-mail <span class="required-star">*</span></label><input type="email" name="email" required autocomplete="email" placeholder="votre@email.fr"></div>
+            <div class="field"><label>Téléphone mobile <span class="required-star">*</span></label><input type="tel" name="telephone" required autocomplete="tel" placeholder="06 XX XX XX XX"></div>
+            <div class="field-row">
+              <div class="field"><label>Mot de passe <span class="required-star">*</span></label><input type="password" name="password" required autocomplete="new-password" minlength="6"></div>
+              <div class="field"><label>Confirmer le mot de passe <span class="required-star">*</span></label><input type="password" name="password2" required autocomplete="new-password"></div>
+            </div>
+            <p class="hint" style="margin-bottom:1rem;">Le mot de passe doit contenir au moins 6 caractères.</p>
+            <button type="submit" class="btn btn-accent btn-block">Créer mon compte</button>
+            <p style="text-align:center;margin-top:1rem;font-size:.88rem;color:var(--muted);">Déjà un compte ? <button type="button" data-action="goto-login" style="background:none;border:none;color:var(--ink-l);font-weight:600;cursor:pointer;font-size:.88rem;">Se connecter</button></p>
+          </form>
+        `}
+      </div>
+    </div>
+  </div>`;
+}
 
-function renderHeader(){
-  const isAdmin = state.session && state.session.role === 'admin';
+// ==========================================================
+// TOPBAR
+// ==========================================================
+function renderTopbar(){
+  const isAdmin = S.session.role === 'admin';
+  const pendingAccounts = S.accounts.filter(a=>a.status==='pending').length;
   const pages = [
-    { id:'accueil', label:'Accueil' },
-    { id:'actualites', label:'Actualités' },
-    { id:'inscriptions', label:'Inscriptions' }
+    {id:'accueil',label:'Accueil'},
+    {id:'actualites',label:'Actualités'},
+    {id:'inscriptions',label:'Inscriptions'},
+    {id:'suivi',label:'Suivi dossier'}
   ];
-  if(isAdmin) pages.push({ id:'admin', label:'Administration' });
-
-  const navButtons = pages.map(p => `
-    <button data-page="${p.id}" class="${state.page === p.id ? 'active' : ''}">${p.label}</button>
-  `).join('');
-
+  if(isAdmin) pages.push({id:'admin',label:`Administration${pendingAccounts>0?` <span class="badge-pending">${pendingAccounts}</span>`:''}`});
+  const navBtns = pages.map(p=>`<button data-page="${p.id}" class="${S.appPage===p.id?'active':''}">${p.label}</button>`).join('');
   return `
   <header class="topbar">
     <div class="container topbar-inner">
-      <div class="brand">
-        ${renderSeal(40, false)}
-        <div class="school-name">
-          <small>ÉduConnect Collège</small>
-          ${escapeHtml(state.config.schoolName)}
-        </div>
-      </div>
-      <nav class="nav-desktop">${navButtons}</nav>
-      <div class="topbar-right">
-        <span class="user-pill">
-          ${isAdmin ? `<span class="role-tag">Admin</span>` : ''}
-          <span class="full-label">${escapeHtml(state.session.name)}</span>
-        </span>
-        <button class="btn btn-outline btn-small" data-action="logout">Déconnexion</button>
-        <button class="hamburger" data-action="toggle-nav" aria-label="Ouvrir le menu">☰</button>
+      <div class="brand">${seal(38,false)}<div class="sname"><small>ÉduConnect</small>${esc(S.config.schoolName)}</div></div>
+      <nav class="nav-d">${navBtns}</nav>
+      <div class="topbar-r">
+        <span class="user-pill">${isAdmin?`<span class="role-tag">Admin</span>`:''}<span class="full-name">${esc(S.session.prenom||S.session.nom||'')}</span></span>
+        <button class="btn btn-outline btn-sm" data-action="logout">Déconnexion</button>
+        <button class="hamburger" data-action="mob-nav" aria-label="Menu">☰</button>
       </div>
     </div>
-    <div class="container mobile-nav ${state.mobileNavOpen ? 'open' : ''}">${navButtons}</div>
+    <div class="container mob-nav ${S.mobNav?'open':''}">${navBtns}</div>
   </header>`;
 }
 
-/* ---------------- Rendu : toast ---------------- */
-
-function renderToast(){
-  if(!state.toast) return '';
-  return `<div class="toast ${state.toast.type}">${escapeHtml(state.toast.msg)}</div>`;
-}
-
-/* ---------------- Rendu : accueil ---------------- */
-
+// ==========================================================
+// ACCUEIL
+// ==========================================================
 function renderAccueil(){
-  const isAdmin = state.session.role === 'admin';
-  const latestNews = [...state.news].sort((a,b) => new Date(b.date) - new Date(a.date)).slice(0,2);
-  const statusOpen = state.status.open;
-
-  const newsBlock = latestNews.length ? latestNews.map(n => `
-    <div class="news-preview">
-      <div class="news-meta">${formatDate(n.date)} · ${escapeHtml(n.author)}</div>
-      <h3 style="font-size:1.05rem;">${escapeHtml(n.title)}</h3>
-      <p>${escapeHtml(n.content).slice(0,180)}${n.content.length > 180 ? '…' : ''}</p>
-    </div>
-  `).join('') : `<p class="hint">Aucune actualité publiée pour le moment.</p>`;
-
+  const isAdmin = S.session.role === 'admin';
+  const open = S.status.open;
+  const latest = [...S.news].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,2);
+  const newsHtml = latest.length ? latest.map(n=>`
+    <div style="padding:1rem 0;border-bottom:1px solid var(--border);">
+      <div class="news-meta">${fd(n.date)} · ${esc(n.author)}</div>
+      <h3 style="font-size:1.05rem;">${esc(n.title)}</h3>
+      <p style="color:var(--muted);font-size:.9rem;">${esc(n.content).slice(0,160)}${n.content.length>160?'…':''}</p>
+    </div>`).join('') : `<p class="hint">Aucune actualité publiée.</p>`;
+  const pending = isAdmin ? S.accounts.filter(a=>a.status==='pending').length : 0;
   return `
   <div class="page-head">
     <span class="eyebrow">Accueil</span>
-    <h1>Bonjour, ${escapeHtml(state.session.name)}</h1>
-    <p style="color:var(--color-muted);">Bienvenue sur l'espace numérique du ${escapeHtml(state.config.schoolName)}.</p>
+    <h1>Bonjour, ${esc(S.session.prenom||S.session.nom||'')} !</h1>
+    <p style="color:var(--muted);">Bienvenue sur l'espace numérique du ${esc(S.config.schoolName)} — inscriptions de 6e ${esc(S.config.anneeScolaire)}.</p>
   </div>
-
+  ${isAdmin&&pending>0?`<div class="card" style="margin-bottom:1.25rem;background:var(--amber-soft);border-color:var(--amber);">
+    <strong>⚠ ${pending} demande${pending>1?'s':''} de compte en attente d'approbation.</strong>
+    <button class="btn btn-sm" style="margin-left:1rem;" data-page="admin" data-admin-tab="comptes">Voir les demandes</button>
+  </div>`:''}
   <div class="grid-2">
     <div class="card">
-      <h2>Dernières actualités</h2>
-      ${newsBlock}
-      <button class="btn btn-outline btn-small" style="margin-top:1rem;" data-page="actualites">Voir toutes les actualités</button>
+      <h2>Dernières actualités</h2>${newsHtml}
+      <button class="btn btn-outline btn-sm" style="margin-top:1rem;" data-page="actualites">Toutes les actualités →</button>
     </div>
-    <div class="card">
-      <h2>Inscriptions ${escapeHtml(state.config.anneeScolaire)}</h2>
-      <p>
-        <span class="stamp ${statusOpen ? 'open' : 'closed'}">
-          <span class="dot"></span>
-          ${statusOpen ? 'Ouvertes' : 'Fermées'}
-        </span>
-      </p>
-      <p style="color:var(--color-muted); font-size:0.9rem;">
-        ${statusOpen
-          ? "Les dossiers d'inscription peuvent être déposés directement en ligne."
-          : escapeHtml(state.status.message)}
-      </p>
-      <button class="btn btn-accent btn-block" data-page="inscriptions">
-        ${statusOpen ? "Faire une demande d'inscription" : "Voir les informations"}
-      </button>
-      ${isAdmin ? `<p class="hint" style="margin-top:0.75rem;">Vous pouvez ouvrir ou fermer les inscriptions depuis l'Administration.</p>` : ''}
+    <div>
+      <div class="card">
+        <h2>Inscriptions ${esc(S.config.anneeScolaire)}</h2>
+        <p><span class="stamp ${open?'open':'closed'}"><span class="dot"></span>${open?'Ouvertes':'Fermées'}</span></p>
+        <p style="color:var(--muted);font-size:.9rem;">${open?"Dossiers d'inscription pour la 6e ouverts en ligne. Cliquez ci-dessous pour déposer votre demande.":esc(S.status.message)}</p>
+        <button class="btn btn-accent btn-block" data-page="inscriptions">${open?"Déposer un dossier":"Informations inscriptions"}</button>
+      </div>
+      <div class="card" style="margin-top:1.25rem;">
+        <h2>Suivi de dossier</h2>
+        <p style="color:var(--muted);font-size:.9rem;">Vous avez déjà déposé un dossier ? Vérifiez son statut en saisissant votre numéro de référence.</p>
+        <button class="btn btn-outline btn-block" data-page="suivi">Suivre mon dossier →</button>
+      </div>
     </div>
   </div>`;
 }
 
-/* ---------------- Rendu : actualités ---------------- */
-
+// ==========================================================
+// ACTUALITES
+// ==========================================================
 function renderActualites(){
-  const isAdmin = state.session.role === 'admin';
-  const sorted = [...state.news].sort((a,b) => new Date(b.date) - new Date(a.date));
-
-  let formBlock = '';
-  if(isAdmin && state.editingNewsId !== null){
-    const isNew = state.editingNewsId === 'new';
-    const item = isNew ? null : state.news.find(n => n.id === state.editingNewsId);
-    formBlock = `
-    <div class="card" style="margin-bottom:1.25rem;">
-      <h2>${isNew ? 'Publier une actualité' : "Modifier l'actualité"}</h2>
-      <form id="news-form" data-id="${isNew ? '' : escapeHtml(item.id)}">
-        <div class="field">
-          <label for="news-title">Titre</label>
-          <input type="text" id="news-title" name="title" required value="${isNew ? '' : escapeHtml(item.title)}">
-        </div>
-        <div class="field">
-          <label for="news-author">Auteur</label>
-          <input type="text" id="news-author" name="author" required value="${isNew ? escapeHtml(state.session.name) : escapeHtml(item.author)}">
-        </div>
-        <div class="field">
-          <label for="news-content">Contenu</label>
-          <textarea id="news-content" name="content" rows="5" required>${isNew ? '' : escapeHtml(item.content)}</textarea>
-        </div>
-        <div style="display:flex; gap:0.6rem;">
-          <button type="submit" class="btn btn-accent">${isNew ? 'Publier' : 'Enregistrer'}</button>
+  const isAdmin = S.session.role === 'admin';
+  const sorted = [...S.news].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  let formHtml = '';
+  if(isAdmin && S.editNewsId !== null){
+    const isNew = S.editNewsId === 'new';
+    const item = isNew ? null : S.news.find(n=>n.id===S.editNewsId);
+    formHtml = `<div class="card" style="margin-bottom:1.25rem;">
+      <h2>${isNew?"Publier une actualité":"Modifier l'actualité"}</h2>
+      <form id="f-news" data-id="${esc(isNew?'':item.id)}">
+        <div class="field"><label>Titre</label><input type="text" name="title" required value="${esc(isNew?'':item.title)}"></div>
+        <div class="field"><label>Auteur</label><input type="text" name="author" required value="${esc(isNew?S.session.prenom+' '+S.session.nom:item.author)}"></div>
+        <div class="field"><label>Contenu</label><textarea name="content" rows="6" required>${esc(isNew?'':item.content)}</textarea></div>
+        <div style="display:flex;gap:.6rem;">
+          <button type="submit" class="btn btn-accent">${isNew?'Publier':'Enregistrer'}</button>
           <button type="button" class="btn btn-outline" data-action="cancel-news">Annuler</button>
         </div>
       </form>
     </div>`;
   }
-
-  const list = sorted.length ? sorted.map(n => `
+  const listHtml = sorted.length ? sorted.map(n=>`
     <div class="news-item">
-      <div class="news-meta">${formatDate(n.date)} · ${escapeHtml(n.author)}</div>
-      <h3>${escapeHtml(n.title)}</h3>
-      <div class="news-content">${escapeHtml(n.content)}</div>
-      ${isAdmin ? `
-      <div class="news-actions">
-        <button class="btn btn-outline btn-small" data-action="edit-news" data-id="${escapeHtml(n.id)}">Modifier</button>
-        <button class="btn btn-danger btn-small" data-action="delete-news" data-id="${escapeHtml(n.id)}">Supprimer</button>
-      </div>` : ''}
-    </div>
-  `).join('') : `
-    <div class="empty-state">
-      ${renderSeal(56, false)}
-      <p>Aucune actualité n'a encore été publiée.</p>
-    </div>`;
-
+      <div class="news-meta">${fd(n.date)} · ${esc(n.author)}</div>
+      <h3>${esc(n.title)}</h3>
+      <div class="news-content">${esc(n.content)}</div>
+      ${isAdmin?`<div class="news-actions">
+        <button class="btn btn-outline btn-sm" data-action="edit-news" data-id="${esc(n.id)}">Modifier</button>
+        <button class="btn btn-danger btn-sm" data-action="del-news" data-id="${esc(n.id)}">Supprimer</button>
+      </div>`:''}
+    </div>`).join('') : `<div class="empty-state"><p>Aucune actualité publiée.</p></div>`;
   return `
   <div class="page-head">
     <span class="eyebrow">Vie scolaire</span>
     <h1>Actualités du collège</h1>
-    ${isAdmin && state.editingNewsId === null ? `<button class="btn btn-accent" data-action="new-news" style="margin-top:0.5rem;">Publier une actualité</button>` : ''}
+    ${isAdmin&&S.editNewsId===null?`<button class="btn btn-accent" data-action="new-news" style="margin-top:.5rem;">+ Publier une actualité</button>`:''}
   </div>
-  ${formBlock}
-  <div class="card">${list}</div>`;
+  ${formHtml}
+  <div class="card">${listHtml}</div>`;
 }
 
-/* ---------------- Rendu : inscriptions ---------------- */
+// ==========================================================
+// INSCRIPTIONS — Formulaire multi-étapes
+// ==========================================================
+const STEPS = ['Responsable 1','Responsable 2','Élève','Scolarité & Options','Santé & Documents'];
+function getStepsWithCustom(){
+  const base = [...STEPS];
+  if(S.customFields.length > 0) base.push('Documents complémentaires');
+  base.push('Récapitulatif');
+  return base;
+}
 
 function renderInscriptions(){
-  const cfg = state.config;
-
-  if(!state.status.open){
+  const cfg = S.config;
+  if(!S.status.open){
     return `
-    <div class="page-head">
-      <span class="eyebrow">Inscriptions ${escapeHtml(cfg.anneeScolaire)}</span>
-      <h1>Inscriptions actuellement fermées</h1>
-    </div>
+    <div class="page-head"><span class="eyebrow">Inscriptions ${esc(cfg.anneeScolaire)}</span><h1>Inscriptions fermées</h1></div>
     <div class="card">
       <span class="stamp closed"><span class="dot"></span>Fermées</span>
-      <p style="margin-top:1rem;">${escapeHtml(state.status.message)}</p>
+      <p style="margin-top:1rem;">${esc(S.status.message)}</p>
     </div>`;
   }
-
-  if(state.inscriptionConfirmation){
+  if(S.inscConfirm){
     return `
-    <div class="page-head">
-      <span class="eyebrow">Inscriptions ${escapeHtml(cfg.anneeScolaire)}</span>
-      <h1>Demande envoyée</h1>
-    </div>
+    <div class="page-head"><span class="eyebrow">Inscriptions ${esc(cfg.anneeScolaire)}</span><h1>Dossier envoyé !</h1></div>
     <div class="card confirm-box">
-      ${renderSeal(56, false)}
+      ${seal(56,false)}
       <h2 style="margin-top:1rem;">Votre demande a bien été enregistrée</h2>
-      <p>Conservez ce numéro de dossier, il pourra vous être demandé par le secrétariat :</p>
-      <div class="confirm-ref">${escapeHtml(state.inscriptionConfirmation)}</div>
-      <p style="color:var(--color-muted);">L'équipe administrative étudiera votre demande et reviendra vers vous prochainement.</p>
-      <button class="btn btn-outline" data-action="new-inscription">Déposer une nouvelle demande</button>
+      <p>Numéro de référence à conserver :</p>
+      <div class="confirm-ref">${esc(S.inscConfirm)}</div>
+      <p style="color:var(--muted);">L'équipe du ${esc(cfg.schoolName)} examinera votre dossier et mettra à jour son statut. Consultez la rubrique <strong>Suivi dossier</strong> à tout moment.</p>
+      <button class="btn btn-outline" data-action="insc-reset">Déposer un autre dossier</button>
     </div>`;
   }
+  const allSteps = getStepsWithCustom();
+  const totalSteps = allSteps.length;
+  const stepperHtml = allSteps.map((label,i)=>{
+    const n = i+1;
+    const done = n < S.inscStep;
+    const active = n === S.inscStep;
+    return `<div class="step-item">
+      ${i>0?`<div class="step-line ${done||active?'done':''}"></div>`:''}
+      <div class="step-circle ${done?'done':active?'active':''}">${done?'✓':n}</div>
+      <span class="step-label ${active?'active':''}">${label}</span>
+    </div>`;
+  }).join('');
+
+  let stepContent = '';
+  if(S.inscStep === 1) stepContent = renderInscStep1();
+  else if(S.inscStep === 2) stepContent = renderInscStep2();
+  else if(S.inscStep === 3) stepContent = renderInscStep3();
+  else if(S.inscStep === 4) stepContent = renderInscStep4();
+  else if(S.inscStep === 5) stepContent = renderInscStep5();
+  else if(S.inscStep === 6 && S.customFields.length > 0) stepContent = renderInscStep6();
+  else stepContent = renderInscRecap(allSteps);
 
   return `
   <div class="page-head">
-    <span class="eyebrow">Inscriptions ${escapeHtml(cfg.anneeScolaire)}</span>
-    <h1>Dossier d'inscription</h1>
-    <p style="color:var(--color-muted);">Merci de compléter l'ensemble des champs ci-dessous. Toutes les informations sont transmises au secrétariat du ${escapeHtml(cfg.schoolName)}.</p>
+    <span class="eyebrow">Inscriptions ${esc(cfg.anneeScolaire)}</span>
+    <h1>Dossier d'inscription — 6e</h1>
+    <p style="color:var(--muted);">Destiné aux élèves actuellement en <strong>CM2</strong> souhaitant intégrer le ${esc(cfg.schoolName)} à la rentrée ${esc(cfg.anneeScolaire)}.</p>
   </div>
-  <div class="card">
-    <form id="inscription-form">
-      <fieldset>
-        <legend>Élève</legend>
-        <div class="field-row">
-          <div class="field">
-            <label for="eleveNom">Nom de l'élève</label>
-            <input type="text" id="eleveNom" name="eleveNom" required>
-          </div>
-          <div class="field">
-            <label for="elevePrenom">Prénom de l'élève</label>
-            <input type="text" id="elevePrenom" name="elevePrenom" required>
-          </div>
-        </div>
-        <div class="field-row">
-          <div class="field">
-            <label for="eleveNaissance">Date de naissance</label>
-            <input type="date" id="eleveNaissance" name="eleveNaissance" required>
-          </div>
-          <div class="field">
-            <label for="classeActuelle">Classe actuelle</label>
-            <select id="classeActuelle" name="classeActuelle" required>
-              <option value="">Sélectionner…</option>
-              <option value="CM2">CM2</option>
-              <option value="6e">6e</option>
-              <option value="5e">5e</option>
-              <option value="4e">4e</option>
-              <option value="3e">3e</option>
-            
-            </select>
-          </div>
-        </div>
-        <div class="field">
-          <label for="classeDemandee">Classe demandée pour ${escapeHtml(cfg.anneeScolaire)}</label>
-          <select id="classeDemandee" name="classeDemandee" required>
-            <option value="">Sélectionner…</option>
-            <option value="6e">6e</option>
-            <option value="5e">5e</option>
-            <option value="4e">4e</option>
-            <option value="3e">3e</option>
+  <div class="stepper">${stepperHtml}</div>
+  ${stepContent}`;
+}
+
+function renderInscStep1(){
+  const d = S.inscData;
+  return `<div class="card"><form id="f-insc-step">
+    <h2>Responsable légal 1</h2><p class="hint" style="margin-bottom:1.25rem;">Informations complètes du premier responsable légal (généralement le parent ou tuteur principal).</p>
+    <fieldset><legend>État civil</legend>
+      <div class="field-row">
+        <div class="field"><label>Civilité <span class="required-star">*</span></label>
+          <select name="resp1Civilite" required>
+            <option value="">—</option>
+            <option value="M." ${d.resp1Civilite==='M.'?'selected':''}>M.</option>
+            <option value="Mme" ${d.resp1Civilite==='Mme'?'selected':''}>Mme</option>
           </select>
         </div>
-      </fieldset>
+        <div class="field"><label>Lien avec l'élève <span class="required-star">*</span></label>
+          <select name="resp1Lien" required>
+            <option value="">—</option>
+            <option value="Père" ${d.resp1Lien==='Père'?'selected':''}>Père</option>
+            <option value="Mère" ${d.resp1Lien==='Mère'?'selected':''}>Mère</option>
+            <option value="Tuteur légal" ${d.resp1Lien==='Tuteur légal'?'selected':''}>Tuteur légal</option>
+            <option value="Autre" ${d.resp1Lien==='Autre'?'selected':''}>Autre</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Nom <span class="required-star">*</span></label><input type="text" name="resp1Nom" required value="${esc(d.resp1Nom||'')}"></div>
+        <div class="field"><label>Prénom <span class="required-star">*</span></label><input type="text" name="resp1Prenom" required value="${esc(d.resp1Prenom||'')}"></div>
+      </div>
+      <div class="field"><label>Date de naissance</label><input type="date" name="resp1Naissance" value="${esc(d.resp1Naissance||'')}"></div>
+    </fieldset>
+    <fieldset><legend>Coordonnées</legend>
+      <div class="field"><label>Adresse postale <span class="required-star">*</span></label><textarea name="resp1Adresse" rows="2" required>${esc(d.resp1Adresse||'')}</textarea></div>
+      <div class="field-row">
+        <div class="field"><label>Code postal <span class="required-star">*</span></label><input type="text" name="resp1CP" required value="${esc(d.resp1CP||'')}" inputmode="numeric" maxlength="5"></div>
+        <div class="field"><label>Ville <span class="required-star">*</span></label><input type="text" name="resp1Ville" required value="${esc(d.resp1Ville||'')}"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Téléphone mobile <span class="required-star">*</span></label><input type="tel" name="resp1Mobile" required value="${esc(d.resp1Mobile||'')}" placeholder="06 XX XX XX XX"></div>
+        <div class="field"><label>Téléphone fixe</label><input type="tel" name="resp1Fixe" value="${esc(d.resp1Fixe||'')}" placeholder="01 XX XX XX XX"></div>
+      </div>
+      <div class="field"><label>Adresse e-mail <span class="required-star">*</span></label><input type="email" name="resp1Email" required value="${esc(d.resp1Email||'')}"></div>
+    </fieldset>
+    <fieldset><legend>Situation professionnelle</legend>
+      <div class="field-row">
+        <div class="field"><label>Profession</label><input type="text" name="resp1Profession" value="${esc(d.resp1Profession||'')}"></div>
+        <div class="field"><label>Employeur</label><input type="text" name="resp1Employeur" value="${esc(d.resp1Employeur||'')}"></div>
+      </div>
+      <div class="field"><label>Téléphone professionnel</label><input type="tel" name="resp1TelPro" value="${esc(d.resp1TelPro||'')}" placeholder="Optionnel"></div>
+    </fieldset>
+    <fieldset><legend>Autorité parentale & contacts</legend>
+      <div class="field"><label>Autorité parentale</label>
+        <select name="resp1AutoParent">
+          <option value="Conjointe" ${d.resp1AutoParent==='Conjointe'?'selected':''}>Conjointe (les deux parents)</option>
+          <option value="Exclusive" ${d.resp1AutoParent==='Exclusive'?'selected':''}>Exclusive</option>
+        </select>
+      </div>
+      <div class="field"><label>Situation familiale <span class="required-star">*</span></label>
+        <select name="resp1SitFam" required>
+          <option value="">—</option>
+          <option value="Marié(e)" ${d.resp1SitFam==='Marié(e)'?'selected':''}>Marié(e) / Pacsé(e)</option>
+          <option value="Concubin(e)" ${d.resp1SitFam==='Concubin(e)'?'selected':''}>Concubin(e)</option>
+          <option value="Séparé(e)" ${d.resp1SitFam==='Séparé(e)'?'selected':''}>Séparé(e) / Divorcé(e)</option>
+          <option value="Célibataire" ${d.resp1SitFam==='Célibataire'?'selected':''}>Célibataire</option>
+          <option value="Veuf/Veuve" ${d.resp1SitFam==='Veuf/Veuve'?'selected':''}>Veuf / Veuve</option>
+        </select>
+      </div>
+      <div class="field"><label>Priorité de contact <span class="required-star">*</span></label>
+        <select name="resp1Priorite" required>
+          <option value="1" ${d.resp1Priorite==='1'?'selected':''}>Contact principal (priorité 1)</option>
+          <option value="2" ${d.resp1Priorite==='2'?'selected':''}>Contact secondaire (priorité 2)</option>
+        </select>
+      </div>
+    </fieldset>
+    <div style="display:flex;justify-content:flex-end;gap:.75rem;margin-top:.5rem;">
+      <button type="submit" class="btn btn-accent">Suivant →</button>
+    </div>
+  </form></div>`;
+}
 
-      <fieldset>
-        <legend>Responsable légal</legend>
-        <div class="field-row">
-          <div class="field">
-            <label for="respNom">Nom</label>
-            <input type="text" id="respNom" name="respNom" required>
-          </div>
-          <div class="field">
-            <label for="respPrenom">Prénom</label>
-            <input type="text" id="respPrenom" name="respPrenom" required>
-          </div>
+function renderInscStep2(){
+  const d = S.inscData;
+  return `<div class="card"><form id="f-insc-step">
+    <h2>Responsable légal 2 <span style="font-family:var(--fm);font-size:.8rem;color:var(--muted);font-weight:400;">(optionnel)</span></h2>
+    <p class="hint" style="margin-bottom:1.25rem;">Si un second responsable légal doit être enregistré (autre parent, tuteur…), complétez les informations ci-dessous. Sinon, cliquez directement sur <strong>Suivant</strong>.</p>
+    <fieldset><legend>État civil</legend>
+      <div class="field-row">
+        <div class="field"><label>Civilité</label>
+          <select name="resp2Civilite">
+            <option value="">—</option>
+            <option value="M." ${d.resp2Civilite==='M.'?'selected':''}>M.</option>
+            <option value="Mme" ${d.resp2Civilite==='Mme'?'selected':''}>Mme</option>
+          </select>
         </div>
-        <div class="field-row">
-          <div class="field">
-            <label for="respLien">Lien avec l'élève</label>
-            <select id="respLien" name="respLien" required>
-              <option value="">Sélectionner…</option>
-              <option value="Père">Père</option>
-              <option value="Mère">Mère</option>
-              <option value="Tuteur / Tutrice légal(e)">Tuteur / Tutrice légal(e)</option>
-              <option value="Autre">Autre</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="respTelephone">Téléphone</label>
-            <input type="tel" id="respTelephone" name="respTelephone" required>
-          </div>
+        <div class="field"><label>Lien avec l'élève</label>
+          <select name="resp2Lien">
+            <option value="">—</option>
+            <option value="Père" ${d.resp2Lien==='Père'?'selected':''}>Père</option>
+            <option value="Mère" ${d.resp2Lien==='Mère'?'selected':''}>Mère</option>
+            <option value="Tuteur légal" ${d.resp2Lien==='Tuteur légal'?'selected':''}>Tuteur légal</option>
+            <option value="Autre" ${d.resp2Lien==='Autre'?'selected':''}>Autre</option>
+          </select>
         </div>
-        <div class="field">
-          <label for="respEmail">Adresse e-mail</label>
-          <input type="email" id="respEmail" name="respEmail" required>
-        </div>
-        <div class="field">
-          <label for="respAdresse">Adresse postale</label>
-          <textarea id="respAdresse" name="respAdresse" rows="2" required></textarea>
-        </div>
-      </fieldset>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Nom</label><input type="text" name="resp2Nom" value="${esc(d.resp2Nom||'')}"></div>
+        <div class="field"><label>Prénom</label><input type="text" name="resp2Prenom" value="${esc(d.resp2Prenom||'')}"></div>
+      </div>
+    </fieldset>
+    <fieldset><legend>Coordonnées</legend>
+      <div class="field"><label>Adresse (si différente du responsable 1)</label><textarea name="resp2Adresse" rows="2">${esc(d.resp2Adresse||'')}</textarea></div>
+      <div class="field-row">
+        <div class="field"><label>Téléphone mobile</label><input type="tel" name="resp2Mobile" value="${esc(d.resp2Mobile||'')}" placeholder="06 XX XX XX XX"></div>
+        <div class="field"><label>Téléphone fixe</label><input type="tel" name="resp2Fixe" value="${esc(d.resp2Fixe||'')}" placeholder="01 XX XX XX XX"></div>
+      </div>
+      <div class="field"><label>Adresse e-mail</label><input type="email" name="resp2Email" value="${esc(d.resp2Email||'')}"></div>
+      <div class="field"><label>Profession</label><input type="text" name="resp2Profession" value="${esc(d.resp2Profession||'')}"></div>
+    </fieldset>
+    <div style="display:flex;justify-content:space-between;gap:.75rem;margin-top:.5rem;">
+      <button type="button" class="btn btn-outline" data-action="insc-prev">← Précédent</button>
+      <button type="submit" class="btn btn-accent">Suivant →</button>
+    </div>
+  </form></div>`;
+}
 
-      <fieldset>
-        <legend>Informations complémentaires</legend>
-        <div class="field-row">
-          <div class="field">
-            <label for="regime">Régime</label>
-            <select id="regime" name="regime" required>
-              <option value="">Sélectionner…</option>
-              <option value="Externe">Externe</option>
-              <option value="Demi-pensionnaire (cantine)">Demi-pensionnaire (cantine)</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="transport">Transport scolaire</label>
-            <select id="transport" name="transport" required>
-              <option value="">Sélectionner…</option>
-              <option value="Oui">Oui</option>
-              <option value="Non">Non</option>
-            </select>
-          </div>
+function renderInscStep3(){
+  const d = S.inscData;
+  return `<div class="card"><form id="f-insc-step">
+    <h2>Informations sur l'élève</h2>
+    <fieldset><legend>État civil</legend>
+      <div class="field-row">
+        <div class="field"><label>Civilité <span class="required-star">*</span></label>
+          <select name="eleveCivilite" required>
+            <option value="">—</option>
+            <option value="M." ${d.eleveCivilite==='M.'?'selected':''}>M.</option>
+            <option value="Mme" ${d.eleveCivilite==='Mme'?'selected':''}>Mme</option>
+          </select>
         </div>
-        <div class="field">
-          <label for="notes">Remarques (allergies, PAI, informations utiles…)</label>
-          <textarea id="notes" name="notes" rows="3"></textarea>
+        <div class="field"><label>Classe actuelle <span class="required-star">*</span></label>
+          <select name="eleveClasseActuelle" required>
+            <option value="">—</option>
+            <option value="CM2" ${d.eleveClasseActuelle==='CM2'?'selected':''}>CM2</option>
+            <option value="CM1-CM2 (double niveau)" ${d.eleveClasseActuelle==='CM1-CM2 (double niveau)'?'selected':''}>CM1-CM2 (double niveau)</option>
+          </select>
         </div>
-      </fieldset>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Nom <span class="required-star">*</span></label><input type="text" name="eleveNom" required value="${esc(d.eleveNom||'')}"></div>
+        <div class="field"><label>Prénom <span class="required-star">*</span></label><input type="text" name="elevePrenom" required value="${esc(d.elevePrenom||'')}"></div>
+      </div>
+      <div class="field"><label>Prénom usuel (si différent)</label><input type="text" name="elevePrenomUsuel" value="${esc(d.elevePrenomUsuel||'')}"></div>
+      <div class="field-row">
+        <div class="field"><label>Date de naissance <span class="required-star">*</span></label><input type="date" name="eleveNaissance" required value="${esc(d.eleveNaissance||'')}"></div>
+        <div class="field"><label>Lieu de naissance <span class="required-star">*</span></label><input type="text" name="eleveLieuNaissance" required value="${esc(d.eleveLieuNaissance||'')}"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Département de naissance</label><input type="text" name="eleveDeptNaissance" value="${esc(d.eleveDeptNaissance||'')}" placeholder="Ex. 75"></div>
+        <div class="field"><label>Pays de naissance</label><input type="text" name="elevePaysNaissance" value="${esc(d.elevePaysNaissance||'France')}" placeholder="France"></div>
+      </div>
+      <div class="field"><label>Nationalité <span class="required-star">*</span></label><input type="text" name="eleveNationalite" required value="${esc(d.eleveNationalite||'Française')}"></div>
+      <div class="field"><label>Numéro INE (si connu)</label><input type="text" name="eleveINE" value="${esc(d.eleveINE||'')}" placeholder="11 caractères alphanumérique" style="font-family:var(--fm);"><p class="hint">Visible sur les bulletins ou le livret scolaire.</p></div>
+    </fieldset>
+    <fieldset><legend>École actuelle</legend>
+      <div class="field"><label>Nom de l'école primaire actuelle <span class="required-star">*</span></label><input type="text" name="eleveEcole" required value="${esc(d.eleveEcole||'')}"></div>
+      <div class="field-row">
+        <div class="field"><label>Ville de l'école <span class="required-star">*</span></label><input type="text" name="eleveEcoleVille" required value="${esc(d.eleveEcoleVille||'')}"></div>
+        <div class="field"><label>Département</label><input type="text" name="eleveEcoleDept" value="${esc(d.eleveEcoleDept||'')}"></div>
+      </div>
+    </fieldset>
+    <fieldset><legend>Adresse (si différente du responsable 1)</legend>
+      <div class="field"><label>Adresse de l'élève</label><textarea name="eleveAdresse" rows="2">${esc(d.eleveAdresse||'')}</textarea></div>
+    </fieldset>
+    <div style="display:flex;justify-content:space-between;gap:.75rem;margin-top:.5rem;">
+      <button type="button" class="btn btn-outline" data-action="insc-prev">← Précédent</button>
+      <button type="submit" class="btn btn-accent">Suivant →</button>
+    </div>
+  </form></div>`;
+}
 
-      <button type="submit" class="btn btn-accent btn-block">Envoyer le dossier d'inscription</button>
+function renderInscStep4(){
+  const d = S.inscData;
+  return `<div class="card"><form id="f-insc-step">
+    <h2>Scolarité & Options</h2>
+    <fieldset><legend>Langues vivantes</legend>
+      <div class="field-row">
+        <div class="field"><label>Langue vivante 1 (LV1) <span class="required-star">*</span></label>
+          <select name="lv1" required>
+            <option value="">—</option>
+            <option value="Anglais" ${d.lv1==='Anglais'?'selected':''}>Anglais</option>
+            <option value="Allemand" ${d.lv1==='Allemand'?'selected':''}>Allemand</option>
+            <option value="Espagnol" ${d.lv1==='Espagnol'?'selected':''}>Espagnol</option>
+            <option value="Autre" ${d.lv1==='Autre'?'selected':''}>Autre</option>
+          </select>
+        </div>
+        <div class="field"><label>Langue vivante 2 (LV2)</label>
+          <select name="lv2">
+            <option value="">Non demandée en 6e</option>
+            <option value="Allemand" ${d.lv2==='Allemand'?'selected':''}>Allemand (si classe bi-langues)</option>
+            <option value="Espagnol" ${d.lv2==='Espagnol'?'selected':''}>Espagnol (si classe bi-langues)</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>Langue parlée à la maison</label><input type="text" name="languesMaison" value="${esc(d.languesMaison||'')}" placeholder="Ex. Français, Arabe…"></div>
+    </fieldset>
+    <fieldset><legend>Options & dispositifs demandés</legend>
+      <div class="field-row">
+        <div class="field"><label>Dispositif ULIS ?</label>
+          <select name="ulis"><option value="Non" ${d.ulis!=='Oui'?'selected':''}>Non</option><option value="Oui" ${d.ulis==='Oui'?'selected':''}>Oui</option></select>
+        </div>
+        <div class="field"><label>Classe bilangue ?</label>
+          <select name="bilangue"><option value="Non" ${d.bilangue!=='Oui'?'selected':''}>Non</option><option value="Oui" ${d.bilangue==='Oui'?'selected':''}>Oui</option></select>
+        </div>
+      </div>
+      <div class="field"><label>Options sportives / artistiques souhaitées</label><input type="text" name="options" value="${esc(d.options||'')}" placeholder="Ex. Section sport, Classe à horaires aménagés musique…"></div>
+      <div class="field"><label>Informations complémentaires sur la scolarité</label><textarea name="infoScolarite" rows="3">${esc(d.infoScolarite||'')}</textarea></div>
+    </fieldset>
+    <fieldset><legend>Régime & transport</legend>
+      <div class="field-row">
+        <div class="field"><label>Régime <span class="required-star">*</span></label>
+          <select name="regime" required>
+            <option value="">—</option>
+            <option value="Externe" ${d.regime==='Externe'?'selected':''}>Externe</option>
+            <option value="Demi-pensionnaire" ${d.regime==='Demi-pensionnaire'?'selected':''}>Demi-pensionnaire (cantine)</option>
+          </select>
+        </div>
+        <div class="field"><label>Transport scolaire <span class="required-star">*</span></label>
+          <select name="transport" required>
+            <option value="">—</option>
+            <option value="Non" ${d.transport==='Non'?'selected':''}>Non</option>
+            <option value="Oui - car scolaire" ${d.transport==='Oui - car scolaire'?'selected':''}>Oui — car scolaire</option>
+            <option value="Oui - autre" ${d.transport==='Oui - autre'?'selected':''}>Oui — autre moyen</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>Retour à domicile seul autorisé ? <span class="required-star">*</span></label>
+        <select name="retourSeul" required>
+          <option value="">—</option>
+          <option value="Oui" ${d.retourSeul==='Oui'?'selected':''}>Oui</option>
+          <option value="Non" ${d.retourSeul==='Non'?'selected':''}>Non — accompagnement requis</option>
+        </select>
+      </div>
+    </fieldset>
+    <div style="display:flex;justify-content:space-between;gap:.75rem;margin-top:.5rem;">
+      <button type="button" class="btn btn-outline" data-action="insc-prev">← Précédent</button>
+      <button type="submit" class="btn btn-accent">Suivant →</button>
+    </div>
+  </form></div>`;
+}
+
+function renderInscStep5(){
+  const d = S.inscData;
+  return `<div class="card"><form id="f-insc-step">
+    <h2>Santé & Documents</h2>
+    <fieldset><legend>Informations médicales</legend>
+      <div class="field"><label>Médecin traitant</label><input type="text" name="medecin" value="${esc(d.medecin||'')}" placeholder="Nom, prénom"></div>
+      <div class="field"><label>Téléphone médecin</label><input type="tel" name="medecinTel" value="${esc(d.medecinTel||'')}"></div>
+      <div class="field"><label>Allergies connues <span class="required-star">*</span></label>
+        <select name="allergies" required>
+          <option value="Aucune" ${d.allergies==='Aucune'||!d.allergies?'selected':''}>Aucune allergie connue</option>
+          <option value="Oui" ${d.allergies==='Oui'?'selected':''}>Oui (préciser ci-dessous)</option>
+        </select>
+      </div>
+      <div class="field"><label>Précision allergies / intolérances alimentaires</label><textarea name="allergiesDetail" rows="2">${esc(d.allergiesDetail||'')}</textarea></div>
+      <div class="field"><label>Traitement médical en cours ?</label>
+        <select name="traitement">
+          <option value="Non" ${d.traitement==='Non'||!d.traitement?'selected':''}>Non</option>
+          <option value="Oui" ${d.traitement==='Oui'?'selected':''}>Oui (préciser ci-dessous)</option>
+        </select>
+      </div>
+      <div class="field"><label>Précision traitement</label><textarea name="traitementDetail" rows="2">${esc(d.traitementDetail||'')}</textarea></div>
+      <div class="field"><label>PAI (Projet d'Accueil Individualisé) en vigueur ?</label>
+        <select name="pai">
+          <option value="Non" ${d.pai==='Non'||!d.pai?'selected':''}>Non</option>
+          <option value="Oui" ${d.pai==='Oui'?'selected':''}>Oui</option>
+        </select>
+      </div>
+      <div class="field"><label>Régime alimentaire spécifique</label>
+        <select name="regimeAlim">
+          <option value="Aucun" ${d.regimeAlim==='Aucun'||!d.regimeAlim?'selected':''}>Aucun</option>
+          <option value="Sans porc" ${d.regimeAlim==='Sans porc'?'selected':''}>Sans porc</option>
+          <option value="Végétarien" ${d.regimeAlim==='Végétarien'?'selected':''}>Végétarien</option>
+          <option value="Autre" ${d.regimeAlim==='Autre'?'selected':''}>Autre</option>
+        </select>
+      </div>
+      <div class="field"><label>Informations médicales complémentaires</label><textarea name="infosMedicales" rows="3" placeholder="Toute information que l'établissement doit connaître…">${esc(d.infosMedicales||'')}</textarea></div>
+    </fieldset>
+    <fieldset><legend>Contact d'urgence (autre que les responsables légaux)</legend>
+      <div class="field-row">
+        <div class="field"><label>Nom & prénom</label><input type="text" name="urgenceNom" value="${esc(d.urgenceNom||'')}"></div>
+        <div class="field"><label>Lien avec l'élève</label><input type="text" name="urgenceLien" value="${esc(d.urgenceLien||'')}" placeholder="Ex. Grand-mère"></div>
+      </div>
+      <div class="field"><label>Téléphone</label><input type="tel" name="urgenceTel" value="${esc(d.urgenceTel||'')}"></div>
+    </fieldset>
+    <fieldset><legend>Remarques libres</legend>
+      <div class="field"><label>Observations particulières</label><textarea name="remarques" rows="4" placeholder="Toute information utile à l'équipe éducative…">${esc(d.remarques||'')}</textarea></div>
+    </fieldset>
+    <div style="display:flex;justify-content:space-between;gap:.75rem;margin-top:.5rem;">
+      <button type="button" class="btn btn-outline" data-action="insc-prev">← Précédent</button>
+      <button type="submit" class="btn btn-accent">Suivant →</button>
+    </div>
+  </form></div>`;
+}
+
+function renderInscStep6(){
+  const fields = S.customFields;
+  const d = S.inscData;
+  const fieldsHtml = fields.map(f => {
+    const fname = 'custom_' + f.id;
+    let input = '';
+    if(f.type === 'text') input = `<input type="text" name="${fname}" ${f.required?'required':''} value="${esc(d[fname]||'')}">`;
+    else if(f.type === 'textarea') input = `<textarea name="${fname}" ${f.required?'required':''} rows="3">${esc(d[fname]||'')}</textarea>`;
+    else if(f.type === 'select') {
+      const opts = (f.options||'').split('\n').filter(o=>o.trim()).map(o=>`<option value="${esc(o.trim())}" ${d[fname]===o.trim()?'selected':''}>${esc(o.trim())}</option>`).join('');
+      input = `<select name="${fname}" ${f.required?'required':''}><option value="">—</option>${opts}</select>`;
+    } else if(f.type === 'checkbox') {
+      input = `<label style="display:flex;align-items:center;gap:.5rem;font-weight:400;"><input type="checkbox" name="${fname}" style="width:auto;" ${d[fname]==='true'?'checked':''}> ${esc(f.label)}</label>`;
+    } else if(f.type === 'file') {
+      const existing = d[fname] ? `<div class="file-item"><span>${esc(d[fname])}</span><button type="button" data-action="clear-file" data-field="${fname}">×</button></div>` : '';
+      input = `<div class="upload-area">
+        <input type="file" id="file-${f.id}" data-field="${fname}" accept=".pdf,.jpg,.jpeg,.png">
+        <label for="file-${f.id}">📎 Cliquez pour sélectionner un fichier (PDF, JPG, PNG)</label>
+      </div>${existing}`;
+    }
+    return `<div class="field">
+      <label>${esc(f.label)}${f.required?'<span class="required-star"> *</span>':''}</label>
+      ${f.description?`<p class="hint">${esc(f.description)}</p>`:''}
+      ${input}
+    </div>`;
+  }).join('');
+  return `<div class="card"><form id="f-insc-step">
+    <h2>Documents complémentaires</h2>
+    <p class="hint" style="margin-bottom:1.25rem;">Ces champs ont été ajoutés par l'établissement. Veuillez les renseigner soigneusement.</p>
+    ${fieldsHtml}
+    <div style="display:flex;justify-content:space-between;gap:.75rem;margin-top:.5rem;">
+      <button type="button" class="btn btn-outline" data-action="insc-prev">← Précédent</button>
+      <button type="submit" class="btn btn-accent">Suivant →</button>
+    </div>
+  </form></div>`;
+}
+
+function renderInscRecap(allSteps){
+  const d = S.inscData;
+  const hasResp2 = d.resp2Nom || d.resp2Prenom;
+  return `<div class="card"><form id="f-insc-submit">
+    <h2>Récapitulatif de votre dossier</h2>
+    <p style="color:var(--muted);margin-bottom:1.25rem;">Vérifiez toutes les informations avant de soumettre votre dossier.</p>
+
+    <div class="recap-section">
+      <h4>Responsable légal 1</h4>
+      <dl class="recap-grid">
+        <div><dt>Identité</dt><dd>${esc((d.resp1Civilite||'')+' '+(d.resp1Prenom||'')+' '+(d.resp1Nom||''))}</dd></div>
+        <div><dt>Lien</dt><dd>${esc(d.resp1Lien||'—')}</dd></div>
+        <div><dt>Mobile</dt><dd>${esc(d.resp1Mobile||'—')}</dd></div>
+        <div><dt>Email</dt><dd>${esc(d.resp1Email||'—')}</dd></div>
+        <div><dt>Adresse</dt><dd>${esc((d.resp1Adresse||'')+' '+(d.resp1CP||'')+' '+(d.resp1Ville||''))}</dd></div>
+        <div><dt>Profession</dt><dd>${esc(d.resp1Profession||'—')}</dd></div>
+        <div><dt>Situation familiale</dt><dd>${esc(d.resp1SitFam||'—')}</dd></div>
+      </dl>
+    </div>
+
+    ${hasResp2?`<div class="recap-section">
+      <h4>Responsable légal 2</h4>
+      <dl class="recap-grid">
+        <div><dt>Identité</dt><dd>${esc((d.resp2Civilite||'')+' '+(d.resp2Prenom||'')+' '+(d.resp2Nom||''))}</dd></div>
+        <div><dt>Lien</dt><dd>${esc(d.resp2Lien||'—')}</dd></div>
+        <div><dt>Mobile</dt><dd>${esc(d.resp2Mobile||'—')}</dd></div>
+        <div><dt>Email</dt><dd>${esc(d.resp2Email||'—')}</dd></div>
+      </dl>
+    </div>`:''}
+
+    <div class="recap-section">
+      <h4>Élève</h4>
+      <dl class="recap-grid">
+        <div><dt>Identité</dt><dd>${esc((d.eleveCivilite||'')+' '+(d.elevePrenom||'')+' '+(d.eleveNom||''))}</dd></div>
+        <div><dt>Naissance</dt><dd>${fd(d.eleveNaissance)} à ${esc(d.eleveLieuNaissance||'—')}</dd></div>
+        <div><dt>Nationalité</dt><dd>${esc(d.eleveNationalite||'—')}</dd></div>
+        <div><dt>École actuelle</dt><dd>${esc(d.eleveEcole||'—')} (${esc(d.eleveClasseActuelle||'CM2')})</dd></div>
+        <div><dt>INE</dt><dd>${esc(d.eleveINE||'Non renseigné')}</dd></div>
+      </dl>
+    </div>
+
+    <div class="recap-section">
+      <h4>Scolarité & Options</h4>
+      <dl class="recap-grid">
+        <div><dt>LV1</dt><dd>${esc(d.lv1||'—')}</dd></div>
+        <div><dt>LV2</dt><dd>${esc(d.lv2||'—')}</dd></div>
+        <div><dt>Régime</dt><dd>${esc(d.regime||'—')}</dd></div>
+        <div><dt>Transport</dt><dd>${esc(d.transport||'—')}</dd></div>
+        <div><dt>Retour seul</dt><dd>${esc(d.retourSeul||'—')}</dd></div>
+        <div><dt>Options</dt><dd>${esc(d.options||'—')}</dd></div>
+      </dl>
+    </div>
+
+    <div class="recap-section">
+      <h4>Santé</h4>
+      <dl class="recap-grid">
+        <div><dt>Allergies</dt><dd>${esc(d.allergies||'Aucune')} ${d.allergiesDetail?'— '+esc(d.allergiesDetail):''}</dd></div>
+        <div><dt>Traitement</dt><dd>${esc(d.traitement||'Non')}</dd></div>
+        <div><dt>PAI</dt><dd>${esc(d.pai||'Non')}</dd></div>
+        <div><dt>Régime alim.</dt><dd>${esc(d.regimeAlim||'Aucun')}</dd></div>
+        <div><dt>Urgence</dt><dd>${esc(d.urgenceNom||'—')} ${esc(d.urgenceTel||'')}</dd></div>
+      </dl>
+    </div>
+
+    ${S.customFields.length>0?`<div class="recap-section">
+      <h4>Documents complémentaires</h4>
+      <dl class="recap-grid">
+        ${S.customFields.map(f=>`<div><dt>${esc(f.label)}</dt><dd>${esc(d['custom_'+f.id]||'—')}</dd></div>`).join('')}
+      </dl>
+    </div>`:''}
+
+    <div style="background:var(--ink-soft);border-radius:8px;padding:1rem;margin-bottom:1.25rem;">
+      <p style="margin:0;font-size:.9rem;"><strong>En soumettant ce dossier</strong>, vous certifiez l'exactitude des informations saisies et acceptez que celles-ci soient transmises à l'équipe du ${esc(S.config.schoolName)} dans le cadre de l'inscription scolaire.</p>
+    </div>
+    <div style="display:flex;justify-content:space-between;gap:.75rem;flex-wrap:wrap;">
+      <button type="button" class="btn btn-outline" data-action="insc-prev">← Modifier</button>
+      <button type="submit" class="btn btn-accent">✓ Envoyer le dossier</button>
+    </div>
+  </form></div>`;
+}
+
+// ==========================================================
+// SUIVI
+// ==========================================================
+function renderSuivi(){
+  let resultHtml = '';
+  if(S.suiviResult === 'not-found'){
+    resultHtml = `<div class="suivi-result not-found">Aucun dossier trouvé pour la référence <strong>${esc(S.suiviRef)}</strong>. Vérifiez le numéro et réessayez.</div>`;
+  } else if(S.suiviResult && S.suiviResult.ref){
+    const r = S.suiviResult;
+    resultHtml = `<div class="suivi-result">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.75rem;">
+        <div><strong>${esc(r.elevePrenom)} ${esc(r.eleveNom)}</strong><div class="reg-ref">${esc(r.ref)} · déposé le ${fd(r.submittedAt)}</div></div>
+        <span class="pill ${stClass(r.status)}">${esc(r.status)}</span>
+      </div>
+      <dl class="recap-grid">
+        <div><dt>Classe demandée</dt><dd>6e — ${esc(S.config.anneeScolaire)}</dd></div>
+        <div><dt>LV1</dt><dd>${esc(r.lv1||'—')}</dd></div>
+        <div><dt>Régime</dt><dd>${esc(r.regime||'—')}</dd></div>
+        <div><dt>Responsable 1</dt><dd>${esc(r.resp1Prenom||'')} ${esc(r.resp1Nom||'')}</dd></div>
+      </dl>
+    </div>`;
+  }
+  return `
+  <div class="page-head"><span class="eyebrow">Mon dossier</span><h1>Suivi de dossier</h1><p style="color:var(--muted);">Saisissez votre numéro de référence pour connaître l'état de votre demande d'inscription.</p></div>
+  <div class="suivi-box">
+    <form id="f-suivi" novalidate>
+      <div class="suivi-row">
+        <div class="field"><label>Numéro de référence</label>
+          <input type="text" name="ref" placeholder="INS-2026-XXXX" value="${esc(S.suiviRef)}" style="font-family:var(--fm);letter-spacing:.06em;text-transform:uppercase;">
+        </div>
+        <button type="submit" class="btn btn-accent">Rechercher</button>
+        ${S.suiviResult!==null?`<button type="button" class="btn btn-outline" data-action="clear-suivi">Effacer</button>`:''}
+      </div>
     </form>
+    ${resultHtml}
+  </div>
+  <div class="card">
+    <h2>Comment ça marche ?</h2>
+    <p>Lorsque vous avez soumis votre dossier, un numéro de référence au format <span style="font-family:var(--fm);">INS-XXXX-XXXX</span> vous a été communiqué. Saisissez-le ci-dessus pour voir si votre dossier est <strong>en attente</strong>, <strong>accepté</strong> ou <strong>refusé</strong>.</p>
   </div>`;
 }
 
-/* ---------------- Rendu : administration ---------------- */
-
+// ==========================================================
+// ADMIN
+// ==========================================================
 function renderAdmin(){
+  const pending = S.accounts.filter(a=>a.status==='pending').length;
   const tabs = [
-    { id:'inscriptions', label:'Inscriptions reçues' },
-    { id:'actualites', label:'Actualités' },
-    { id:'parametres', label:'Paramètres' }
+    {id:'comptes', label:`Comptes${pending>0?` <span class="badge-pending">${pending}</span>`:''}`},
+    {id:'inscriptions', label:'Inscriptions'},
+    {id:'actualites', label:'Actualités'},
+    {id:'champs', label:'Champs personnalisés'},
+    {id:'parametres', label:'Paramètres'}
   ];
-  const tabButtons = tabs.map(t => `
-    <button class="${state.adminTab === t.id ? 'active' : ''}" data-admin-tab="${t.id}">${t.label}</button>
-  `).join('');
-
+  const tabBtns = tabs.map(t=>`<button class="${S.adminTab===t.id?'active':''}" data-admin-tab="${t.id}">${t.label}</button>`).join('');
   let content = '';
-  if(state.adminTab === 'inscriptions') content = renderAdminInscriptions();
-  else if(state.adminTab === 'actualites') content = renderAdminActualites();
+  if(S.adminTab==='comptes') content = renderAdminComptes();
+  else if(S.adminTab==='inscriptions') content = renderAdminInscriptions();
+  else if(S.adminTab==='actualites') content = renderActualites();
+  else if(S.adminTab==='champs') content = renderAdminChamps();
   else content = renderAdminParametres();
-
   return `
-  <div class="page-head">
-    <span class="eyebrow">Espace réservé</span>
-    <h1>Administration</h1>
-  </div>
-  <div class="admin-tabs">${tabButtons}</div>
+  <div class="page-head"><span class="eyebrow">Espace réservé</span><h1>Administration</h1></div>
+  <div class="admin-tabs">${tabBtns}</div>
   ${content}`;
 }
 
+function renderAdminComptes(){
+  const pending = S.accounts.filter(a=>a.status==='pending');
+  const others = S.accounts.filter(a=>a.status!=='pending').sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+  const accountCard = a => `
+    <div class="account-card">
+      <div class="account-info">
+        <h4>${esc(a.prenom)} ${esc(a.nom)}</h4>
+        <div class="email">${esc(a.email)} · ${esc(a.telephone||'')} · créé le ${fd(a.createdAt)}</div>
+      </div>
+      <div class="account-actions">
+        <span class="pill ${stClass(a.status)}">${stLabel(a.status)}</span>
+        ${a.status==='pending'?`
+          <button class="btn btn-ok btn-sm" data-action="approve-account" data-id="${esc(a.id)}">✓ Approuver</button>
+          <button class="btn btn-danger btn-sm" data-action="reject-account" data-id="${esc(a.id)}">✗ Refuser</button>
+        `:''}
+        ${a.status==='approved'?`<button class="btn btn-danger btn-sm" data-action="reject-account" data-id="${esc(a.id)}">Désactiver</button>`:''}
+        ${a.status==='rejected'?`<button class="btn btn-ok btn-sm" data-action="approve-account" data-id="${esc(a.id)}">Réactiver</button>`:''}
+        <button class="btn btn-outline btn-sm" data-action="del-account" data-id="${esc(a.id)}">Supprimer</button>
+      </div>
+    </div>`;
+  return `
+  <div class="card" style="margin-bottom:1.25rem;">
+    <h2>Demandes en attente (${pending.length})</h2>
+    ${pending.length?pending.map(accountCard).join(''):`<p class="hint">Aucune demande en attente.</p>`}
+  </div>
+  <div class="card">
+    <h2>Tous les comptes (${S.accounts.length})</h2>
+    ${others.length?others.map(accountCard).join(''):`<p class="hint">Aucun autre compte enregistré.</p>`}
+  </div>`;
+}
+
 function renderAdminInscriptions(){
-  const statusOpen = state.status.open;
-  const total = state.registrations.length;
-  const pending = state.registrations.filter(r => r.status === 'En attente').length;
-
-  const sorted = [...state.registrations].sort((a,b) => new Date(b.submittedAt) - new Date(a.submittedAt));
-
-  const cards = sorted.length ? sorted.map(r => `
+  const statusOpen = S.status.open;
+  const total = S.registrations.length;
+  const pending = S.registrations.filter(r=>r.status==='En attente').length;
+  let filtered = [...S.registrations].sort((a,b)=>new Date(b.submittedAt)-new Date(a.submittedAt));
+  if(S.filterSt!=='tous') filtered=filtered.filter(r=>r.status===S.filterSt);
+  if(S.filterQ.trim()){
+    const q=S.filterQ.trim().toLowerCase();
+    filtered=filtered.filter(r=>(r.eleveNom||'').toLowerCase().includes(q)||(r.elevePrenom||'').toLowerCase().includes(q)||(r.ref||'').toLowerCase().includes(q)||(r.resp1Nom||'').toLowerCase().includes(q));
+  }
+  const cards = filtered.length ? filtered.map(r=>`
     <div class="reg-card">
       <div class="reg-card-header">
         <div>
-          <h4>${escapeHtml(r.elevePrenom)} ${escapeHtml(r.eleveNom)}</h4>
-          <div class="reg-ref">${escapeHtml(r.ref)} · déposé le ${formatDate(r.submittedAt)}</div>
+          <h4>${esc(r.elevePrenom)} ${esc(r.eleveNom)}</h4>
+          <div class="reg-ref">${esc(r.ref)} · déposé le ${fd(r.submittedAt)} par ${esc(r.resp1Prenom||'')} ${esc(r.resp1Nom||'')}</div>
         </div>
         <div class="reg-controls">
-          <span class="status-pill ${statusClass(r.status)}">${escapeHtml(r.status)}</span>
-          <select data-action="set-reg-status" data-id="${escapeHtml(r.id)}">
-            <option value="En attente" ${r.status === 'En attente' ? 'selected' : ''}>En attente</option>
-            <option value="Acceptée" ${r.status === 'Acceptée' ? 'selected' : ''}>Acceptée</option>
-            <option value="Refusée" ${r.status === 'Refusée' ? 'selected' : ''}>Refusée</option>
+          <span class="pill ${stClass(r.status)}">${esc(r.status)}</span>
+          <select data-action="set-reg-status" data-id="${esc(r.id)}">
+            <option ${r.status==='En attente'?'selected':''}>En attente</option>
+            <option ${r.status==='Acceptée'?'selected':''}>Acceptée</option>
+            <option ${r.status==='Refusée'?'selected':''}>Refusée</option>
           </select>
-          <button class="btn btn-danger btn-small" data-action="delete-registration" data-id="${escapeHtml(r.id)}">Supprimer</button>
+          <button class="btn btn-danger btn-sm" data-action="del-reg" data-id="${esc(r.id)}">Supprimer</button>
         </div>
       </div>
-      <dl class="reg-grid">
-        <div><dt>Date de naissance</dt><dd>${formatDate(r.eleveNaissance)}</dd></div>
-        <div><dt>Classe actuelle</dt><dd>${escapeHtml(r.classeActuelle)}</dd></div>
-        <div><dt>Classe demandée</dt><dd>${escapeHtml(r.classeDemandee)}</dd></div>
-        <div><dt>Responsable</dt><dd>${escapeHtml(r.respPrenom)} ${escapeHtml(r.respNom)} (${escapeHtml(r.respLien)})</dd></div>
-        <div><dt>Téléphone</dt><dd>${escapeHtml(r.respTelephone)}</dd></div>
-        <div><dt>E-mail</dt><dd>${escapeHtml(r.respEmail)}</dd></div>
-        <div><dt>Adresse</dt><dd>${escapeHtml(r.respAdresse)}</dd></div>
-        <div><dt>Régime</dt><dd>${escapeHtml(r.regime)}</dd></div>
-        <div><dt>Transport scolaire</dt><dd>${escapeHtml(r.transport)}</dd></div>
-        ${r.notes ? `<div style="grid-column:1/-1;"><dt>Remarques</dt><dd style="font-family:var(--font-body); white-space:pre-wrap;">${escapeHtml(r.notes)}</dd></div>` : ''}
+      <dl class="recap-grid" style="margin-top:.75rem;">
+        <div><dt>Naissance</dt><dd>${fd(r.eleveNaissance)}</dd></div>
+        <div><dt>École</dt><dd>${esc(r.eleveEcole||'—')} (${esc(r.eleveClasseActuelle||'CM2')})</dd></div>
+        <div><dt>LV1</dt><dd>${esc(r.lv1||'—')}</dd></div>
+        <div><dt>Régime</dt><dd>${esc(r.regime||'—')}</dd></div>
+        <div><dt>Transport</dt><dd>${esc(r.transport||'—')}</dd></div>
+        <div><dt>Resp. 1 tél.</dt><dd>${esc(r.resp1Mobile||'—')}</dd></div>
+        <div><dt>Resp. 1 email</dt><dd>${esc(r.resp1Email||'—')}</dd></div>
+        <div><dt>Allergies</dt><dd>${esc(r.allergies||'—')}</dd></div>
+        <div><dt>PAI</dt><dd>${esc(r.pai||'Non')}</dd></div>
+        ${r.remarques?`<div style="grid-column:1/-1"><dt>Remarques</dt><dd style="font-family:var(--fb);white-space:pre-wrap;">${esc(r.remarques)}</dd></div>`:''}
+        ${S.customFields.map(f=>r['custom_'+f.id]?`<div><dt>${esc(f.label)}</dt><dd>${esc(r['custom_'+f.id])}</dd></div>`:'').join('')}
       </dl>
-    </div>
-  `).join('') : `<p class="hint">Aucune demande d'inscription reçue pour le moment.</p>`;
-
+    </div>`).join('') : `<p class="hint">Aucun dossier correspond aux filtres.</p>`;
   return `
   <div class="card" style="margin-bottom:1.25rem;">
     <div class="toggle-row">
       <div>
-        <h2 style="margin-bottom:0.25rem;">Statut des inscriptions</h2>
-        <p style="color:var(--color-muted); margin:0;">
-          ${statusOpen ? 'Les familles peuvent déposer un dossier en ligne.' : 'Le formulaire de dépôt est masqué pour les familles.'}
-        </p>
+        <h2 style="margin-bottom:.25rem;">Statut des inscriptions</h2>
+        <p style="color:var(--muted);margin:0;">${statusOpen?'Les familles peuvent déposer un dossier.':'Le formulaire est masqué pour les familles.'}</p>
       </div>
-      <button class="switch ${statusOpen ? 'on' : ''}" data-action="toggle-status" aria-pressed="${statusOpen}" aria-label="Activer ou désactiver les inscriptions"></button>
+      <button class="switch ${statusOpen?'on':''}" data-action="toggle-status" aria-label="Ouvrir/fermer les inscriptions"></button>
     </div>
-    <form id="status-message-form" style="margin-top:1.25rem;">
-      <div class="field">
-        <label for="status-message">Message affiché aux familles lorsque les inscriptions sont fermées</label>
-        <textarea id="status-message" name="message" rows="2">${escapeHtml(state.status.message)}</textarea>
+    <form id="f-status-msg" style="margin-top:1.25rem;">
+      <div class="field"><label>Message affiché quand les inscriptions sont fermées</label>
+        <textarea name="message" rows="2">${esc(S.status.message)}</textarea>
       </div>
-      <button type="submit" class="btn btn-outline btn-small">Enregistrer le message</button>
+      <button type="submit" class="btn btn-outline btn-sm">Enregistrer le message</button>
     </form>
   </div>
-
   <div class="card" style="margin-bottom:1.25rem;">
-    <h2>Synthèse</h2>
-    <p style="color:var(--color-muted);">${total} dossier${total === 1 ? '' : 's'} reçu${total === 1 ? '' : 's'}, dont ${pending} en attente de traitement.</p>
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.75rem;">
+      <h2 style="margin:0;">Dossiers reçus (${total})</h2>
+      <button class="btn btn-outline btn-sm" data-action="export-csv" ${total===0?'disabled':''}>⬇ Exporter CSV (LibreOffice)</button>
+    </div>
+    <p style="color:var(--muted);font-size:.88rem;margin-bottom:1rem;">${total} dossier${total!==1?'s':''} — ${pending} en attente</p>
+    <div class="filter-bar">
+      <input type="text" placeholder="Rechercher nom, prénom, référence…" value="${esc(S.filterQ)}" data-action="filter-q">
+      <select data-action="filter-st">
+        <option value="tous" ${S.filterSt==='tous'?'selected':''}>Tous</option>
+        <option value="En attente" ${S.filterSt==='En attente'?'selected':''}>En attente</option>
+        <option value="Acceptée" ${S.filterSt==='Acceptée'?'selected':''}>Acceptées</option>
+        <option value="Refusée" ${S.filterSt==='Refusée'?'selected':''}>Refusées</option>
+      </select>
+    </div>
   </div>
-
   ${cards}`;
 }
 
-function statusClass(status){
-  if(status === 'Acceptée') return 'accepted';
-  if(status === 'Refusée') return 'refused';
-  return 'pending';
-}
+function renderAdminChamps(){
+  const fields = S.customFields;
+  const typeLabel = t => ({text:'Texte court',textarea:'Texte long',select:'Liste de choix',checkbox:'Case à cocher',file:'Fichier à joindre'}[t]||t);
+  const fieldCards = fields.map(f=>`
+    <div class="custom-field-card">
+      <div class="cf-info">
+        <h4 style="margin:0 0 .2rem;">${esc(f.label)}${f.required?' <span style="color:var(--amber);">*</span>':''}</h4>
+        <div class="cf-type">${typeLabel(f.type)}${f.description?' · '+esc(f.description.slice(0,60)):''}</div>
+      </div>
+      <div style="display:flex;gap:.5rem;">
+        <button class="btn btn-outline btn-sm" data-action="edit-field" data-id="${esc(f.id)}">Modifier</button>
+        <button class="btn btn-danger btn-sm" data-action="del-field" data-id="${esc(f.id)}">Supprimer</button>
+      </div>
+    </div>`).join('');
 
-function renderAdminActualites(){
-  // Réutilise le rendu de la page actualités, qui détecte déjà le rôle admin
-  return renderActualites();
-}
-
-function renderAdminParametres(){
-  const cfg = state.config;
+  let formHtml = '';
+  if(S.editFieldId !== null){
+    const isNew = S.editFieldId === 'new';
+    const f = isNew ? (S.newFieldDraft||{}) : fields.find(x=>x.id===S.editFieldId)||{};
+    formHtml = `<div class="card" style="margin-bottom:1.25rem;">
+      <h2>${isNew?"Ajouter un champ":"Modifier le champ"}</h2>
+      <form id="f-field">
+        <div class="field-row">
+          <div class="field"><label>Libellé du champ <span class="required-star">*</span></label><input type="text" name="label" required value="${esc(f.label||'')}"></div>
+          <div class="field"><label>Type <span class="required-star">*</span></label>
+            <select name="type" required>
+              <option value="text" ${f.type==='text'?'selected':''}>Texte court</option>
+              <option value="textarea" ${f.type==='textarea'?'selected':''}>Texte long</option>
+              <option value="select" ${f.type==='select'?'selected':''}>Liste de choix</option>
+              <option value="checkbox" ${f.type==='checkbox'?'selected':''}>Case à cocher</option>
+              <option value="file" ${f.type==='file'?'selected':''}>Fichier à joindre</option>
+            </select>
+          </div>
+        </div>
+        <div class="field"><label>Description / aide (optionnel)</label><input type="text" name="description" value="${esc(f.description||'')}" placeholder="Ex. Joindre le certificat médical en PDF"></div>
+        <div class="field"><label>Options (une par ligne — uniquement pour "Liste de choix")</label><textarea name="options" rows="4" placeholder="Option 1&#10;Option 2&#10;Option 3">${esc(f.options||'')}</textarea></div>
+        <div class="field" style="display:flex;align-items:center;gap:.5rem;">
+          <input type="checkbox" name="required" id="cf-required" style="width:auto;" ${f.required?'checked':''}>
+          <label for="cf-required" style="margin:0;font-weight:400;">Champ obligatoire</label>
+        </div>
+        <div style="display:flex;gap:.6rem;">
+          <button type="submit" class="btn btn-accent">${isNew?'Ajouter':'Enregistrer'}</button>
+          <button type="button" class="btn btn-outline" data-action="cancel-field">Annuler</button>
+        </div>
+      </form>
+    </div>`;
+  }
   return `
-  <div class="card" style="margin-bottom:1.25rem;">
-    <h2>Informations de l'établissement</h2>
-    <form id="settings-form">
-      <div class="field-row">
-        <div class="field">
-          <label for="set-school-name">Nom de l'établissement</label>
-          <input type="text" id="set-school-name" name="schoolName" required value="${escapeHtml(cfg.schoolName)}">
-        </div>
-        <div class="field">
-          <label for="set-annee">Année scolaire visée par les inscriptions</label>
-          <input type="text" id="set-annee" name="anneeScolaire" required value="${escapeHtml(cfg.anneeScolaire)}" placeholder="Ex. 2026-2027">
-        </div>
-      </div>
-      <p class="hint">Le nom de l'établissement met automatiquement à jour le sceau affiché dans l'en-tête et sur la page de connexion.</p>
-      <h2 style="margin-top:1.5rem;">Mot de passe administration</h2>
-      <div class="field">
-        <label for="set-password">Nouveau mot de passe (laisser vide pour ne pas changer)</label>
-        <input type="password" id="set-password" name="adminPassword" autocomplete="new-password">
-      </div>
-      <button type="submit" class="btn btn-accent">Enregistrer les modifications</button>
-    </form>
-  </div>
+  ${formHtml}
   <div class="card">
-    <h2>Réinitialisation</h2>
-    <p style="color:var(--color-muted);">Cette action efface toutes les actualités et tous les dossiers d'inscription enregistrés. Le nom de l'établissement et le mot de passe sont conservés.</p>
-    <button class="btn btn-danger" data-action="reset-data">Réinitialiser les actualités et inscriptions</button>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+      <h2 style="margin:0;">Champs personnalisés (${fields.length})</h2>
+      ${S.editFieldId===null?`<button class="btn btn-accent btn-sm" data-action="new-field">+ Ajouter un champ</button>`:''}
+    </div>
+    <p class="hint" style="margin-bottom:1rem;">Ces champs apparaissent dans la dernière étape du formulaire d'inscription. Les familles devront les renseigner avant de soumettre leur dossier.</p>
+    ${fields.length?fieldCards:`<p class="hint">Aucun champ personnalisé ajouté.</p>`}
   </div>`;
 }
 
-/* ---------------- Rendu principal ---------------- */
+function renderAdminParametres(){
+  return `
+  <div class="card" style="margin-bottom:1.25rem;">
+    <h2>Informations de l'établissement</h2>
+    <form id="f-settings">
+      <div class="field-row">
+        <div class="field"><label>Nom de l'établissement</label><input type="text" name="schoolName" required value="${esc(S.config.schoolName)}"></div>
+        <div class="field"><label>Ville</label><input type="text" name="city" value="${esc(S.config.city||'')}"></div>
+      </div>
+      <div class="field"><label>Année scolaire des inscriptions</label><input type="text" name="anneeScolaire" required value="${esc(S.config.anneeScolaire)}" placeholder="Ex. 2026-2027"></div>
+      <h2 style="margin-top:1.5rem;">Mot de passe administration</h2>
+      <div class="field"><label>Nouveau mot de passe (laisser vide pour conserver l'actuel)</label><input type="password" name="adminPassword" autocomplete="new-password" placeholder="••••••••"></div>
+      <button type="submit" class="btn btn-accent">Enregistrer</button>
+    </form>
+  </div>
+  <div class="card">
+    <h2>Zone de danger</h2>
+    <p style="color:var(--muted);">Supprime définitivement toutes les actualités, dossiers, comptes et champs personnalisés. La configuration et le mot de passe sont conservés.</p>
+    <button class="btn btn-danger" data-action="reset-all">Réinitialiser toutes les données</button>
+  </div>`;
+}
+
+// ==========================================================
+// RENDER TOAST & MAIN
+// ==========================================================
+function renderToast(){
+  if(!S.toast) return '';
+  return `<div class="toast ${S.toast.type}">${esc(S.toast.msg)}</div>`;
+}
 
 function render(){
   const app = document.getElementById('app');
-  if(!state.loaded){
-    app.innerHTML = `<div class="loading-screen">Chargement de l'espace…</div>`;
-    return;
-  }
-  if(state.view === 'login'){
-    app.innerHTML = renderLogin();
-    return;
-  }
-
+  if(S.page==='login'){ app.innerHTML = renderLogin(); return; }
+  if(S.page==='signup'){ app.innerHTML = renderSignup(); return; }
   let content = '';
-  if(state.page === 'accueil') content = renderAccueil();
-  else if(state.page === 'actualites') content = renderActualites();
-  else if(state.page === 'inscriptions') content = renderInscriptions();
-  else if(state.page === 'admin' && state.session.role === 'admin') content = renderAdmin();
+  if(S.appPage==='accueil') content = renderAccueil();
+  else if(S.appPage==='actualites') content = renderActualites();
+  else if(S.appPage==='inscriptions') content = renderInscriptions();
+  else if(S.appPage==='suivi') content = renderSuivi();
+  else if(S.appPage==='admin' && S.session.role==='admin') content = renderAdmin();
   else content = renderAccueil();
-
   app.innerHTML = `
-    ${renderHeader()}
+    ${renderTopbar()}
     <main class="container">${content}</main>
-    <footer>
-      <div class="container">
-        <span>${escapeHtml(state.config.schoolName)} — Espace numérique ÉduConnect Collège</span>
-        <span>Année scolaire ${escapeHtml(state.config.anneeScolaire)}</span>
-      </div>
-    </footer>
-    ${renderToast()}
-  `;
+    <footer><div class="container">
+      <span>${esc(S.config.schoolName)} — Inscriptions 6e ${esc(S.config.anneeScolaire)}</span>
+      <span style="font-family:var(--fm);font-size:.72rem;">ÉduConnect Collège</span>
+    </div></footer>
+    ${renderToast()}`;
 }
 
-/* ---------------- Actions ---------------- */
-
-async function loginFamille(nom){
-  state.session = { role:'famille', name: nom };
-  state.loginError = '';
-  state.view = 'app';
-  state.page = 'accueil';
-  await saveKey('educonnect-session', false, state.session);
-  render();
+// ==========================================================
+// ACTIONS
+// ==========================================================
+function doLoginFamille(email, password){
+  const acc = S.accounts.find(a=>a.email.toLowerCase()===email.toLowerCase());
+  if(!acc){ S.loginError="Aucun compte trouvé pour cet e-mail. Veuillez créer un compte."; render(); return; }
+  if(acc.status==='pending'){ S.loginError="Votre compte est en attente d'approbation par l'administration."; render(); return; }
+  if(acc.status==='rejected'){ S.loginError="Votre compte a été refusé. Contactez l'établissement."; render(); return; }
+  if(hashPw(password)!==acc.password){ S.loginError="Mot de passe incorrect."; render(); return; }
+  S.session={id:acc.id,nom:acc.nom,prenom:acc.prenom,email:acc.email,role:'famille'};
+  S.loginError=''; S.page='app'; S.appPage='accueil';
+  DB.set('session',S.session); render();
 }
 
-async function loginAdmin(nom, pass){
-  if(pass !== state.config.adminPassword){
-    state.loginError = 'Mot de passe incorrect. Veuillez réessayer.';
-    render();
-    return;
-  }
-  state.session = { role:'admin', name: nom || 'Administration' };
-  state.loginError = '';
-  state.view = 'app';
-  state.page = 'accueil';
-  await saveKey('educonnect-session', false, state.session);
-  render();
+function doLoginAdmin(nom, password){
+  if(password!==S.config.adminPassword){ S.loginError="Mot de passe incorrect."; render(); return; }
+  S.session={id:'admin',nom:nom||'Admin',prenom:'',email:'',role:'admin'};
+  S.loginError=''; S.page='app'; S.appPage='accueil';
+  DB.set('session',S.session); render();
 }
 
-async function logout(){
-  state.session = null;
-  state.view = 'login';
-  state.page = 'accueil';
-  state.adminTab = 'inscriptions';
-  state.mobileNavOpen = false;
-  try{ await window.storage.delete('educonnect-session', false); }catch(e){ /* ignore */ }
-  render();
+function doSignup(nom, prenom, email, telephone, password, password2){
+  if(!nom||!prenom||!email||!password){ S.signupError="Veuillez remplir tous les champs obligatoires."; render(); return; }
+  if(password!==password2){ S.signupError="Les mots de passe ne correspondent pas."; render(); return; }
+  if(password.length<6){ S.signupError="Le mot de passe doit contenir au moins 6 caractères."; render(); return; }
+  if(S.accounts.find(a=>a.email.toLowerCase()===email.toLowerCase())){ S.signupError="Un compte existe déjà avec cet e-mail."; render(); return; }
+  const acc={id:genId('acc'),nom,prenom,email,telephone,password:hashPw(password),status:'pending',createdAt:new Date().toISOString()};
+  S.accounts.push(acc); save('accounts');
+  S.signupDone=true; S.signupError=''; render();
 }
 
-async function toggleStatus(){
-  state.status.open = !state.status.open;
-  await saveKey(KEYS.status, true, state.status);
-  showToast(state.status.open ? 'Inscriptions ouvertes.' : 'Inscriptions fermées.', 'success');
+function doLogout(){
+  S.session=null; S.page='login'; S.appPage='accueil';
+  S.mobNav=false; S.inscStep=1; S.inscData={}; S.inscConfirm=null;
+  DB.del('session'); render();
 }
 
-async function saveStatusMessage(message){
-  state.status.message = message;
-  await saveKey(KEYS.status, true, state.status);
-  showToast('Message mis à jour.', 'success');
-}
-
-async function submitNews(form, editId){
+function doSubmitInscStep(form){
   const data = new FormData(form);
-  const title = (data.get('title') || '').trim();
-  const author = (data.get('author') || '').trim();
-  const content = (data.get('content') || '').trim();
-  if(!title || !author || !content) return;
+  data.forEach((v,k)=>{ if(k!=='') S.inscData[k]=v.trim!==undefined?v.trim():v; });
+  // Handle checkboxes
+  form.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+    S.inscData[cb.name] = cb.checked?'true':'false';
+  });
+  const allSteps = getStepsWithCustom();
+  if(S.inscStep < allSteps.length) S.inscStep++;
+  render();
+}
 
+function doSubmitInscFinal(){
+  const ref = genRef();
+  const record = { ...S.inscData, id:genId('reg'), ref, status:'En attente', submittedAt:new Date().toISOString(), accountId:S.session.id };
+  S.registrations.unshift(record); save('registrations');
+  S.inscConfirm=ref; render();
+}
+
+function doSubmitNews(form, editId){
+  const data=new FormData(form);
+  const title=(data.get('title')||'').trim();
+  const author=(data.get('author')||'').trim();
+  const content=(data.get('content')||'').trim();
+  if(!title||!content) return;
   if(editId){
-    const item = state.news.find(n => n.id === editId);
-    if(item){ item.title = title; item.author = author; item.content = content; item.date = new Date().toISOString(); }
-  }else{
-    state.news.unshift({ id: 'news-' + Date.now(), title, author, content, date: new Date().toISOString() });
+    const it=S.news.find(n=>n.id===editId); if(it){it.title=title;it.author=author;it.content=content;it.date=new Date().toISOString();}
+  } else {
+    S.news.unshift({id:genId('n'),title,author,content,date:new Date().toISOString()});
   }
-  await saveKey(KEYS.news, true, state.news);
-  state.editingNewsId = null;
-  showToast(editId ? 'Actualité mise à jour.' : 'Actualité publiée.', 'success');
+  save('news'); S.editNewsId=null; toast(editId?"Actualité modifiée.":"Actualité publiée.",'success');
 }
 
-async function deleteNews(id){
-  if(!window.confirm('Supprimer définitivement cette actualité ?')) return;
-  state.news = state.news.filter(n => n.id !== id);
-  await saveKey(KEYS.news, true, state.news);
-  showToast('Actualité supprimée.', 'success');
-}
-
-async function submitInscription(form){
-  const data = new FormData(form);
-  const record = {
-    id: 'reg-' + Date.now(),
-    ref: generateRef(),
-    status: 'En attente',
-    submittedAt: new Date().toISOString()
-  };
-  for(const [key, value] of data.entries()){
-    record[key] = String(value).trim();
+function doSaveField(form){
+  const data=new FormData(form);
+  const label=(data.get('label')||'').trim();
+  const type=data.get('type')||'text';
+  const description=(data.get('description')||'').trim();
+  const options=(data.get('options')||'').trim();
+  const required=form.querySelector('[name=required]')&&form.querySelector('[name=required]').checked;
+  if(!label) return;
+  if(S.editFieldId==='new'){
+    S.customFields.push({id:genId('cf'),label,type,description,options,required});
+  } else {
+    const f=S.customFields.find(x=>x.id===S.editFieldId);
+    if(f){Object.assign(f,{label,type,description,options,required});}
   }
-  state.registrations.unshift(record);
-  await saveKey(KEYS.registrations, true, state.registrations);
-  state.inscriptionConfirmation = record.ref;
-  showToast('Dossier transmis avec succès.', 'success');
+  save('customFields'); S.editFieldId=null; S.newFieldDraft=null;
+  toast("Champ enregistré.",'success');
 }
 
-async function setRegistrationStatus(id, status){
-  const item = state.registrations.find(r => r.id === id);
-  if(!item) return;
-  item.status = status;
-  await saveKey(KEYS.registrations, true, state.registrations);
-  showToast('Statut du dossier mis à jour.', 'success');
+function exportCSV(){
+  if(!S.registrations.length) return;
+  const baseFields=[
+    {key:'ref',label:'Référence'},{key:'status',label:'Statut'},{key:'submittedAt',label:'Date dépôt'},
+    {key:'elevePrenom',label:'Prénom élève'},{key:'eleveNom',label:'Nom élève'},{key:'eleveNaissance',label:'Date naissance'},
+    {key:'eleveLieuNaissance',label:'Lieu naissance'},{key:'eleveNationalite',label:'Nationalité'},
+    {key:'eleveClasseActuelle',label:'Classe actuelle'},{key:'eleveEcole',label:'École'},{key:'eleveINE',label:'INE'},
+    {key:'resp1Civilite',label:'Civ. Resp.1'},{key:'resp1Prenom',label:'Prénom Resp.1'},{key:'resp1Nom',label:'Nom Resp.1'},
+    {key:'resp1Lien',label:'Lien Resp.1'},{key:'resp1Mobile',label:'Mobile Resp.1'},{key:'resp1Fixe',label:'Fixe Resp.1'},
+    {key:'resp1Email',label:'Email Resp.1'},{key:'resp1Adresse',label:'Adresse Resp.1'},{key:'resp1CP',label:'CP Resp.1'},
+    {key:'resp1Ville',label:'Ville Resp.1'},{key:'resp1Profession',label:'Profession Resp.1'},{key:'resp1SitFam',label:'Situation familiale'},
+    {key:'resp2Prenom',label:'Prénom Resp.2'},{key:'resp2Nom',label:'Nom Resp.2'},{key:'resp2Mobile',label:'Mobile Resp.2'},{key:'resp2Email',label:'Email Resp.2'},
+    {key:'lv1',label:'LV1'},{key:'lv2',label:'LV2'},{key:'regime',label:'Régime'},{key:'transport',label:'Transport'},
+    {key:'retourSeul',label:'Retour seul'},{key:'options',label:'Options'},{key:'bilangue',label:'Bi-langues'},
+    {key:'allergies',label:'Allergies'},{key:'allergiesDetail',label:'Détail allergies'},{key:'pai',label:'PAI'},
+    {key:'traitement',label:'Traitement'},{key:'regimeAlim',label:'Régime alim.'},{key:'medecin',label:'Médecin'},
+    {key:'urgenceNom',label:'Contact urgence'},{key:'urgenceTel',label:'Tél urgence'},{key:'remarques',label:'Remarques'}
+  ];
+  const customFields = S.customFields.map(f=>({key:'custom_'+f.id,label:f.label}));
+  const allFields = [...baseFields,...customFields];
+  const e = v => '"'+String(v??'').replace(/"/g,'""')+'"';
+  const fdShort = iso => { try{const d=new Date(iso);return`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;}catch(err){return '';} };
+  const header = allFields.map(f=>e(f.label)).join(';');
+  const rows = S.registrations.map(r=>allFields.map(f=>{
+    const v=r[f.key];
+    if(f.key==='submittedAt'||f.key==='eleveNaissance') return e(fdShort(v));
+    return e(v);
+  }).join(';'));
+  const csv = '\uFEFF'+[header,...rows].join('\r\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url;
+  const yr=(S.config.anneeScolaire||'').replace('-','_');
+  a.download=`inscriptions_6e_${yr}_${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+  toast("CSV téléchargé — ouvrez-le avec LibreOffice Calc.",'success');
 }
 
-async function deleteRegistration(id){
-  if(!window.confirm("Supprimer définitivement ce dossier d'inscription ?")) return;
-  state.registrations = state.registrations.filter(r => r.id !== id);
-  await saveKey(KEYS.registrations, true, state.registrations);
-  showToast('Dossier supprimé.', 'success');
-}
+// ==========================================================
+// EVENTS
+// ==========================================================
+const app = document.getElementById('app');
 
-async function saveSettings(form){
-  const data = new FormData(form);
-  const schoolName = (data.get('schoolName') || '').trim();
-  const anneeScolaire = (data.get('anneeScolaire') || '').trim();
-  const newPassword = (data.get('adminPassword') || '').trim();
-  if(schoolName) state.config.schoolName = schoolName;
-  if(anneeScolaire) state.config.anneeScolaire = anneeScolaire;
-  if(newPassword) state.config.adminPassword = newPassword;
-  await saveKey(KEYS.config, true, state.config);
-  showToast('Paramètres enregistrés.', 'success');
-}
-
-async function resetData(){
-  if(!window.confirm("Effacer toutes les actualités et tous les dossiers d'inscription ? Cette action est irréversible.")) return;
-  state.news = structuredClone(DEFAULTS.news);
-  state.registrations = [];
-  state.status = structuredClone(DEFAULTS.status);
-  await saveKey(KEYS.news, true, state.news);
-  await saveKey(KEYS.registrations, true, state.registrations);
-  await saveKey(KEYS.status, true, state.status);
-  showToast('Données réinitialisées.', 'success');
-}
-
-/* ---------------- Écouteurs d'évènements ---------------- */
-
-document.getElementById('app').addEventListener('click', (e) => {
-  const pageBtn = e.target.closest('[data-page]');
-  if(pageBtn){
-    state.page = pageBtn.dataset.page;
-    state.mobileNavOpen = false;
-    state.editingNewsId = null;
-    render();
-    return;
-  }
-
-  const adminTabBtn = e.target.closest('[data-admin-tab]');
-  if(adminTabBtn){
-    state.adminTab = adminTabBtn.dataset.adminTab;
-    state.editingNewsId = null;
-    render();
-    return;
-  }
-
-  const loginTabBtn = e.target.closest('[data-login-tab]');
-  if(loginTabBtn){
-    state.loginTab = loginTabBtn.dataset.loginTab;
-    state.loginError = '';
-    render();
-    return;
-  }
-
-  const actionBtn = e.target.closest('[data-action]');
-  if(!actionBtn) return;
-  const action = actionBtn.dataset.action;
-  const id = actionBtn.dataset.id;
-
-  switch(action){
-    case 'logout': logout(); break;
-    case 'toggle-nav':
-      state.mobileNavOpen = !state.mobileNavOpen;
-      render();
+app.addEventListener('click', e=>{
+  const page = e.target.closest('[data-page]');
+  if(page){ S.appPage=page.dataset.page; S.mobNav=false; S.editNewsId=null; S.editFieldId=null; if(page.dataset.adminTab) S.adminTab=page.dataset.adminTab; render(); return; }
+  const atab = e.target.closest('[data-admin-tab]');
+  if(atab){ S.adminTab=atab.dataset.adminTab; S.editNewsId=null; S.editFieldId=null; render(); return; }
+  const ltab = e.target.closest('[data-login-tab]');
+  if(ltab){ S.loginTab=ltab.dataset.loginTab; S.loginError=''; render(); return; }
+  const action = e.target.closest('[data-action]');
+  if(!action) return;
+  const act=action.dataset.action, id=action.dataset.id;
+  switch(act){
+    case 'logout': doLogout(); break;
+    case 'mob-nav': S.mobNav=!S.mobNav; render(); break;
+    case 'goto-signup': S.page='signup'; S.signupDone=false; S.signupError=''; render(); break;
+    case 'goto-login': S.page='login'; S.signupDone=false; render(); break;
+    case 'insc-prev':
+      if(S.inscStep>1) S.inscStep--;
+      render(); break;
+    case 'insc-reset': S.inscStep=1; S.inscData={}; S.inscConfirm=null; render(); break;
+    case 'clear-suivi': S.suiviRef=''; S.suiviResult=null; render(); break;
+    case 'toggle-status': S.status.open=!S.status.open; save('status'); toast(S.status.open?'Inscriptions ouvertes.':'Inscriptions fermées.','success'); break;
+    case 'export-csv': exportCSV(); break;
+    case 'new-news': S.editNewsId='new'; render(); break;
+    case 'cancel-news': S.editNewsId=null; render(); break;
+    case 'edit-news': S.editNewsId=id; render(); break;
+    case 'del-news':
+      if(confirm("Supprimer cette actualité ?")){S.news=S.news.filter(n=>n.id!==id);save('news');toast("Actualité supprimée.",'success');}
       break;
-    case 'toggle-status': toggleStatus(); break;
-    case 'new-news':
-      state.editingNewsId = 'new';
-      render();
+    case 'approve-account':{ const ac=S.accounts.find(a=>a.id===id); if(ac){ac.status='approved';save('accounts');toast("Compte approuvé.",'success');} break; }
+    case 'reject-account':{ const ac=S.accounts.find(a=>a.id===id); if(ac){ac.status='rejected';save('accounts');toast("Compte désactivé.",'success');} break; }
+    case 'del-account':
+      if(confirm("Supprimer définitivement ce compte ?")){S.accounts=S.accounts.filter(a=>a.id!==id);save('accounts');toast("Compte supprimé.",'success');}
       break;
-    case 'edit-news':
-      state.editingNewsId = id;
-      render();
+    case 'del-reg':
+      if(confirm("Supprimer ce dossier définitivement ?")){S.registrations=S.registrations.filter(r=>r.id!==id);save('registrations');toast("Dossier supprimé.",'success');}
       break;
-    case 'cancel-news':
-      state.editingNewsId = null;
-      render();
+    case 'new-field': S.editFieldId='new'; S.newFieldDraft={}; render(); break;
+    case 'cancel-field': S.editFieldId=null; render(); break;
+    case 'edit-field': S.editFieldId=id; render(); break;
+    case 'del-field':
+      if(confirm("Supprimer ce champ personnalisé ?")){S.customFields=S.customFields.filter(f=>f.id!==id);save('customFields');toast("Champ supprimé.",'success');}
       break;
-    case 'delete-news': deleteNews(id); break;
-    case 'delete-registration': deleteRegistration(id); break;
-    case 'new-inscription':
-      state.inscriptionConfirmation = null;
-      render();
+    case 'clear-file': S.inscData[action.dataset.field]=''; render(); break;
+    case 'reset-all':
+      if(confirm("Effacer toutes les données ? Cette action est irréversible.")){
+        S.news=structuredClone(DEFS.news);S.registrations=[];S.accounts=[];S.customFields=[];S.status=structuredClone(DEFS.status);
+        save('news');save('registrations');save('accounts');save('customFields');save('status');
+        toast("Données réinitialisées.",'success');
+      }
       break;
-    case 'reset-data': resetData(); break;
   }
 });
 
-document.getElementById('app').addEventListener('change', (e) => {
-  const select = e.target.closest('[data-action="set-reg-status"]');
-  if(select){
-    setRegistrationStatus(select.dataset.id, select.value);
-  }
+app.addEventListener('change', e=>{
+  const rs = e.target.closest('[data-action="set-reg-status"]');
+  if(rs){ const r=S.registrations.find(x=>x.id===rs.dataset.id); if(r){r.status=rs.value;save('registrations');toast("Statut mis à jour.",'success');} return; }
+  const fst = e.target.closest('[data-action="filter-st"]');
+  if(fst){ S.filterSt=fst.value; render(); return; }
+  // File input
+  const fi = e.target.closest('input[type=file][data-field]');
+  if(fi && fi.files.length){ S.inscData[fi.dataset.field]=fi.files[0].name; render(); }
 });
 
-document.getElementById('app').addEventListener('submit', (e) => {
+app.addEventListener('input', e=>{
+  const fq = e.target.closest('[data-action="filter-q"]');
+  if(fq){ S.filterQ=fq.value; render(); }
+});
+
+app.addEventListener('submit', e=>{
   e.preventDefault();
-  const form = e.target;
-
-  if(form.id === 'login-famille-form'){
-    const nom = form.elements['nom'].value.trim();
-    if(!nom) return;
-    loginFamille(nom);
-    return;
+  const form=e.target;
+  if(form.id==='f-login-famille'){ doLoginFamille(form.elements.email.value, form.elements.password.value); return; }
+  if(form.id==='f-login-admin'){ doLoginAdmin(form.elements.nom.value, form.elements.password.value); return; }
+  if(form.id==='f-signup'){ doSignup(form.elements.nom.value,form.elements.prenom.value,form.elements.email.value,form.elements.telephone.value,form.elements.password.value,form.elements.password2.value); return; }
+  if(form.id==='f-insc-step'){ doSubmitInscStep(form); return; }
+  if(form.id==='f-insc-submit'){ doSubmitInscFinal(); return; }
+  if(form.id==='f-news'){ doSubmitNews(form, form.dataset.id||null); return; }
+  if(form.id==='f-suivi'){ const ref=form.elements.ref.value.trim().toUpperCase(); S.suiviRef=ref; S.suiviResult=S.registrations.find(r=>r.ref===ref)||'not-found'; render(); return; }
+  if(form.id==='f-status-msg'){ S.status.message=form.elements.message.value; save('status'); toast("Message enregistré.",'success'); return; }
+  if(form.id==='f-settings'){
+    const d=new FormData(form);
+    const sn=(d.get('schoolName')||'').trim(); if(sn) S.config.schoolName=sn;
+    const an=(d.get('anneeScolaire')||'').trim(); if(an) S.config.anneeScolaire=an;
+    const ct=(d.get('city')||'').trim(); S.config.city=ct;
+    const pw=(d.get('adminPassword')||'').trim(); if(pw) S.config.adminPassword=pw;
+    save('config'); toast("Paramètres enregistrés.",'success'); render(); return;
   }
-
-  if(form.id === 'login-admin-form'){
-    const nom = form.elements['nom'].value.trim();
-    const pass = form.elements['motdepasse'].value;
-    loginAdmin(nom, pass);
-    return;
-  }
-
-  if(form.id === 'news-form'){
-    const editId = form.dataset.id || null;
-    submitNews(form, editId);
-    return;
-  }
-
-  if(form.id === 'inscription-form'){
-    submitInscription(form);
-    return;
-  }
-
-  if(form.id === 'status-message-form'){
-    saveStatusMessage(form.elements['message'].value);
-    return;
-  }
-
-  if(form.id === 'settings-form'){
-    saveSettings(form);
-    return;
-  }
+  if(form.id==='f-field'){ doSaveField(form); render(); return; }
 });
 
 init();
